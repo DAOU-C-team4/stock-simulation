@@ -1,0 +1,4 @@
+C:\c_basic\C_team4\Debug\C_team4.exe
+C:\c_basic\C_team4_server\Debug\C_team4.exe
+C:\c_basic\C_team4\C_team4_server\Debug\C_team4.exe
+C:\c_basic\stock-simulation\C_team4_server\Debug\C_team4.exe

@@ -1,0 +1,2 @@
+C:\c_basic\C_team4_client\Debug\C_team4_client.exe
+C:\c_basic\C_team4\C_team4_client\Debug\C_team4_client.exe
