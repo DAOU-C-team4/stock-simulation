@@ -6,9 +6,14 @@
 #include <WinSock2.h>    // 네트워크 소켓 관련 헤더
 #include <WS2tcpip.h>    // TCP/IP 통신을 위한 헤더
 #pragma comment(lib, "Ws2_32.lib") // Windows 소켓 라이브러리 링크
+
 #define PORT 8080
 #define MAX_BUFFER_SIZE 1024
 #define FD_SETSIZE 100
+#define MAX_ID_LENGTH 50
+#define MAX_PASSWORD_LENGTH 50
+#define MAX_NAME_LENGTH 50
+#define MAX_SESSION_LENGTH 200
 
 // 함수 선언
 static int callback(void* NotUsed, int argc, char** argv, char** azColName);
@@ -18,18 +23,27 @@ int insert_member(sqlite3* db, const char* name, int age, const char* email, con
 int open_socket();
 DWORD WINAPI handle_client(LPVOID lpParam);
 
+// 구조체 선언
+typedef struct {
+	int select;
+	char name[MAX_NAME_LENGTH];
+	char id[MAX_ID_LENGTH];
+	char password[MAX_PASSWORD_LENGTH];
+	char session[MAX_SESSION_LENGTH];
+} RequestData;
+
 // 전역 소켓 관리
 SOCKET client_sockets[FD_SETSIZE];
 int num_clients = 0;
 
 int main(int argc, char* argv[]) {
-	// 데이터베이스 열기
+	// 1. 데이터베이스 열기
 	sqlite3* db = open_database("customer.db");
 	if (!db) {
 		return 1;
 	}
 
-	// 서버 소켓열기
+	// 2. 서버 소켓열기
 	int server_fd, new_socket, valread;
 	server_fd = open_socket();
 	if (server_fd == -1) {
@@ -61,15 +75,15 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
+	// 서버 소켓 종료
 	closesocket(new_socket);
 
 
 	///////// 개발자용 //////////
-	// 고객정보 테이블 생성
+	//// 고객정보 테이블 생성
 	//create_member_table(db);
-	// 고객 정보 추가
-	/*insert_member(db, "John Doe", 30, "john@example.com", "johndoe", "password123");
-	insert_member(db, "Jane Smith", 25, NULL, "janesmith", "pass456");*/
+	//// 고객 정보 추가
+	//insert_member(db, "John Doe", 30, "john@example.com", "johndoe", "password123");
 
 	return 0;
 }
@@ -84,7 +98,7 @@ static int callback(void* NotUsed, int argc, char** argv, char** azColName) {
 	return 0;
 }
 
-// 데이터베이스 열기 함수
+// 1.1 데이터베이스 연결 함수
 sqlite3* open_database(const char* db_name) {
 	sqlite3* db;
 	int rc = sqlite3_open(db_name, &db);
@@ -98,7 +112,7 @@ sqlite3* open_database(const char* db_name) {
 	}
 }
 
-// 회원 테이블 생성 함수
+// 1.2 회원 테이블 생성 함수
 int create_member_table(sqlite3* db) {
 	char* zErrMsg = 0;
 	const char* sql_create_table =
@@ -121,7 +135,7 @@ int create_member_table(sqlite3* db) {
 	}
 }
 
-// 회원 정보 추가 함수
+// 1.3 회원 정보 추가 함수
 int insert_member(sqlite3* db, const char* name, int age, const char* email, const char* user_id, const char* password) {
 	char* zErrMsg = 0;
 	char sql_insert_member[500];
@@ -139,7 +153,13 @@ int insert_member(sqlite3* db, const char* name, int age, const char* email, con
 	}
 }
 
-// 소켓 초기화 함수
+// 1.4 회원 정보 삭제 함수
+
+// 1.5 회원 로그인 함수
+
+// 1.6 회원 로그아웃 함수
+
+// 2.0 소켓 초기화 함수
 int initialize_winsock() {
 	WSADATA wsaData;
 	int result = WSAStartup(MAKEWORD(2, 2), &wsaData);
@@ -150,7 +170,7 @@ int initialize_winsock() {
 	return 0;
 }
 
-// 소켓 열기 함수
+// 2.1 소켓 열기 함수
 int open_socket() {
 	// Winsock 초기화
 	if (initialize_winsock() != 0) {
@@ -197,13 +217,13 @@ int open_socket() {
 	return server_fd;
 }
 
-// 클라이언트 요청 처리 함수
+// 2.2 클라이언트 요청 처리 함수
 DWORD WINAPI handle_client(int client_socket) {
 	char buffer[MAX_BUFFER_SIZE];
 	int bytes_received;
 	int run = 1;
 
-	// 클라이언트로부터 요청을 받음
+	// 클라이언트로부터 요청 대기
 	do {
 		printf("%d번 클라이언트 요청대기\n", client_socket);
 		bytes_received = recv(client_socket, buffer, MAX_BUFFER_SIZE, 0);
@@ -211,8 +231,28 @@ DWORD WINAPI handle_client(int client_socket) {
 			perror("recv failed");
 			return;
 		}
-		buffer[bytes_received] = '\0'; // 문자열 끝에 NULL 추가
-		printf("%d번 클라이언트 요청 : %s\n", client_socket, buffer);
+		//buffer[bytes_received] = '\0'; // 문자열 끝에 NULL 추가
+		//printf("%d번 클라이언트 요청 : %s\n", client_socket, buffer);
+
+		// 클라이언트로부터 받은 데이터를 req_data 구조체로 형변환
+		RequestData* req_data = (RequestData*)buffer;
+
+		// 요청에 따라 다른 작업 실행
+		switch (req_data->select)
+		{
+		case 1:
+			add_member(req_data);
+			break;
+		case 2:
+			del_member(req_data);
+			break;
+		case 3:
+			login(req_data);
+			break;
+		case 4:
+			logout(req_data);
+			break;
+		}
 
 		// 클라이언트로 결과 전송
 		int bytes_sent = send(client_socket, buffer, bytes_received, 0);
@@ -222,3 +262,43 @@ DWORD WINAPI handle_client(int client_socket) {
 		}
 	} while (run);
 }
+
+// 2.2.1 클라이언트 요청 - 회원 가입
+add_member(RequestData* req_data) {
+	// 회원 db 등록
+	printf("\n선택 : %d (회원가입)\n", req_data->select);
+	printf("받은 아이디: %s", req_data->id);
+	printf("받은 비밀번호: %s", req_data->password);
+	printf("받은 이름: %s\n", req_data->name);
+}
+
+// 2.2.2 클라이언트 요청 - 회원 탈퇴
+del_member(RequestData* req_data) {
+	// 회원 db 삭제
+	printf("\n선택 : %d (회원탈퇴)\n", req_data->select);
+	printf("받은 아이디: %s", req_data->id);
+	printf("받은 비밀번호: %s", req_data->password);
+}
+
+// 2.2.3 클라이언트 요청 - 로그인
+login(RequestData* req_data) {
+	// 로그인
+	printf("\n선택 : %d (로그인)\n", req_data->select);
+	printf("받은 아이디: %s", req_data->id);
+	printf("받은 비밀번호: %s", req_data->password);
+}
+
+// 2.2.4 클라이언트 요청 - 로그아웃
+logout(RequestData* req_data) {
+	// 로그아웃
+	printf("\n선택 : %d (로그아웃)\n", req_data->select);
+}
+
+// 2.2.5 클라이언트 요청 - 주식 매수
+
+// 2.2.6 클라이언트 요청 - 주식 매도
+
+
+// 2.3.1 클라이언트 요청 - 주식 정보 실시간
+
+// 2.3.2 클라이언트 요청 - 주식 매매정보 실시간

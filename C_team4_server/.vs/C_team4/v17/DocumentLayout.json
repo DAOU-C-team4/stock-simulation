@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_server\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{ABD3B138-9688-406D-B3FE-C9C9380592FD}|C_team4.vcxproj|C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_server\\link_db.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{ABD3B138-9688-406D-B3FE-C9C9380592FD}|C_team4.vcxproj|solutionrelative:link_db.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "link_db.c",
+              "DocumentMoniker": "C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_server\\link_db.c",
+              "RelativeDocumentMoniker": "link_db.c",
+              "ToolTip": "C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_server\\link_db.c",
+              "RelativeToolTip": "link_db.c",
+              "ViewState": "AQIAAPYAAAAAAAAAAAAuwAsBAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-02-21T12:03:48.222Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
