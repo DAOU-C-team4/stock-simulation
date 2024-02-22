@@ -25,11 +25,15 @@ DWORD WINAPI handle_client(LPVOID lpParam);
 
 // 구조체 선언
 typedef struct {
+	int sample;
+} STOCK_DATA;
+typedef struct {
 	int select;
 	char name[MAX_NAME_LENGTH];
 	char id[MAX_ID_LENGTH];
 	char password[MAX_PASSWORD_LENGTH];
 	char session[MAX_SESSION_LENGTH];
+	struct STOCK_DATA;
 } RequestData;
 
 // 전역 소켓 관리
@@ -53,7 +57,9 @@ int main(int argc, char* argv[]) {
 
 	// 클라이언트의 연결을 기다림
 	while (1) {
+		// 연결대기
 		int new_socket = accept(server_fd, NULL, NULL);
+		// 연결완료
 		client_sockets[num_clients++] = new_socket;
 		printf("\n");
 		if (new_socket == -1) {
@@ -65,7 +71,7 @@ int main(int argc, char* argv[]) {
 		// 클라이언트가 연결되었음을 알림
 		printf("%d번 클라이언트 연결\n", new_socket);
 
-		// 클라이언트 요청을 처리하는 새로운 스레드 생성
+		// 클라이언트 요청을 처리하는 새로운 스레드 생성 (handle_client 함수에서 분기)
 		DWORD dwThreadId;
 		HANDLE hThread = CreateThread(NULL, 0, handle_client, new_socket, 0, &dwThreadId);
 		if (hThread == NULL) {
@@ -231,8 +237,6 @@ DWORD WINAPI handle_client(int client_socket) {
 			perror("recv failed");
 			return;
 		}
-		//buffer[bytes_received] = '\0'; // 문자열 끝에 NULL 추가
-		//printf("%d번 클라이언트 요청 : %s\n", client_socket, buffer);
 
 		// 클라이언트로부터 받은 데이터를 req_data 구조체로 형변환
 		RequestData* req_data = (RequestData*)buffer;
@@ -251,6 +255,9 @@ DWORD WINAPI handle_client(int client_socket) {
 			break;
 		case 4:
 			logout(req_data);
+			break;
+		case 5:
+			// 주식 관련 데이터 받기
 			break;
 		}
 
