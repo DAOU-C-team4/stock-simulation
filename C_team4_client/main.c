@@ -3,8 +3,9 @@
 #include <WinSock2.h>
 #pragma comment(lib, "Ws2_32.lib")
 
+//#define SERVER_IP "172.30.1.93" // 준하님 pc 서버 ip주소
 #define PORT 8080
-#define SERVER_IP "127.0.0.1"
+#define SERVER_IP "127.0.0.1" // 로컬 pc 서버 ip주소
 #define MAX_BUFFER_SIZE 1024
 #define MAX_ID_LENGTH 50
 #define MAX_PASSWORD_LENGTH 50
@@ -14,11 +15,15 @@
 // 함수 선언
 SOCKET connect_to_server();
 select_task_home(SOCKET client_fd);
+buyStock(SOCKET client_fd);  // 주식 매수 함수
+sellStock(SOCKET client_fd); // 주식 매도 함수
 void clear_input_buffer();
 
 // 구조체 선언
 typedef struct {
-	int sample;
+	int stock_id;
+	int stock_price;
+	int stock_count;
 } STOCK_DATA;
 typedef struct {
 	int select;
@@ -26,7 +31,7 @@ typedef struct {
 	char id[MAX_ID_LENGTH];
 	char password[MAX_PASSWORD_LENGTH];
 	char session[MAX_SESSION_LENGTH];
-	struct STOCK_DATA;
+	STOCK_DATA stock_data;
 } RequestData;
 
 
@@ -80,6 +85,7 @@ SOCKET connect_to_server() {
 select_task_home(SOCKET client_fd) {
 	// 기본 세팅
 	int run = 1;
+	int isLogin = 0; // 1인 경우 로그인 완료
 	char message[MAX_BUFFER_SIZE];
 	printf("\n반갑습니다. 키울까말까증권입니다.\n");
 
@@ -103,13 +109,17 @@ select_task_home(SOCKET client_fd) {
 			break;
 		case 3:
 			printf("로그인\n\n");
-			login(client_fd);
-			// 주식 관련 로직
-			stock_home();
+			//로그인 함수 결과를 isLogin에 저장 (0: 실패, 1: 성공)
+			isLogin = login(client_fd);
+			//로그인 성공 시, 주식 매매 함수 시작
+			if (isLogin) {
+				stock_home(client_fd);
+			}
 			break;
 		case 4:
 			printf("로그아웃\n\n");
 			logout(client_fd);
+			isLogin = 0;
 			break;
 		case 5:
 			printf("\n프로그램을 종료합니다. 좋은 하루 되세요 :)\n");
@@ -139,13 +149,13 @@ add_member(SOCKET client_fd) {
 
 	printf("아이디를 입력하세요: ");
 	fgets(req_data.id, MAX_ID_LENGTH, stdin);
-	clear_input_buffer();
+	//clear_input_buffer();
 	printf("비밀번호를 입력하세요: ");
 	fgets(req_data.password, MAX_PASSWORD_LENGTH, stdin);
-	clear_input_buffer();
+	//clear_input_buffer();
 	printf("이름을 입력하세요: ");
 	fgets(req_data.name, MAX_NAME_LENGTH, stdin);
-	clear_input_buffer();
+	//clear_input_buffer();
 
 	// 서버로 전송
 	int bytes_sent = send(client_fd, (char*)&req_data, sizeof(req_data), 0);
@@ -191,8 +201,10 @@ login(SOCKET client_fd) {
 	int bytes_sent = send(client_fd, (char*)&req_data, sizeof(req_data), 0);
 	if (bytes_sent == SOCKET_ERROR) {
 		fprintf(stderr, "Send failed\n");
-		return 1;
+		return 0;
 	}
+
+	return 1;
 }
 
 // 1.4 로그아웃
@@ -209,10 +221,10 @@ logout(SOCKET client_fd) {
 }
 
 // 2 로그인후 주식 관련 홈
-stock_home() {
+stock_home(SOCKET client_fd) {
 	do {
 		int select = 0;
-		printf("\n(1.회원가입 / 2.회원탈퇴 / 3.로그인 / 4.로그아웃 / 5.종료)\n");
+		printf("\n(1.주식 매수 / 2.주식 매도 / 3.매매 종료)\n");
 		printf("원하는 작업을 지정해주세요 : ");
 		scanf("%d%*c", &select);
 
@@ -220,20 +232,16 @@ stock_home() {
 		switch (select)
 		{
 		case 1:
-			printf("회원가입\n\n");
+			buyStock(client_fd);
 			break;
 		case 2:
-			printf("회원탈퇴\n\n");
+			sellStock(client_fd);
 			break;
 		case 3:
-			printf("로그인\n\n");
+			printf("매매 종료\n\n");
 			break;
-		case 4:
-			printf("로그아웃\n\n");
-			break;
-		case 5:
-			printf("\n프로그램을 종료합니다. 좋은 하루 되세요 :)\n");
-			exit(1);
+		default:
+			printf("\n1, 2, 3번 중 하나를 입력하세요\n");
 			break;
 		}
 	} while (1 != 0);
@@ -243,4 +251,43 @@ stock_home() {
 void clear_input_buffer() {
 	int c;
 	while ((c = getchar()) != '\n' && c != EOF);
+}
+
+//주식 매수 함수
+buyStock(SOCKET client_fd) {
+	RequestData req_data;
+	req_data.select = 6;
+	
+	printf("매수할 종목 번호를 입력하세요 : ");
+	scanf("%d%*c", &req_data.stock_data.stock_id);
+	printf("매수할 금액을 입력하세요 : ");
+	scanf("%d%*c", &req_data.stock_data.stock_price);
+	printf("매수할 수량을 입력하세요 : ");
+	scanf("%d%*c", &req_data.stock_data.stock_count);
+
+	// 서버로 전송
+	int bytes_sent = send(client_fd, (RequestData*) &req_data, sizeof(req_data), 0);
+	if (bytes_sent == SOCKET_ERROR) {
+		fprintf(stderr, "Send failed\n");
+		return 1;
+	}
+}
+
+//주식 매도 함수
+sellStock(SOCKET client_fd) {
+	RequestData req_data;
+	req_data.select = 7;
+
+	printf("매도할 종목 번호를 입력하세요 : ");
+	scanf("%d%*c", &req_data.stock_data.stock_id);
+	printf("매도할 금액을 입력하세요 : ");
+	scanf("%d%*c", &req_data.stock_data.stock_price);
+	printf("매도할 수량을 입력하세요 : ");
+	scanf("%d%*c", &req_data.stock_data.stock_count);
+
+	int bytes_sent = send(client_fd, (RequestData*) &req_data, sizeof(req_data), 0);
+	if (bytes_sent == SOCKET_ERROR) {
+		fprintf(stderr, "Send failed\n");
+		return 1;
+	}
 }

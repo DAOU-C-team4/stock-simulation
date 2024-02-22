@@ -3,3 +3,4 @@ C:\c_basic\C_team4_server\Debug\C_team4.exe
 C:\c_basic\C_team4\C_team4_server\Debug\C_team4.exe
 C:\c_basic\stock-simulation\C_team4_server\Debug\C_team4.exe
 C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\Debug\C_team4.exe
+C:\stock-simulation\C_team4_server\Debug\C_team4.exe

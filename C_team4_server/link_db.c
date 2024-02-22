@@ -25,7 +25,9 @@ DWORD WINAPI handle_client(LPVOID lpParam);
 
 // 구조체 선언
 typedef struct {
-	int sample;
+	int stock_id;
+	int stock_price;
+	int stock_count;
 } STOCK_DATA;
 typedef struct {
 	int select;
@@ -33,7 +35,7 @@ typedef struct {
 	char id[MAX_ID_LENGTH];
 	char password[MAX_PASSWORD_LENGTH];
 	char session[MAX_SESSION_LENGTH];
-	struct STOCK_DATA;
+	STOCK_DATA stock_data;
 } RequestData;
 
 // 전역 소켓 관리
@@ -257,8 +259,17 @@ DWORD WINAPI handle_client(int client_socket) {
 			logout(req_data);
 			break;
 		case 5:
-			// 주식 관련 데이터 받기
+			// 주식 종목 보내기
 			break;
+		case 6:
+			// 주식 매수
+			buyStock(req_data);
+			break;
+		case 7:
+			// 주식 매도
+			sellStock(req_data);
+			break;
+
 		}
 
 		// 클라이언트로 결과 전송
@@ -295,17 +306,29 @@ login(RequestData* req_data) {
 	printf("받은 비밀번호: %s", req_data->password);
 }
 
+
+
 // 2.2.4 클라이언트 요청 - 로그아웃
 logout(RequestData* req_data) {
 	// 로그아웃
 	printf("\n선택 : %d (로그아웃)\n", req_data->select);
 }
 
-// 2.2.5 클라이언트 요청 - 주식 매수
+// 2.2.5클라이언트 요청 - 주식 정보 실시간
 
+// 2.2.6 클라이언트 요청 - 주식 매수
+buyStock(RequestData* req_data) {
+	// 주식 매수
+	printf("\n선택 : %d (주식 매수)\n", req_data->select);
+	printf("매수 종목 : %d", req_data->stock_data.stock_id);
+	printf("매수 가격 : %d", req_data->stock_data.stock_price);
+	printf("매수 수량 : %d", req_data->stock_data.stock_count);
+}
 // 2.2.6 클라이언트 요청 - 주식 매도
-
-
-// 2.3.1 클라이언트 요청 - 주식 정보 실시간
-
-// 2.3.2 클라이언트 요청 - 주식 매매정보 실시간
+sellStock(RequestData* req_data) {
+	// 주식 매수
+	printf("\n선택 : %d (주식 매도)\n", req_data->select);
+	printf("매도 종목 : %d", req_data->stock_data.stock_id);
+	printf("매도 가격 : %d", req_data->stock_data.stock_price);
+	printf("매도 수량 : %d", req_data->stock_data.stock_count);
+}
