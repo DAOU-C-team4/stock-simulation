@@ -1,16 +1,1 @@
-﻿  link_db.c
-C:\c_basic\stock-simulation\C_team4_server\link_db.c(12,1): warning C4005: 'FD_SETSIZE': 매크로 재정의
-C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\um\WinSock2.h(133): message : 'FD_SETSIZE'의 이전 정의를 참조하십시오.
-C:\c_basic\stock-simulation\C_team4_server\link_db.c(36,19): error C2027: 정의되지 않은 형식 'STOCK_DATA'을(를) 사용했습니다.
-C:\c_basic\stock-simulation\C_team4_server\link_db.c(36): message : 'STOCK_DATA' 선언을 참조하십시오.
-C:\c_basic\stock-simulation\C_team4_server\link_db.c(67,9): warning C4022: 'free': 실제 매개 변수 1의 포인터가 일치하지 않습니다.
-C:\c_basic\stock-simulation\C_team4_server\link_db.c(76,57): warning C4022: 'CreateThread': 실제 매개 변수 4의 포인터가 일치하지 않습니다.
-C:\c_basic\stock-simulation\C_team4_server\link_db.c(79,9): warning C4022: 'free': 실제 매개 변수 1의 포인터가 일치하지 않습니다.
-C:\c_basic\stock-simulation\C_team4_server\link_db.c(148,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\c_basic\stock-simulation\C_team4_server\link_db.c(227,32): warning C4028: 정식 매개 변수 1이(가) 선언과 다릅니다.
-C:\c_basic\stock-simulation\C_team4_server\link_db.c(238,4): warning C4033: 'handle_client'은(는) 값을 반환해야 합니다.
-C:\c_basic\stock-simulation\C_team4_server\link_db.c(248,14): warning C4013: 'add_member'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\c_basic\stock-simulation\C_team4_server\link_db.c(251,14): warning C4013: 'del_member'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\c_basic\stock-simulation\C_team4_server\link_db.c(254,9): warning C4013: 'login'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\c_basic\stock-simulation\C_team4_server\link_db.c(257,10): warning C4013: 'logout'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\c_basic\stock-simulation\C_team4_server\link_db.c(268,4): warning C4033: 'handle_client'은(는) 값을 반환해야 합니다.
+﻿  C_team4.vcxproj -> C:\C_Basic\team_project\stock-simulation\C_team4_server\Debug\C_team4.exe
