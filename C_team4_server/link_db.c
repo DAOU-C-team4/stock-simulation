@@ -33,7 +33,7 @@ typedef struct {
 	char id[MAX_ID_LENGTH];
 	char password[MAX_PASSWORD_LENGTH];
 	char session[MAX_SESSION_LENGTH];
-	struct STOCK_DATA;
+	STOCK_DATA stock_data;
 } RequestData;
 
 // 傈开 家南 包府

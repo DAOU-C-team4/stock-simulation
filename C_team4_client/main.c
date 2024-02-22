@@ -4,7 +4,8 @@
 #pragma comment(lib, "Ws2_32.lib")
 
 #define PORT 8080
-#define SERVER_IP "127.0.0.1"
+#define SERVER_IP "127.0.0.1" // localhost
+//#define SERVER_IP "172.30.1.93" // 준하 ip
 #define MAX_BUFFER_SIZE 1024
 #define MAX_ID_LENGTH 50
 #define MAX_PASSWORD_LENGTH 50
@@ -14,7 +15,6 @@
 // 함수 선언
 SOCKET connect_to_server();
 select_task_home(SOCKET client_fd);
-void clear_input_buffer();
 
 // 구조체 선언
 typedef struct {
@@ -26,9 +26,8 @@ typedef struct {
 	char id[MAX_ID_LENGTH];
 	char password[MAX_PASSWORD_LENGTH];
 	char session[MAX_SESSION_LENGTH];
-	struct STOCK_DATA;
+	STOCK_DATA stock_data;
 } RequestData;
-
 
 int main(int argc, char* argv[]) {
 	// 0. 소켓연결
@@ -139,13 +138,10 @@ add_member(SOCKET client_fd) {
 
 	printf("아이디를 입력하세요: ");
 	fgets(req_data.id, MAX_ID_LENGTH, stdin);
-	clear_input_buffer();
 	printf("비밀번호를 입력하세요: ");
 	fgets(req_data.password, MAX_PASSWORD_LENGTH, stdin);
-	clear_input_buffer();
 	printf("이름을 입력하세요: ");
 	fgets(req_data.name, MAX_NAME_LENGTH, stdin);
-	clear_input_buffer();
 
 	// 서버로 전송
 	int bytes_sent = send(client_fd, (char*)&req_data, sizeof(req_data), 0);
@@ -162,10 +158,8 @@ del_member(SOCKET client_fd) {
 
 	printf("아이디를 입력하세요: ");
 	fgets(req_data.id, MAX_ID_LENGTH, stdin);
-	clear_input_buffer();
 	printf("비밀번호를 입력하세요: ");
 	fgets(req_data.password, MAX_PASSWORD_LENGTH, stdin);
-	clear_input_buffer();
 
 	// 서버로 전송
 	int bytes_sent = send(client_fd, (char*)&req_data, sizeof(req_data), 0);
@@ -182,10 +176,8 @@ login(SOCKET client_fd) {
 
 	printf("아이디를 입력하세요: ");
 	fgets(req_data.id, MAX_ID_LENGTH, stdin);
-	clear_input_buffer();
 	printf("비밀번호를 입력하세요: ");
 	fgets(req_data.password, MAX_PASSWORD_LENGTH, stdin);
-	clear_input_buffer();
 
 	// 서버로 전송
 	int bytes_sent = send(client_fd, (char*)&req_data, sizeof(req_data), 0);
@@ -237,10 +229,4 @@ stock_home() {
 			break;
 		}
 	} while (1 != 0);
-}
-
-// 입력 버퍼 비우기 함수
-void clear_input_buffer() {
-	int c;
-	while ((c = getchar()) != '\n' && c != EOF);
 }
