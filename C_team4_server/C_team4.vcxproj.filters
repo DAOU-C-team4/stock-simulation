@@ -21,9 +21,27 @@
     <ClCompile Include="sqlite3.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="db_connect.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="member.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="socket_connect.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Users\TECH2-16\Desktop\sqlite-amalgamation-3450100\sqlite3.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="db_connect.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="member.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="socket_connect.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

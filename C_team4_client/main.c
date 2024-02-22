@@ -17,7 +17,7 @@ select_task_home(SOCKET client_fd);
 void clear_input_buffer();
 
 // 구조체 선언
-typedef struct {
+typedef struct STOCK_DATA {
 	int sample;
 } STOCK_DATA;
 typedef struct {
@@ -139,13 +139,13 @@ add_member(SOCKET client_fd) {
 
 	printf("아이디를 입력하세요: ");
 	fgets(req_data.id, MAX_ID_LENGTH, stdin);
-	clear_input_buffer();
+	//clear_input_buffer();
 	printf("비밀번호를 입력하세요: ");
 	fgets(req_data.password, MAX_PASSWORD_LENGTH, stdin);
-	clear_input_buffer();
+	//clear_input_buffer();
 	printf("이름을 입력하세요: ");
 	fgets(req_data.name, MAX_NAME_LENGTH, stdin);
-	clear_input_buffer();
+	//clear_input_buffer();
 
 	// 서버로 전송
 	int bytes_sent = send(client_fd, (char*)&req_data, sizeof(req_data), 0);

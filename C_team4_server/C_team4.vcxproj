@@ -143,11 +143,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="db_connect.c" />
     <ClCompile Include="link_db.c" />
+    <ClCompile Include="member.c" />
+    <ClCompile Include="socket_connect.c" />
     <ClCompile Include="sqlite3.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Users\TECH2-16\Desktop\sqlite-amalgamation-3450100\sqlite3.h" />
+    <ClInclude Include="db_connect.h" />
+    <ClInclude Include="member.h" />
+    <ClInclude Include="socket_connect.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
