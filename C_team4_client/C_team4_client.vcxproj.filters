@@ -18,5 +18,25 @@
     <ClCompile Include="main.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="client_socket.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="client_member.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="client_stock.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="client_socket.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="client_member.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="client_stock.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

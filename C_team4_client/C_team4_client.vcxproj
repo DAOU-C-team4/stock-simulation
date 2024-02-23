@@ -139,7 +139,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="client_member.c" />
+    <ClCompile Include="client_stock.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="client_socket.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="client_member.h" />
+    <ClInclude Include="client_socket.h" />
+    <ClInclude Include="client_stock.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
