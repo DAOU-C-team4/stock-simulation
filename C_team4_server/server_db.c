@@ -238,5 +238,4 @@ int member_logout(sqlite3* db, const char* session) {
 	}
 }
 
-
 /**************** 주식 관련 DB 함수 ****************/

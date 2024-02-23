@@ -16,5 +16,5 @@ int delete_member(sqlite3* db, const char* user_id, const char* password);
 int member_login(sqlite3* db, const char* user_id, const char* password);
 int generate_random_key(char* key);
 int is_duplicate_key(sqlite3* db, const char* key);
-int member_logout();
+int member_logout(sqlite3* db, const char* session);
 /**************** 주식 관련 DB 함수 ****************/

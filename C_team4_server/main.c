@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
 
 	// 클라이언트의 연결을 기다림
 	while (1) {
-		int new_socket = accept(server_fd, NULL, NULL);
+		SOCKET new_socket = accept(server_fd, NULL, NULL);
 		client_sockets[num_clients++] = new_socket;
 		printf("\n");
 		if (new_socket == -1) {
