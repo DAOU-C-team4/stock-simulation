@@ -306,8 +306,6 @@ login(RequestData* req_data) {
 	printf("받은 비밀번호: %s", req_data->password);
 }
 
-
-
 // 2.2.4 클라이언트 요청 - 로그아웃
 logout(RequestData* req_data) {
 	// 로그아웃
@@ -320,15 +318,16 @@ logout(RequestData* req_data) {
 buyStock(RequestData* req_data) {
 	// 주식 매수
 	printf("\n선택 : %d (주식 매수)\n", req_data->select);
-	printf("매수 종목 : %d", req_data->stock_data.stock_id);
-	printf("매수 가격 : %d", req_data->stock_data.stock_price);
-	printf("매수 수량 : %d", req_data->stock_data.stock_count);
+	printf("매수 종목 : %d\n", req_data->stock_data.stock_id);
+	printf("매수 가격 : %d\n", req_data->stock_data.stock_price);
+	printf("매수 수량 : %d\n", req_data->stock_data.stock_count);
 }
-// 2.2.6 클라이언트 요청 - 주식 매도
+
+// 2.2.7 클라이언트 요청 - 주식 매도
 sellStock(RequestData* req_data) {
 	// 주식 매수
 	printf("\n선택 : %d (주식 매도)\n", req_data->select);
-	printf("매도 종목 : %d", req_data->stock_data.stock_id);
-	printf("매도 가격 : %d", req_data->stock_data.stock_price);
-	printf("매도 수량 : %d", req_data->stock_data.stock_count);
+	printf("매도 종목 : %d\n", req_data->stock_data.stock_id);
+	printf("매도 가격 : %d\n", req_data->stock_data.stock_price);
+	printf("매도 수량 : %d\n", req_data->stock_data.stock_count);
 }

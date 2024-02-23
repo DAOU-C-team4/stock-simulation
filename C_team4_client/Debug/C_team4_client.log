@@ -1,25 +1,22 @@
-﻿  main.c
-C:\stock-simulation\C_team4_client\main.c(70,32): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
-C:\stock-simulation\C_team4_client\main.c(104,14): warning C4013: 'add_member'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\stock-simulation\C_team4_client\main.c(108,14): warning C4013: 'del_member'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\stock-simulation\C_team4_client\main.c(113,19): warning C4013: 'login'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\stock-simulation\C_team4_client\main.c(116,15): warning C4013: 'stock_home'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\stock-simulation\C_team4_client\main.c(121,10): warning C4013: 'logout'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\stock-simulation\C_team4_client\main.c(97,3): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\stock-simulation\C_team4_client\main.c(89,7): warning C4101: 'message' :참조되지 않은 지역 변수입니다.
-C:\stock-simulation\C_team4_client\main.c(229,3): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\stock-simulation\C_team4_client\main.c(269,59): warning C4133: '함수': 'RequestData *'과(와) 'const char *' 사이의 형식이 호환되지 않습니다.
-C:\stock-simulation\C_team4_client\main.c(262,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\stock-simulation\C_team4_client\main.c(264,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\stock-simulation\C_team4_client\main.c(266,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\stock-simulation\C_team4_client\main.c(288,59): warning C4133: '함수': 'RequestData *'과(와) 'const char *' 사이의 형식이 호환되지 않습니다.
-C:\stock-simulation\C_team4_client\main.c(282,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\stock-simulation\C_team4_client\main.c(284,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\stock-simulation\C_team4_client\main.c(286,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\stock-simulation\C_team4_client\main.c(143): warning C4715: 'select_task_home': 모든 제어 경로에서 값을 반환하지는 않습니다.
-C:\stock-simulation\C_team4_client\main.c(166): warning C4715: 'add_member': 모든 제어 경로에서 값을 반환하지는 않습니다.
-C:\stock-simulation\C_team4_client\main.c(186): warning C4715: 'del_member': 모든 제어 경로에서 값을 반환하지는 않습니다.
-C:\stock-simulation\C_team4_client\main.c(221): warning C4715: 'logout': 모든 제어 경로에서 값을 반환하지는 않습니다.
-C:\stock-simulation\C_team4_client\main.c(274): warning C4715: 'buyStock': 모든 제어 경로에서 값을 반환하지는 않습니다.
-C:\stock-simulation\C_team4_client\main.c(293): warning C4715: 'sellStock': 모든 제어 경로에서 값을 반환하지는 않습니다.
+﻿  client_member.c
+C:\stock-simulation\C_team4_client\client_member.c(36,20): warning C4013: 'clear_input_buffer'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+  client_stock.c
+C:\stock-simulation\C_team4_client\client_stock.c(18,12): warning C4013: 'buyStock'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+C:\stock-simulation\C_team4_client\client_stock.c(21,13): warning C4013: 'sellStock'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+C:\stock-simulation\C_team4_client\client_stock.c(25,4): warning C4033: 'stock_home'은(는) 값을 반환해야 합니다.
+C:\stock-simulation\C_team4_client\client_stock.c(12,3): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_client\client_stock.c(46,58): warning C4133: '함수': 'RequestData *'과(와) 'const char *' 사이의 형식이 호환되지 않습니다.
+C:\stock-simulation\C_team4_client\client_stock.c(39,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_client\client_stock.c(41,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_client\client_stock.c(43,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_client\client_stock.c(65,58): warning C4133: '함수': 'RequestData *'과(와) 'const char *' 사이의 형식이 호환되지 않습니다.
+C:\stock-simulation\C_team4_client\client_stock.c(59,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_client\client_stock.c(61,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_client\client_stock.c(63,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  코드를 생성하고 있습니다...
+C:\stock-simulation\C_team4_client\client_stock.c(70): warning C4715: 'sellStock': 모든 제어 경로에서 값을 반환하지는 않습니다.
+C:\stock-simulation\C_team4_client\client_stock.c(51): warning C4715: 'buyStock': 모든 제어 경로에서 값을 반환하지는 않습니다.
+C:\stock-simulation\C_team4_client\client_member.c(47): warning C4715: 'del_member': 모든 제어 경로에서 값을 반환하지는 않습니다.
+C:\stock-simulation\C_team4_client\client_member.c(82): warning C4715: 'logout': 모든 제어 경로에서 값을 반환하지는 않습니다.
+C:\stock-simulation\C_team4_client\client_member.c(27): warning C4715: 'add_member': 모든 제어 경로에서 값을 반환하지는 않습니다.
   C_team4_client.vcxproj -> C:\stock-simulation\C_team4_client\Debug\C_team4_client.exe

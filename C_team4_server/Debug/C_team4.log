@@ -19,7 +19,7 @@ C:\stock-simulation\C_team4_server\link_db.c(282): warning C4716: 'handle_client
 C:\stock-simulation\C_team4_server\link_db.c(291): warning C4716: 'add_member': 값을 반환해야 합니다.
 C:\stock-simulation\C_team4_server\link_db.c(299): warning C4716: 'del_member': 값을 반환해야 합니다.
 C:\stock-simulation\C_team4_server\link_db.c(307): warning C4716: 'login': 값을 반환해야 합니다.
-C:\stock-simulation\C_team4_server\link_db.c(315): warning C4716: 'logout': 값을 반환해야 합니다.
 C:\stock-simulation\C_team4_server\link_db.c(326): warning C4716: 'buyStock': 값을 반환해야 합니다.
+C:\stock-simulation\C_team4_server\link_db.c(315): warning C4716: 'logout': 값을 반환해야 합니다.
 C:\stock-simulation\C_team4_server\link_db.c(334): warning C4716: 'sellStock': 값을 반환해야 합니다.
   C_team4.vcxproj -> C:\stock-simulation\C_team4_server\Debug\C_team4.exe
