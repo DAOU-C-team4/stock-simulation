@@ -1,1 +1,17 @@
-﻿  C_team4.vcxproj -> C:\C_Basic\team_project\stock-simulation\C_team4_server\Debug\C_team4.exe
+﻿  server_db.c
+C:\c_basic\stock-simulation\C_team4_server\server_db.c(115,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\c_basic\stock-simulation\C_team4_server\server_db.c(133,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\c_basic\stock-simulation\C_team4_server\server_db.c(149,20): warning C4013: 'is_valid_user'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+C:\c_basic\stock-simulation\C_team4_server\server_db.c(151,16): warning C4047: 'return': 'int'의 간접 참조 수준이 'char [5]'과(와) 다릅니다.
+C:\c_basic\stock-simulation\C_team4_server\server_db.c(158,22): warning C4013: 'generate_random_key'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+C:\c_basic\stock-simulation\C_team4_server\server_db.c(159,34): warning C4013: 'is_duplicate_key'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+C:\c_basic\stock-simulation\C_team4_server\server_db.c(161,15): warning C4047: 'return': 'int'의 간접 참조 수준이 'void *'과(와) 다릅니다.
+C:\c_basic\stock-simulation\C_team4_server\server_db.c(173,14): warning C4047: 'return': 'int'의 간접 참조 수준이 'void *'과(와) 다릅니다.
+C:\c_basic\stock-simulation\C_team4_server\server_db.c(177,19): warning C4047: 'return': 'int'의 간접 참조 수준이 'char [50]'과(와) 다릅니다.
+C:\c_basic\stock-simulation\C_team4_server\server_db.c(168,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\c_basic\stock-simulation\C_team4_server\server_db.c(184,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\c_basic\stock-simulation\C_team4_server\server_db.c(199,26): warning C4013: 'time'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+C:\c_basic\stock-simulation\C_team4_server\server_db.c(212,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\c_basic\stock-simulation\C_team4_server\server_db.c(228,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\c_basic\stock-simulation\C_team4_server\server_db.c(177): warning C4172: 지역 변수 또는 임시: access_key의 주소를 반환하고 있습니다.
+  C_team4.vcxproj -> C:\c_basic\stock-simulation\C_team4_server\Debug\C_team4.exe

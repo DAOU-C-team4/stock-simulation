@@ -1,13 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "client_member.h"
-#include "client_socket.h"
 
 // 로그인후 주식관련 홈
 stock_home(SOCKET client_fd) {
 	do {
 		int select = 0;
-		printf("\n(1.주식 매수 / 2.주식 매도 / 3.매매 종료)\n");
+		printf("\n(1.주식 매수 / 2.주식 매도 / 3.로그아웃)\n");
 		printf("원하는 작업을 지정해주세요 : ");
 		scanf("%d%*c", &select);
 
@@ -21,11 +20,11 @@ stock_home(SOCKET client_fd) {
 			sellStock(client_fd);
 			break;
 		case 3:
-			printf("매매 종료\n\n");
+			printf("매매 종료\n");
 			return;
 		default:
 			printf("\n1, 2, 3번 중 하나를 입력하세요\n");
-			break;
+			continue;
 		}
 	} while (1 != 0);
 }
@@ -37,8 +36,6 @@ buyStock(SOCKET client_fd) {
 
 	printf("매수할 종목 번호를 입력하세요 : ");
 	scanf("%d%*c", &req_data.stock_data.stock_id);
-	printf("매수할 금액을 입력하세요 : ");
-	scanf("%d%*c", &req_data.stock_data.stock_price);
 	printf("매수할 수량을 입력하세요 : ");
 	scanf("%d%*c", &req_data.stock_data.stock_count);
 
@@ -57,8 +54,6 @@ sellStock(SOCKET client_fd) {
 
 	printf("매도할 종목 번호를 입력하세요 : ");
 	scanf("%d%*c", &req_data.stock_data.stock_id);
-	printf("매도할 금액을 입력하세요 : ");
-	scanf("%d%*c", &req_data.stock_data.stock_price);
 	printf("매도할 수량을 입력하세요 : ");
 	scanf("%d%*c", &req_data.stock_data.stock_count);
 

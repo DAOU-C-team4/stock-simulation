@@ -1,11 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include "client_socket.h"
 #include "client_member.h"
+#include "client_stock.h"
+#include "client_socket.h"
 
-#define MAX_BUFFER_SIZE 1024
-
-void clear_input_buffer();
+// 에세스 관리
+char access[31] = "NONE";
 
 int main(int argc, char* argv[]) {
 	// 0. 소켓연결
@@ -31,8 +29,18 @@ select_task_home(SOCKET client_fd) {
 
 	// 홈 메뉴 반복
 	do {
+		// 소켓 리슨 멀티스레드 오픈
+
+		// 로그인시 - 주식매매
+		if (strcmp(access, "NONE") && strcmp(access, "CLEAR")) {
+			stock_home(client_fd);
+			logout(client_fd, access);
+			printf("현재 저장된 에세스 읽기: %s\n", access);
+			continue;
+		}
+		// 로그인 아닐시 - 회원관리
 		int select = 0;
-		printf("\n(1.회원가입 / 2.회원탈퇴 / 3.로그인 / 4.로그아웃 / 5.종료)\n");
+		printf("\n(1.회원가입 / 2.회원탈퇴 / 3.로그인 / 4.종료)\n");
 		printf("원하는 작업을 지정해주세요 : ");
 		scanf("%d%*c", &select);
 
@@ -49,22 +57,15 @@ select_task_home(SOCKET client_fd) {
 			break;
 		case 3:
 			printf("로그인\n\n");
-			//로그인 함수 결과를 isLogin에 저장 (0: 실패, 1: 성공)
-			isLogin = login(client_fd);
-			//로그인 성공 시, 주식 매매 함수 시작
-			if (isLogin) {
-				stock_home(client_fd);
-			}
+			login(client_fd);
 			break;
 		case 4:
-			printf("로그아웃\n\n");
-			logout(client_fd);
-			isLogin = 0;
-			break;
-		case 5:
 			printf("\n프로그램을 종료합니다. 좋은 하루 되세요 :)\n");
 			exit(1);
 			break;
+		default:
+			printf("\n잘못된 번호입니다.\n");
+			continue;
 		}
 
 		// 서버로부터 수신
@@ -74,16 +75,17 @@ select_task_home(SOCKET client_fd) {
 			perror("recv failed");
 			return 1;
 		}
-		received_message[bytes_received] = '\0'; // 문자열 끝에 NULL 추가
 		// 서버로부터 받은 메시지 출력
-		printf("%s\n", received_message);
+		ResponseData* res_data = (ResponseData*)received_message;
+		if (strcmp(res_data->session, "NONE") && strcmp(res_data->session, "CLEAR")) {
+			strcpy(access, res_data->session);
+		}
+		printf("\n서버로부터 응답:\n");
+		printf("   select: %d\n", res_data->select);
+		printf("   session: %s\n", res_data->session);
+		printf("   msg: %s\n", res_data->msg);
+		printf("현재 저장된 에세스 읽기: %s\n", access);
 
 		printf("========================================================================\n");
 	} while (run);
-}
-
-// 입력 버퍼 비우기 함수
-void clear_input_buffer() {
-	int c;
-	while ((c = getchar()) != '\n' && c != EOF);
 }
