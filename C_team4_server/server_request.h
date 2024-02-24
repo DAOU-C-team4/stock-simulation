@@ -10,6 +10,7 @@
 #define MAX_MESSAGE_LENGTH 200
 
 /**************** 구조체 선언 ****************/
+//클라이언트에서 받은 요청
 typedef struct {
 	int select;       // 매수 매도 불린값
 	int stock_id;     // 매수 매도할 주식 id
@@ -24,6 +25,8 @@ typedef struct {
 	char session[MAX_SESSION_LENGTH];
 	STOCK_REQ stock_data;
 } RequestData;
+
+//클라이언트에게 보낼 응답
 typedef struct {
 	int stock_id;
 	int stock_name;
@@ -34,6 +37,7 @@ typedef struct {
 	int select;
 	char session[MAX_SESSION_LENGTH]; // 로그인시 발급받는 토큰
 	char msg[MAX_MESSAGE_LENGTH];     // 서버 전달 메세지
+	//STOCK_RES stock_trade;			  // 매매 정보
 	STOCK_RES stock_arr[10];          // 주식 정보
 	STOCK_RES my_stock[10];           // 내 주식 잔고
 } ResponseData;

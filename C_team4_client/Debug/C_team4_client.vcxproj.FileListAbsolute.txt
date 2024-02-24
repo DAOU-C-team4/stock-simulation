@@ -1,1 +1,2 @@
 C:\c_basic\stock-simulation\C_team4_client\Debug\C_team4_client.exe
+C:\stock-simulation\C_team4_client\Debug\C_team4_client.exe

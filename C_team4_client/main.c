@@ -33,7 +33,7 @@ select_task_home(SOCKET client_fd) {
 
 		// 로그인시 - 주식매매
 		if (strcmp(access, "NONE") && strcmp(access, "CLEAR")) {
-			stock_home(client_fd);
+			stock_home(client_fd); // 매매종료를 눌렀을 때, 아래의 로그아웃 함수가 실행됨
 			logout(client_fd, access);
 			printf("현재 저장된 에세스 읽기: %s\n", access);
 			continue;

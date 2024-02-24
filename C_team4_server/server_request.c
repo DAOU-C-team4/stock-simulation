@@ -39,6 +39,8 @@ DWORD WINAPI handle_client(int client_socket) {
 			break;
 		case 4:
 			logout(req_data, res_data_ptr);
+		case 5:
+			stock_trade(req_data, res_data_ptr);
 			break;
 		}
 
@@ -112,10 +114,53 @@ int logout(RequestData* req_data, ResponseData* res_data_ptr) {
 
 
 /**************** 주식관련 함수 ****************/
-// 2.1 클라이언트 요청 - 주식 매수
+// 2.1 클라이언트 요청 - 주식 매매
+int stock_trade(RequestData* req_data, ResponseData* res_data_ptr) {
+	int trade_category = req_data->stock_data.select; // 매수 : 1, 매도 : 2, 매매 종료 : 3
 
-// 2.2 클라이언트 요청 - 주식 매도
+	if (trade_category == 1) {
+		//주식 매수
+		stock_buy(req_data, res_data_ptr);
+	} 
+	else if (trade_category == 2) {
+		//주식 매도
+		stock_sell(req_data, res_data_ptr);
+	}
+	else {
+		//매매 종료
+		strcpy(res_data_ptr->msg, "매매를 종료합니다");
+	}
 
-// 2.3 클라이언트 요청 - 주식 정보 실시간
+	return 0;
+}
 
-// 2.4 클라이언트 요청 - 주식 매매정보 실시간
+// 2.1.1 클라이언트 요청 - 주식 매수
+stock_buy(RequestData* req_data, ResponseData* res_data_ptr) {
+	
+	printf("\n매매선택 : %d (매수)\n", req_data->stock_data.select); //매수: 1, 매도 : 2
+	printf("매수 종목번호: %d\n", req_data->stock_data.stock_id);
+	insert_buyOrder();
+
+	// 응답데이터 기록
+	res_data_ptr->select = 5;
+	strcpy(res_data_ptr->msg, "매수 요청을 서버에서 처리함");
+	
+	return 0;
+}
+
+// 2.1.2 클라이언트 요청 - 주식 매도
+stock_sell(RequestData* req_data, ResponseData* res_data_ptr) {
+
+	printf("\n매매선택 : %d (매수)\n", req_data->stock_data.select); //매수: 1, 매도 : 2
+	printf("매수 종목번호: %d\n", req_data->stock_data.stock_id);
+	insert_sellOrder();
+
+	// 응답데이터 기록
+	res_data_ptr->select = 6; // 응답: 매수 5, 매도 6
+	strcpy(res_data_ptr->msg, "매도 요청을 서버에서 처리함");
+
+	return 0;
+}
+// 2.2 클라이언트 요청 - 주식 정보 실시간
+
+// 2.3 클라이언트 요청 - 주식 매매정보 실시간
