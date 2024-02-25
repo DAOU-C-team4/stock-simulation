@@ -6,7 +6,7 @@ sqlite3* db;
 
 /**************** 클라이언트 요청 분기 ****************/
 // 2.2 클라이언트 요청 처리 함수
-DWORD WINAPI handle_client(int client_socket) {
+DWORD WINAPI handle_client(SOCKET client_socket) {
 	char buffer[MAX_BUFFER_SIZE];
 	int bytes_received;
 	int run = 1;
@@ -101,7 +101,7 @@ int login(RequestData* req_data, ResponseData* res_data_ptr) {
 int logout(RequestData* req_data, ResponseData* res_data_ptr) {
 	// 로그아웃
 	printf("\n선택 : %d (로그아웃)\n", req_data->select);
-	printf("받은 세션: %s", req_data->session);
+	printf("받은 세션: %s\n", req_data->session);
 	member_logout(db, req_data->session);
 	// 응답데이터 기록
 	res_data_ptr->select = 4;

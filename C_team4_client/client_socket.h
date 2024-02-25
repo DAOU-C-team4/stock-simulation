@@ -1,5 +1,6 @@
 #pragma once
 #include <WinSock2.h>
+#include <WS2tcpip.h>    // TCP/IP 통신을 위한 헤더
 #pragma comment(lib, "Ws2_32.lib")
 
 #define MAX_BUFFER_SIZE 1024
@@ -8,6 +9,9 @@
 #define MAX_NAME_LENGTH 50
 #define MAX_SESSION_LENGTH 50
 #define MAX_MESSAGE_LENGTH 200
+
+// 이벤트 객체 - 멀티스레드 신호제어
+HANDLE event;
 
 /**************** 구조체 선언 ****************/
 typedef struct {
@@ -44,3 +48,4 @@ typedef struct {
 
 /**************** 소켓 관련 함수 ****************/
 SOCKET connect_to_server();
+DWORD WINAPI listen_thread(SOCKET client_fd);

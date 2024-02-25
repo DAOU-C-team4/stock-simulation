@@ -1,17 +1,28 @@
-﻿  server_db.c
-C:\c_basic\stock-simulation\C_team4_server\server_db.c(115,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\c_basic\stock-simulation\C_team4_server\server_db.c(133,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\c_basic\stock-simulation\C_team4_server\server_db.c(149,20): warning C4013: 'is_valid_user'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\c_basic\stock-simulation\C_team4_server\server_db.c(151,16): warning C4047: 'return': 'int'의 간접 참조 수준이 'char [5]'과(와) 다릅니다.
-C:\c_basic\stock-simulation\C_team4_server\server_db.c(158,22): warning C4013: 'generate_random_key'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\c_basic\stock-simulation\C_team4_server\server_db.c(159,34): warning C4013: 'is_duplicate_key'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\c_basic\stock-simulation\C_team4_server\server_db.c(161,15): warning C4047: 'return': 'int'의 간접 참조 수준이 'void *'과(와) 다릅니다.
-C:\c_basic\stock-simulation\C_team4_server\server_db.c(173,14): warning C4047: 'return': 'int'의 간접 참조 수준이 'void *'과(와) 다릅니다.
-C:\c_basic\stock-simulation\C_team4_server\server_db.c(177,19): warning C4047: 'return': 'int'의 간접 참조 수준이 'char [50]'과(와) 다릅니다.
-C:\c_basic\stock-simulation\C_team4_server\server_db.c(168,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\c_basic\stock-simulation\C_team4_server\server_db.c(184,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\c_basic\stock-simulation\C_team4_server\server_db.c(199,26): warning C4013: 'time'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\c_basic\stock-simulation\C_team4_server\server_db.c(212,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\c_basic\stock-simulation\C_team4_server\server_db.c(228,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\c_basic\stock-simulation\C_team4_server\server_db.c(177): warning C4172: 지역 변수 또는 임시: access_key의 주소를 반환하고 있습니다.
-  C_team4.vcxproj -> C:\c_basic\stock-simulation\C_team4_server\Debug\C_team4.exe
+﻿  main.c
+C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\server_socket.h(8,1): warning C4005: 'FD_SETSIZE': 매크로 재정의
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\WinSock2.h(133): message : 'FD_SETSIZE'의 이전 정의를 참조하십시오.
+C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\main.c(33,9): warning C4022: 'free': 실제 매개 변수 1의 포인터가 일치하지 않습니다.
+C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\main.c(42,55): warning C4028: 정식 매개 변수 1이(가) 선언과 다릅니다.
+C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\main.c(42,57): warning C4022: 'CreateThread': 실제 매개 변수 4의 포인터가 일치하지 않습니다.
+C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\main.c(45,9): warning C4022: 'free': 실제 매개 변수 1의 포인터가 일치하지 않습니다.
+C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\main.c(19,29): warning C4101: 'valread' :참조되지 않은 지역 변수입니다.
+  server_request.c
+C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\server_socket.h(8,1): warning C4005: 'FD_SETSIZE': 매크로 재정의
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\um\WinSock2.h(133): message : 'FD_SETSIZE'의 이전 정의를 참조하십시오.
+C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\server_request.c(9,35): warning C4028: 정식 매개 변수 1이(가) 선언과 다릅니다.
+C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\server_request.c(20,4): warning C4033: 'handle_client'은(는) 값을 반환해야 합니다.
+C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\server_request.c(46,52): warning C4133: '함수': 'ResponseData *'과(와) 'const char *' 사이의 형식이 호환되지 않습니다.
+C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\server_request.c(49,4): warning C4033: 'handle_client'은(는) 값을 반환해야 합니다.
+C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\server_request.c(52,2): warning C4033: 'handle_client'은(는) 값을 반환해야 합니다.
+C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\server_request.c(66,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\server_request.c(67,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\server_request.c(80,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\server_request.c(81,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\server_request.c(92,65): warning C4047: '=': 'char *'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\server_request.c(95,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\server_request.c(96,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\server_request.c(108,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\server_request.c(109,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  코드를 생성하고 있습니다...
+C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\server_request.c(53): warning C4716: 'handle_client': 값을 반환해야 합니다.
+  C_team4.vcxproj -> C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\Debug\C_team4.exe

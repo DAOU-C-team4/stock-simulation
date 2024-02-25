@@ -15,9 +15,11 @@ stock_home(SOCKET client_fd) {
 		{
 		case 1:
 			buyStock(client_fd);
+			WaitForSingleObject(event, INFINITE); // 신호 대기
 			break;
 		case 2:
 			sellStock(client_fd);
+			WaitForSingleObject(event, INFINITE); // 신호 대기
 			break;
 		case 3:
 			printf("매매 종료\n");
