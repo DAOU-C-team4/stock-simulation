@@ -114,9 +114,11 @@ int logout(RequestData* req_data, ResponseData* res_data_ptr) {
 
 
 /**************** 주식관련 함수 ****************/
-// 2.1 클라이언트 요청 - 주식 매매
+// 2.1 클라이언트 요청 - 주식 매매 (매수, 매도 분기 함수)
 int stock_trade(RequestData* req_data, ResponseData* res_data_ptr) {
-	int trade_category = req_data->stock_data.select; // 매수 : 1, 매도 : 2, 매매 종료 : 3
+	
+	//매매 유형 저장
+	int trade_category = req_data->stock_data.select; // 매수 : 1, 매도 : 2, 로그아웃 : 3
 
 	if (trade_category == 1) {
 		//주식 매수
@@ -127,8 +129,8 @@ int stock_trade(RequestData* req_data, ResponseData* res_data_ptr) {
 		stock_sell(req_data, res_data_ptr);
 	}
 	else {
-		//매매 종료
-		strcpy(res_data_ptr->msg, "매매를 종료합니다");
+		//로그아웃
+		strcpy(res_data_ptr->msg, "매매를 종료하고, 로그아웃합니다.");
 	}
 
 	return 0;
@@ -139,8 +141,8 @@ stock_buy(RequestData* req_data, ResponseData* res_data_ptr) {
 	
 	printf("\n매매선택 : %d (매수)\n", req_data->stock_data.select); //매수: 1, 매도 : 2
 	printf("매수 종목번호: %d\n", req_data->stock_data.stock_id);
-	insert_buyOrder();
-
+	insert_buyOrder(db, &req_data->stock_data.stock_id, &req_data->stock_data.stock_count);
+	//insert_member(db, req_data->name, req_data->id, req_data->password);
 	// 응답데이터 기록
 	res_data_ptr->select = 5;
 	strcpy(res_data_ptr->msg, "매수 요청을 서버에서 처리함");
@@ -153,7 +155,7 @@ stock_sell(RequestData* req_data, ResponseData* res_data_ptr) {
 
 	printf("\n매매선택 : %d (매수)\n", req_data->stock_data.select); //매수: 1, 매도 : 2
 	printf("매수 종목번호: %d\n", req_data->stock_data.stock_id);
-	insert_sellOrder();
+	insert_sellOrder(db, &req_data->stock_data.stock_id, &req_data->stock_data.stock_count);
 
 	// 응답데이터 기록
 	res_data_ptr->select = 6; // 응답: 매수 5, 매도 6

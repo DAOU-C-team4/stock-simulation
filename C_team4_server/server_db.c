@@ -241,12 +241,39 @@ int member_logout(sqlite3* db, const char* session) {
 
 /**************** 주식 관련 DB 함수 ****************/
 // 매수 주문 삽입
-insert_buyOrder() {
-
+int insert_buyOrder(sqlite3* db, const int* stock_id, const int* stock_count) {
+	char* zErrMsg = 0;
+	char sql_insert_buyOrder[500];
+	sprintf(sql_insert_buyOrder, "UPDATE STOCK SET CURRENT_PRICE = CURRENT_PRICE + 1000, STOCK_COUNT = STOCK_COUNT - %d WHERE ID = %d;",
+		*stock_count, *stock_id);
+	int rc = sqlite3_exec(db, sql_insert_buyOrder, callback, 0, &zErrMsg);
+	
+	if (rc != SQLITE_OK) {
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+		return 0;
+	}
+	else {
+		fprintf(stdout, "Buy Order executed Successfully\n");
+		return 1;
+	}
 }
 
-
 // 매도 주문 삽입
-insert_sellOrder() {
+insert_sellOrder(sqlite3* db, const int* stock_id, const int* stock_count) {
+	char* zErrMsg = 0;
+	char sql_insert_sellOrder[500];
+	sprintf(sql_insert_sellOrder, "UPDATE STOCK SET CURRENT_PRICE = CURRENT_PRICE - 1000, STOCK_COUNT = STOCK_COUNT + %d WHERE ID = %d",
+		*stock_count, *stock_id);
+	int rc = sqlite3_exec(db, sql_insert_sellOrder, callback, 0, &zErrMsg);
 
+	if (rc != SQLITE_OK) {
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+		return 0;
+	}
+	else {
+		fprintf(stdout, "Sell Order executed Successfully\n");
+		return 1;
+	}
 }
