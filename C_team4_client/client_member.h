@@ -1,8 +1,15 @@
 #pragma once
 #include "client_socket.h"
 
-/**************** 회원 관련 함수 ****************/
-add_member(SOCKET client_fd);
-del_member(SOCKET client_fd);
-login(SOCKET client_fd);
-logout(SOCKET client_fd, char* access);
+/**************** 회원 관련 요청 함수 ****************/
+req_add_member(SOCKET client_fd);
+req_del_member(SOCKET client_fd);
+req_login(SOCKET client_fd);
+req_logout(SOCKET client_fd, char* access);
+
+/**************** 회원 관련 리슨 함수 ****************/
+res_add_member(ResponseData* res_data);
+res_del_member(ResponseData* res_data);
+res_login(ResponseData* res_data);
+res_logout(ResponseData* res_data, char* access);
+res_memberInfo(ResponseData* res_data, char* access);

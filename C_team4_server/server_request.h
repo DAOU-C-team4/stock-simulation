@@ -32,14 +32,21 @@ typedef struct {
 } STOCK_RES;
 typedef struct {
 	int select;
+	int check;
 	char session[MAX_SESSION_LENGTH]; // 로그인시 발급받는 토큰
 	char msg[MAX_MESSAGE_LENGTH];     // 서버 전달 메세지
 	STOCK_RES stock_arr[10];          // 주식 정보
 	STOCK_RES my_stock[10];           // 내 주식 잔고
 } ResponseData;
 
-/**************** 회원 관련 DB 함수 ****************/
+/**************** 회원 관련 함수 ****************/
 int add_member(RequestData* req_data, ResponseData* res_data_ptr);
 int del_member(RequestData* req_data, ResponseData* res_data_ptr);
 int login(RequestData* req_data, ResponseData* res_data_ptr);
 int logout(RequestData* req_data, ResponseData* res_data_ptr);
+
+/**************** 주식 관련 함수 ****************/
+int checkSession(char* session);
+int allStock(RequestData* req_data, ResponseData* res_data_ptr);
+int buyStock(RequestData* req_data, ResponseData* res_data_ptr);
+int sellStock(RequestData* req_data, ResponseData* res_data_ptr);

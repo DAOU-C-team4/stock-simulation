@@ -3,24 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_client\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{954F2ABB-BF60-4E66-B82B-A2D7C406218B}|C_team4_client.vcxproj|C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_client\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{954F2ABB-BF60-4E66-B82B-A2D7C406218B}|C_team4_client.vcxproj|solutionrelative:main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{954F2ABB-BF60-4E66-B82B-A2D7C406218B}|C_team4_client.vcxproj|C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_client\\client_stock.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{954F2ABB-BF60-4E66-B82B-A2D7C406218B}|C_team4_client.vcxproj|solutionrelative:client_stock.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{954F2ABB-BF60-4E66-B82B-A2D7C406218B}|C_team4_client.vcxproj|C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_client\\client_socket.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{954F2ABB-BF60-4E66-B82B-A2D7C406218B}|C_team4_client.vcxproj|solutionrelative:client_socket.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{954F2ABB-BF60-4E66-B82B-A2D7C406218B}|C_team4_client.vcxproj|C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_client\\client_socket.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{954F2ABB-BF60-4E66-B82B-A2D7C406218B}|C_team4_client.vcxproj|solutionrelative:client_socket.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{954F2ABB-BF60-4E66-B82B-A2D7C406218B}|C_team4_client.vcxproj|C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_client\\client_member.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{954F2ABB-BF60-4E66-B82B-A2D7C406218B}|C_team4_client.vcxproj|solutionrelative:client_member.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{954F2ABB-BF60-4E66-B82B-A2D7C406218B}|C_team4_client.vcxproj|C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_client\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{954F2ABB-BF60-4E66-B82B-A2D7C406218B}|C_team4_client.vcxproj|solutionrelative:main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{954F2ABB-BF60-4E66-B82B-A2D7C406218B}|C_team4_client.vcxproj|C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_client\\client_member.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{954F2ABB-BF60-4E66-B82B-A2D7C406218B}|C_team4_client.vcxproj|solutionrelative:client_member.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,17 +26,43 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "client_member.h",
+              "DocumentMoniker": "C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_client\\client_member.h",
+              "RelativeDocumentMoniker": "client_member.h",
+              "ToolTip": "C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_client\\client_member.h",
+              "RelativeToolTip": "client_member.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-02-25T09:26:51.34Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "client_member.c",
+              "DocumentMoniker": "C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_client\\client_member.c",
+              "RelativeDocumentMoniker": "client_member.c",
+              "ToolTip": "C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_client\\client_member.c",
+              "RelativeToolTip": "client_member.c",
+              "ViewState": "AQIAAGAAAAAAAAAAAAAAAHQAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-02-25T07:44:04.86Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "client_stock.c",
               "DocumentMoniker": "C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_client\\client_stock.c",
               "RelativeDocumentMoniker": "client_stock.c",
               "ToolTip": "C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_client\\client_stock.c",
               "RelativeToolTip": "client_stock.c",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAB0AAAADAAAA",
+              "ViewState": "AQIAADoAAAAAAAAAAAAAAEgAAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2024-02-23T16:30:48.814Z",
               "EditorCaption": ""
@@ -48,51 +70,12 @@
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "client_socket.h",
-              "DocumentMoniker": "C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_client\\client_socket.h",
-              "RelativeDocumentMoniker": "client_socket.h",
-              "ToolTip": "C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_client\\client_socket.h",
-              "RelativeToolTip": "client_socket.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAANAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-02-23T15:50:35.92Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "client_member.h",
-              "DocumentMoniker": "C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_client\\client_member.h",
-              "RelativeDocumentMoniker": "client_member.h",
-              "ToolTip": "C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_client\\client_member.h",
-              "RelativeToolTip": "client_member.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAnAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-02-23T15:36:46.593Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "client_socket.c",
-              "DocumentMoniker": "C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_client\\client_socket.c",
-              "RelativeDocumentMoniker": "client_socket.c",
-              "ToolTip": "C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_client\\client_socket.c",
-              "RelativeToolTip": "client_socket.c",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACMAAAABAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
-              "WhenOpened": "2024-02-23T15:21:03.931Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
               "Title": "main.c",
               "DocumentMoniker": "C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_client\\main.c",
               "RelativeDocumentMoniker": "main.c",
               "ToolTip": "C:\\Users\\whwns\\Desktop\\\uB2E4\uC6B0\uAE30\uC220\\1. \uAD50\uC721\\stock-simulation\\C_team4_client\\main.c",
               "RelativeToolTip": "main.c",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAiAAAA",
+              "ViewState": "AQIAAGYAAAAAAAAAAAAAAFkAAAAIAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
               "WhenOpened": "2024-02-21T12:04:16.489Z",
               "EditorCaption": ""

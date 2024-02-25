@@ -52,12 +52,14 @@ int main(int argc, char* argv[]) {
 
 
 	/****************** 개발자용 ******************/
-	// 고객정보 테이블 생성
+	//// 고객정보 테이블 생성
 	//create_member_table(db);
 	//create_stock_table(db);
 	//create_account_table(db);
-	// 고객 정보 추가
+	//// 고객 정보 추가
 	//insert_member(db, "John Doe", "johndoe", "password123");
+	//// 주식 정보 추가
+	//insert_stock_dummyData(db);
 
 	return 0;
 }
