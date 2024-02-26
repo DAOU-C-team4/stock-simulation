@@ -1,34 +1,67 @@
-﻿  server_db.c
+﻿  main.c
+C:\stock-simulation\C_team4_server\main.c(31,9): warning C4022: 'free': 실제 매개 변수 1의 포인터가 일치하지 않습니다.
+C:\stock-simulation\C_team4_server\main.c(38,55): warning C4028: 정식 매개 변수 1이(가) 선언과 다릅니다.
+C:\stock-simulation\C_team4_server\main.c(38,57): warning C4022: 'CreateThread': 실제 매개 변수 4의 포인터가 일치하지 않습니다.
+C:\stock-simulation\C_team4_server\main.c(41,9): warning C4022: 'free': 실제 매개 변수 1의 포인터가 일치하지 않습니다.
+C:\stock-simulation\C_team4_server\main.c(18,29): warning C4101: 'valread' :참조되지 않은 지역 변수입니다.
+  server_db.c
 C:\stock-simulation\C_team4_server\server_db.c(53,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\stock-simulation\C_team4_server\server_db.c(202,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\stock-simulation\C_team4_server\server_db.c(220,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\stock-simulation\C_team4_server\server_db.c(236,20): warning C4013: 'is_valid_user'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\stock-simulation\C_team4_server\server_db.c(238,16): warning C4047: 'return': 'int'의 간접 참조 수준이 'char [5]'과(와) 다릅니다.
-C:\stock-simulation\C_team4_server\server_db.c(245,22): warning C4013: 'generate_random_key'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\stock-simulation\C_team4_server\server_db.c(246,34): warning C4013: 'is_duplicate_key'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\stock-simulation\C_team4_server\server_db.c(248,15): warning C4047: 'return': 'int'의 간접 참조 수준이 'void *'과(와) 다릅니다.
-C:\stock-simulation\C_team4_server\server_db.c(260,14): warning C4047: 'return': 'int'의 간접 참조 수준이 'void *'과(와) 다릅니다.
-C:\stock-simulation\C_team4_server\server_db.c(264,19): warning C4047: 'return': 'int'의 간접 참조 수준이 'char [50]'과(와) 다릅니다.
-C:\stock-simulation\C_team4_server\server_db.c(255,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\stock-simulation\C_team4_server\server_db.c(271,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\stock-simulation\C_team4_server\server_db.c(286,26): warning C4013: 'time'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\stock-simulation\C_team4_server\server_db.c(299,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\stock-simulation\C_team4_server\server_db.c(315,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\stock-simulation\C_team4_server\server_db.c(424,156): warning C4013: 'calTikSize'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\stock-simulation\C_team4_server\server_db.c(445,20): warning C4013: 'db_insert_account'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\stock-simulation\C_team4_server\server_db.c(449,20): warning C4013: 'db_update_account'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\stock-simulation\C_team4_server\server_db.c(346,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\stock-simulation\C_team4_server\server_db.c(353,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\stock-simulation\C_team4_server\server_db.c(360,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\stock-simulation\C_team4_server\server_db.c(369,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\stock-simulation\C_team4_server\server_db.c(376,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\stock-simulation\C_team4_server\server_db.c(386,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\stock-simulation\C_team4_server\server_db.c(412,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_db.c(208,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_db.c(226,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_db.c(242,20): warning C4013: 'is_valid_user'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+C:\stock-simulation\C_team4_server\server_db.c(244,16): warning C4047: 'return': 'int'의 간접 참조 수준이 'char [5]'과(와) 다릅니다.
+C:\stock-simulation\C_team4_server\server_db.c(251,22): warning C4013: 'generate_random_key'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+C:\stock-simulation\C_team4_server\server_db.c(252,34): warning C4013: 'is_duplicate_key'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+C:\stock-simulation\C_team4_server\server_db.c(254,15): warning C4047: 'return': 'int'의 간접 참조 수준이 'void *'과(와) 다릅니다.
+C:\stock-simulation\C_team4_server\server_db.c(266,14): warning C4047: 'return': 'int'의 간접 참조 수준이 'void *'과(와) 다릅니다.
+C:\stock-simulation\C_team4_server\server_db.c(270,19): warning C4047: 'return': 'int'의 간접 참조 수준이 'char [50]'과(와) 다릅니다.
+C:\stock-simulation\C_team4_server\server_db.c(261,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_db.c(277,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_db.c(292,26): warning C4013: 'time'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+C:\stock-simulation\C_team4_server\server_db.c(305,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_db.c(321,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_db.c(424,154): warning C4013: 'calTikSize'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+C:\stock-simulation\C_team4_server\server_db.c(435,20): warning C4013: 'db_insert_account'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+C:\stock-simulation\C_team4_server\server_db.c(439,20): warning C4013: 'db_update_account'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+C:\stock-simulation\C_team4_server\server_db.c(352,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_db.c(359,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_db.c(366,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_db.c(375,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_db.c(382,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_db.c(392,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_db.c(413,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
 C:\stock-simulation\C_team4_server\server_db.c(424,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\stock-simulation\C_team4_server\server_db.c(471,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\stock-simulation\C_team4_server\server_db.c(483,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_db.c(471,95): warning C4474: 'printf' : 서식 문자열에 전달된 인수가 너무 많습니다.
+C:\stock-simulation\C_team4_server\server_db.c(471,95): message : 자리 표시자 및 해당 매개 변수에는 variadic 인수가 1개 필요하지만 2개가 제공되었습니다.
+C:\stock-simulation\C_team4_server\server_db.c(515,20): warning C4013: 'db_delete_account'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+C:\stock-simulation\C_team4_server\server_db.c(458,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_db.c(465,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_db.c(474,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
 C:\stock-simulation\C_team4_server\server_db.c(493,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_db.c(503,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
 C:\stock-simulation\C_team4_server\server_db.c(530,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
 C:\stock-simulation\C_team4_server\server_db.c(550,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\stock-simulation\C_team4_server\server_db.c(264): warning C4172: 지역 변수 또는 임시: access_key의 주소를 반환하고 있습니다.
+C:\stock-simulation\C_team4_server\server_db.c(569,2): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  server_request.c
+C:\stock-simulation\C_team4_server\server_request.c(61,52): warning C4133: '함수': 'ResponseData *'과(와) 'const char *' 사이의 형식이 호환되지 않습니다.
+C:\stock-simulation\C_team4_server\server_request.c(81,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_request.c(82,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_request.c(95,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_request.c(96,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_request.c(107,61): warning C4047: '=': 'char *'의 간접 참조 수준이 'int'과(와) 다릅니다.
+C:\stock-simulation\C_team4_server\server_request.c(110,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_request.c(111,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_request.c(123,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_request.c(124,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_request.c(153,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_request.c(161,5): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_request.c(164,5): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_request.c(167,5): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_request.c(172,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_request.c(190,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_request.c(198,5): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_request.c(201,5): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_server\server_request.c(210,3): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  코드를 생성하고 있습니다...
+C:\stock-simulation\C_team4_server\server_db.c(270): warning C4172: 지역 변수 또는 임시: access_key의 주소를 반환하고 있습니다.
   C_team4.vcxproj -> C:\stock-simulation\C_team4_server\Debug\C_team4.exe

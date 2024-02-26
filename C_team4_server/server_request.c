@@ -192,6 +192,20 @@ int sellStock(RequestData* req_data, ResponseData* res_data_ptr) {
 	else {
 		// 허락 응답
 		result = db_sellStock(db, req_data->session, req_data->stock_data.stock_id, req_data->stock_data.stock_count);
+		if (result) {
+			res_data_ptr->check = 1;
+			if (result == 1) {
+				strcpy(res_data_ptr->msg, "매도가 거부되었습니다.");
+			}
+			else if (result == 2) {
+				strcpy(res_data_ptr->msg, "매도 수량이 현재 보유 수량보다 많습니다.");
+			}
+			// 매도는 해당 내용 불필요
+			/*else if (result == 3) {
+				strcpy(res_data_ptr->msg, "살 수 있는 주식 갯수를 초과했습니다.");
+			}*/ 
+			return 0;
+		}
 		res_data_ptr->check = 0;
 		strcpy(res_data_ptr->msg, "매도가 완료되었습니다.");
 	}
