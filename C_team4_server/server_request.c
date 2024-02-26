@@ -7,7 +7,7 @@ static int init_stock(ResponseData* res_data_ptr) {
 	if (result) {
 		int stock_arr_size = sizeof(res_data_ptr->stock_arr) / sizeof(res_data_ptr->stock_arr[0]);
 		//strcpy(res_data_ptr->session, "NONE");
-		res_data_ptr->select = 200;
+		//res_data_ptr->select = 200;
 		for (int i = 0; i < stock_arr_size; i++) {
 			printf("stock_id[%d] = %d\n", i, result[i].stock_id);
 			printf("stock_name[%d] = %d\n", i, result[i].stock_name);
@@ -203,9 +203,11 @@ int allStock(RequestData* req_data, ResponseData* res_data_ptr) {
 		strcpy(res_data_ptr->msg, "정보를 조회할 수 없습니다.");
 	}
 	else {
-		// 허락 응답
-		init_stock(res_data_ptr);
 		res_data_ptr->check = 0;
+		// 허락 응답
+		strcpy(res_data_ptr->msg, "정보를 조회했습니다.");
+		strcpy(res_data_ptr->session, req_data->session);
+		init_stock(res_data_ptr);
 	}
 	return 0;
 }
@@ -240,6 +242,7 @@ int buyStock(RequestData* req_data, ResponseData* res_data_ptr) {
 			return 0;
 		}
 		res_data_ptr->check = 0;
+		strcpy(res_data_ptr->session, req_data->session);
 		strcpy(res_data_ptr->msg, "매수가 완료되었습니다.");
 
 		//모든 클라이언트에게 결과전송
@@ -269,6 +272,7 @@ int sellStock(RequestData* req_data, ResponseData* res_data_ptr) {
 		// 허락 응답
 		result = db_sellStock(db, req_data->session, req_data->stock_data.stock_id, req_data->stock_data.stock_count);
 		res_data_ptr->check = 0;
+		strcpy(res_data_ptr->session, req_data->session);
 		strcpy(res_data_ptr->msg, "매도가 완료되었습니다.");
 		//SendAllClnt(res_data_ptr, client_socket);
 		init_stock(res_data_ptr);

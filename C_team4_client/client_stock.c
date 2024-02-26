@@ -113,17 +113,20 @@ req_sellStock(SOCKET client_fd, char* access) {
 // 2.0 주식 정보 조회
 res_allStock(ResponseData* res_data) {
 	// 주식정보 받고 저장
-	printf("주식정보 변경\n");
-	printf("=================================================================\n");
 	int stock_arr_size = sizeof(res_data->stock_arr) / sizeof(res_data->stock_arr[0]);
 	if (!stock_arr_size)
 		printf("주식정보가 존재하지 않습니다.");
-	printf("| 종목번호 |        기업명        |  현재가격  |  구매가능수량  |\n");
-	printf("=================================================================\n");
-	for(int i=0; i< stock_arr_size; i++)
-		printf("|  %5d   | %20s | %10d |    %5d       |\n",
-			res_data->stock_arr[i].stock_id, res_data->stock_arr[i].stock_company_name, 
-			res_data->stock_arr[i].stock_price, res_data->stock_arr[i].stock_count);
+	else {
+		printf("\n주식정보 변경\n");
+		printf("=================================================================\n");
+
+		printf("| 종목번호 |        기업명        |  현재가격  |  구매가능수량  |\n");
+		printf("=================================================================\n");
+		for (int i = 0; i < stock_arr_size; i++)
+			printf("|  %5d   | %20s | %10d |    %5d       |\n",
+				res_data->stock_arr[i].stock_id, res_data->stock_arr[i].stock_company_name,
+				res_data->stock_arr[i].stock_price, res_data->stock_arr[i].stock_count);
+	}
 	return 0;
 }
 // 2.1 주식 매수 리슨
@@ -132,6 +135,7 @@ res_buyStock(ResponseData* res_data) {
 	printf("%s\n", res_data->msg);
 	// 보유 주식 및 잔고 출력
 
+	res_allStock(res_data);
 	return 0;
 }
 // 2.2 주식 매도 리슨
@@ -140,5 +144,6 @@ res_sellStock(ResponseData* res_data) {
 	printf("%s\n", res_data->msg);
 	// 보유 주식 및 잔고 출력
 
+	res_allStock(res_data);
 	return 0;
 }

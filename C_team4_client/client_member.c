@@ -119,10 +119,11 @@ res_del_member(ResponseData* res_data) {
 }
 
 // 2.3 로그인 리슨
-res_login(ResponseData* res_data) {
+res_login(ResponseData* res_data, char* access) {
 	printf("로그인\n");
 	printf("%s\n", res_data->msg);
 	printf("   session: %s\n", res_data->session);
+	strcpy(access, res_data->session);
 	return 0;
 }
 

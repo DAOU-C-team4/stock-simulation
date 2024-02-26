@@ -48,17 +48,16 @@ DWORD WINAPI listen_thread(SOCKET client_fd) {
 		}
 		// 서버로부터 받은 메시지 처리
 		ResponseData* res_data = (ResponseData*)received_message;
-
+		// 요청대기를 받기때문에 두번 받게됨!
 		printf("\n주나 listen_thread 서버로부터 응답 select (%d): ", res_data->select);
-		if (res_data->select == 0) { //임시방편(res 두번 받음 왜???)
+		//if (res_data->select == 0) { //임시방편(res 두번 받음 왜???)
 			//+이거 해결하고 주식데이터 출력 다시 합쳐야함
 			//모듈 형식으로 출력까지 반영해보기
-			continue;
-		}
-		if (res_data->select==200) {
-			res_allStock(res_data);
-		}
-		if (strcmp(res_data->session, "NONE") && strcmp(res_data->session, "CLEAR" )) {
+			//continue;
+		//}
+		if (strcmp(res_data->session, "NONE") && strcmp(res_data->session, "CLEAR" )
+			&& strcmp(res_data->session, "") && strcmp(res_data->session, "\0")
+			&& res_data->session==NULL) {
 			strcpy(access, res_data->session);
 			printf("\nlisten_thread내부 session (%s): ", access);
 		}
@@ -75,7 +74,7 @@ DWORD WINAPI listen_thread(SOCKET client_fd) {
 			res_del_member(res_data);
 			break;
 		case 3: // 로그인
-			res_login(res_data);
+			res_login(res_data, access);
 			break;
 		case 4: // 로그아웃
 			res_logout(res_data, access);
@@ -85,11 +84,10 @@ DWORD WINAPI listen_thread(SOCKET client_fd) {
 			continue;
 		case 200: // 주가 실시간 조회
 			res_allStock(res_data);
-			continue;
+			break;
 		case 201: // 주식 매수
 			res_buyStock(res_data);
 			break;
-
 		case 202: // 주식 매도
 			res_sellStock(res_data);
 			break;
