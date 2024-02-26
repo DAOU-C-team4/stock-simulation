@@ -57,7 +57,6 @@ DWORD WINAPI handle_client(SOCKET client_socket) {
 			break;
 		}
 
-
 		// 클라이언트로 결과 전송
 		int bytes_sent = send(client_socket, res_data_ptr, sizeof(res_data), 0);
 		if (bytes_sent == SOCKET_ERROR) {

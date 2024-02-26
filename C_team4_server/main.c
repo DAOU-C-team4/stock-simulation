@@ -14,7 +14,6 @@ int main(int argc, char* argv[]) {
 	if (!db) {
 		return 1;
 	}
-
 	// 2. 서버 소켓열기
 	int server_fd, new_socket, valread;
 	server_fd = open_socket();
@@ -56,6 +55,6 @@ int main(int argc, char* argv[]) {
 	//db_insert_member(db, "name", "test", "1234");
 	//// 주식 정보 추가
 	//insert_stock_dummyData(db);
-
+	
 	return 0;
 }

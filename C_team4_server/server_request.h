@@ -27,6 +27,7 @@ typedef struct {
 typedef struct {
 	int stock_id;
 	int stock_name;
+	//char stock_company_name[50];
 	int stock_price;
 	int stock_count;
 } STOCK_RES;
