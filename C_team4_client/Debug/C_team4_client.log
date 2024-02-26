@@ -1,16 +1,1 @@
-﻿  client_stock.c
-C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_client\client_stock.c(20,16): warning C4013: 'req_buyStock'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_client\client_stock.c(23,17): warning C4013: 'req_sellStock'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_client\client_stock.c(27,4): warning C4033: 'stock_home'은(는) 값을 반환해야 합니다.
-C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_client\client_stock.c(9,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_client\client_stock.c(14,3): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_client\client_stock.c(51,58): warning C4133: '함수': 'RequestData *'과(와) 'const char *' 사이의 형식이 호환되지 않습니다.
-C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_client\client_stock.c(43,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_client\client_stock.c(46,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_client\client_stock.c(48,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_client\client_stock.c(73,58): warning C4133: '함수': 'RequestData *'과(와) 'const char *' 사이의 형식이 호환되지 않습니다.
-C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_client\client_stock.c(66,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_client\client_stock.c(69,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_client\client_stock.c(71,2): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_client\client_stock.c(35): warning C4715: 'stock_home': 모든 제어 경로에서 값을 반환하지는 않습니다.
-  C_team4_client.vcxproj -> C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_client\Debug\C_team4_client.exe
+﻿  C_team4_client.vcxproj -> C:\c_basic\stock-simulation\C_team4_client\Debug\C_team4_client.exe

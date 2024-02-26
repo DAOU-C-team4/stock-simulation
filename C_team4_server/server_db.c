@@ -288,7 +288,7 @@ int db_logout(sqlite3* db, const char* session) {
 }
 
 /**************** 주식 관련 DB 함수 ****************/
-// 3.0 주식 정보조회
+// (작업해야함!!!!!!!!) 3.0 주식 정보조회
 int db_allStock(sqlite3* db) {
 
 	return 0;
@@ -343,6 +343,7 @@ int db_buyStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 	}
 	fprintf(stdout, "Update User Money successfully\n");
 	// 주식 테이블 - 주식 정보 변경
+	// (작업해야함!!!!!!!!) 주식 가격 변동로직
 	sprintf(sql_buyStock, "UPDATE STOCK SET STOCK_COUNT = STOCK_COUNT - %d WHERE MATCH_ID = '%d';", (int)s_cnt, matching_data[s_id - 1]);
 	rc = sqlite3_exec(db, sql_buyStock, callback, 0, &zErrMsg);
 	if (rc != SQLITE_OK) {
@@ -350,7 +351,7 @@ int db_buyStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 		return 1;
 	}
 	fprintf(stdout, "Buy Stock successfully\n");
-	// 내역 테이블 - 주식 보유 내역에 기록
+	// (작업해야함!!!!!!!!)내역 테이블 - 주식 보유 내역에 기록
 	sprintf(sql_buyStock, ";");
 	rc = sqlite3_exec(db, sql_buyStock, callback, 0, &zErrMsg);
 	if (rc != SQLITE_OK) {
@@ -375,13 +376,13 @@ int db_sellStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 		sqlite3_free(zErrMsg);
 		return 1;
 	}
-	// 회원이 가진 주식갯수 불러오기 
+	// (작업해야함!!!!!!!!) 회원이 가진 주식갯수 불러오기 
 
 	printf("받아온 주식 가격 : %d, 가진갯수 : %d\n", stock_price, stock_count);
-	// 회원이 가진 주식갯수와 비교
+	// (작업해야함!!!!!!!!) 회원이 가진 주식갯수와 비교
 
 	// 회원 테이블 - 회원 예치금 변경
-	sprintf(sql_buyStock, "UPDATE MEMBER SET BALANCE = BALANCE - %d WHERE ACCESS_KEY = '%s';", stock_price * (int)s_cnt, session);
+	sprintf(sql_buyStock, "UPDATE MEMBER SET BALANCE = BALANCE + %d WHERE ACCESS_KEY = '%s';", stock_price * (int)s_cnt, session);
 	rc = sqlite3_exec(db, sql_buyStock, callback, 0, &zErrMsg);
 	if (rc != SQLITE_OK) {
 		sqlite3_free(zErrMsg);
@@ -389,13 +390,16 @@ int db_sellStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 	}
 	fprintf(stdout, "Update User Money successfully\n");
 	// 주식 테이블 - 주식 정보 변경
-	sprintf(sql_buyStock, "UPDATE STOCK SET STOCK_COUNT = STOCK_COUNT - %d WHERE MATCH_ID = '%d';", (int)s_cnt, matching_data[s_id - 1]);
+	sprintf(sql_buyStock, "UPDATE STOCK SET STOCK_COUNT = STOCK_COUNT + %d WHERE MATCH_ID = '%d';", (int)s_cnt, matching_data[s_id - 1]);
 	rc = sqlite3_exec(db, sql_buyStock, callback, 0, &zErrMsg);
 	if (rc != SQLITE_OK) {
 		sqlite3_free(zErrMsg);
 		return 1;
 	}
 	fprintf(stdout, "Sell Stock successfully\n");
+	// (작업해야함!!!!!!!!)내역 테이블 - 주식 보유 내역에 기록
 
 	return 0;
 }
+
+// (작업해야함!!!!!!!!) 3.3 내 정보 조회

@@ -1,7 +1,2 @@
 ﻿  main.c
-C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\main.c(33,9): warning C4022: 'free': 실제 매개 변수 1의 포인터가 일치하지 않습니다.
-C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\main.c(42,55): warning C4028: 정식 매개 변수 1이(가) 선언과 다릅니다.
-C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\main.c(42,57): warning C4022: 'CreateThread': 실제 매개 변수 4의 포인터가 일치하지 않습니다.
-C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\main.c(45,9): warning C4022: 'free': 실제 매개 변수 1의 포인터가 일치하지 않습니다.
-C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\main.c(19,29): warning C4101: 'valread' :참조되지 않은 지역 변수입니다.
-  C_team4.vcxproj -> C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_server\Debug\C_team4.exe
+  C_team4.vcxproj -> C:\c_basic\stock-simulation\C_team4_server\Debug\C_team4.exe

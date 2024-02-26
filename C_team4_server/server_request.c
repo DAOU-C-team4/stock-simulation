@@ -128,13 +128,13 @@ int logout(RequestData* req_data, ResponseData* res_data_ptr) {
 
 
 /**************** 주식관련 함수 ****************/
-// 2.0 세션 유효 검증
+// (작업해야함!!!!!!!!) 2.0 세션 유효 검증
 int checkSession(char* session) {
 	printf("세션을 검증합니다\n");
 
 	return 0;
 }
-// 2.0 주식 정보 조회
+// (작업해야함!!!!!!!!) 2.0 주식 정보 조회
 int allStock(RequestData* req_data, ResponseData* res_data_ptr) {
 
 	return 0;
@@ -198,3 +198,5 @@ int sellStock(RequestData* req_data, ResponseData* res_data_ptr) {
 	}
 	return 0;
 }
+
+// (작업해야함!!!!!!!!) 2.3 클라이언트 요청 - 내정보 요청
