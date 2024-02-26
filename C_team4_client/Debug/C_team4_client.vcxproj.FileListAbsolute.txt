@@ -1,2 +1,3 @@
 C:\c_basic\stock-simulation\C_team4_client\Debug\C_team4_client.exe
 C:\Users\whwns\Desktop\다우기술\1. 교육\stock-simulation\C_team4_client\Debug\C_team4_client.exe
+C:\C_Basic\team_project\stock-simulation\C_team4_client\Debug\C_team4_client.exe
