@@ -5,11 +5,15 @@
 
 #define PORT 8080
 #define MAX_BUFFER_SIZE 1024
-#define FD_SETSIZE 100
+//#define FD_SETSIZE 100
+
+// 이벤트 객체 - 멀티스레드 신호제어
+HANDLE event;
 
 // 함수 선언
 int open_socket();
-DWORD WINAPI handle_client(int client_socket);
+DWORD WINAPI handle_client(SOCKET client_socket);
 
 // 전역 소켓 관리
+extern int num_clients;
 extern SOCKET client_sockets[FD_SETSIZE];
