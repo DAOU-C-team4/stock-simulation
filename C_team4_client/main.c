@@ -49,20 +49,16 @@ DWORD WINAPI listen_thread(SOCKET client_fd) {
 		// 서버로부터 받은 메시지 처리
 		ResponseData* res_data = (ResponseData*)received_message;
 		// 요청대기를 받기때문에 두번 받게됨!
-		printf("\n주나 listen_thread 서버로부터 응답 select (%d): ", res_data->select);
-		//if (res_data->select == 0) { //임시방편(res 두번 받음 왜???)
-			//+이거 해결하고 주식데이터 출력 다시 합쳐야함
+			//+이거 해결하고 주식데이터 동시 출력
 			//모듈 형식으로 출력까지 반영해보기
-			//continue;
-		//}
 		if (strcmp(res_data->session, "NONE") && strcmp(res_data->session, "CLEAR" )
 			&& strcmp(res_data->session, "") && strcmp(res_data->session, "\0")
 			&& res_data->session==NULL) {
 			strcpy(access, res_data->session);
 			printf("\nlisten_thread내부 session (%s): ", access);
 		}
-		printf("\n서버로부터 응답 (%d): ", res_data->select);
-		printf("\nlisten_thread session (%s): ", access);
+		//printf("\n서버로부터 응답 (%d): ", res_data->select);
+		//printf("\nlisten_thread session (%s): ", access);
 
 		// 요청별 분기처리
 		select = res_data->select;
@@ -93,7 +89,7 @@ DWORD WINAPI listen_thread(SOCKET client_fd) {
 			break;
 
 		default:
-			printf("\n알 수 없는 요청입니다.\n");
+			//printf("\n알 수 없는 요청입니다.\n");
 			continue;
 		}
 
@@ -108,13 +104,14 @@ select_task_home(SOCKET client_fd) {
 	// 기본 세팅
 	int run = 1;
 	char message[MAX_BUFFER_SIZE];
-	printf("\n반갑습니다. 키울까말까증권입니다.\n");
+	/*system("cls");
+	printf("\n반갑습니다. 키울까말까증권입니다.\n");*/
 
 	// 홈 메뉴 반복
 	do {
 		// 로그인시 - 주식매매
 		if (strcmp(access, "NONE") && strcmp(access, "CLEAR")) {
-			printf("select_task_home access : %s\n", access);
+			//printf("select_task_home access : %s\n", access);
 			stock_home(client_fd, access);
 			// 주식매매 홈에서 나갈시 로그아웃
 			req_logout(client_fd, access);
@@ -123,6 +120,8 @@ select_task_home(SOCKET client_fd) {
 		}
 		// 로그인 아닐시 - 회원관리
 		int select = 0;
+		system("cls");
+		printf("\n반갑습니다. 키울까말까증권입니다.\n");
 		printf("\n(1.회원가입 / 2.회원탈퇴 / 3.로그인 / 4.종료)\n");
 		printf("원하는 작업을 지정해주세요 : ");
 		scanf("%d%*c", &select);

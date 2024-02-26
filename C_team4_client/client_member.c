@@ -1,11 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "client_socket.h"
+#include "client_member.h"
+#include "client_stock.h"
+
+clearConsoleArea(int left, int top, int width, int height) {
+	CONSOLE_SCREEN_BUFFER_INFO csbi;
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	// 현재 콘솔 창의 버퍼 정보 가져오기
+	GetConsoleScreenBufferInfo(hConsole, &csbi);
+
+	DWORD dwConSize = width * height;
+	COORD upperLeft = { (SHORT)left, (SHORT)top };
+	DWORD dwCharsWritten;
+
+	// 특정 영역을 공백으로 채우기
+	FillConsoleOutputCharacter(hConsole, TEXT(' '), dwConSize, upperLeft, &dwCharsWritten);
+	FillConsoleOutputAttribute(hConsole, csbi.wAttributes, dwConSize, upperLeft, &dwCharsWritten);
+
+	// 커서 위치 조정
+	SetConsoleCursorPosition(hConsole, upperLeft);
+}
 
 /**************** 회원 관련 요청 함수 ****************/
 // 1.1 회원가입 요청
 req_add_member(SOCKET client_fd) {
-	printf("회원가입\n\n");
+
+	system("cls");
+	printf("\n반갑습니다. 키울까말까증권입니다.\n");
+	printf(">> 회원가입 <<\n\n");
 	RequestData req_data;
 	req_data.select = 1;
 	char password_check[MAX_PASSWORD_LENGTH];
@@ -37,7 +61,9 @@ req_add_member(SOCKET client_fd) {
 
 // 1.2 회원탈퇴 요청
 req_del_member(SOCKET client_fd) {
-	printf("회원탈퇴\n\n");
+	system("cls");
+	printf("\n안녕하세요. 키울까말까증권입니다.\n");
+	printf(">> 회원탈퇴 <<\n\n");
 	RequestData req_data;
 	req_data.select = 2;
 	char confirmation = 'y';
@@ -66,7 +92,9 @@ req_del_member(SOCKET client_fd) {
 
 // 1.3 로그인 요청
 req_login(SOCKET client_fd) {
-	printf("로그인\n\n");
+	system("cls");
+	printf("\n반갑습니다. 키울까말까증권입니다.\n");
+	printf(">> 로그인 <<\n\n");
 	RequestData req_data;
 	req_data.select = 3;
 
@@ -106,30 +134,34 @@ req_logout(SOCKET client_fd, char* access) {
 /**************** 회원 관련 리슨 함수 ****************/
 // 2.1 회원가입 리슨
 res_add_member(ResponseData* res_data) {
-	printf("회원가입\n");
+	//system("cls");
+	//printf(">> 회원가입 <<\n\n");
 	printf("%s\n", res_data->msg);
 	return 0;
 }
 
 // 2.2 회원탈퇴 리슨
 res_del_member(ResponseData* res_data) {
-	printf("회원탈퇴\n");
+	//system("cls");
+	//printf(">> 회원탈퇴 <<\n\n");
 	printf("%s\n", res_data->msg);
 	return 0;
 }
 
 // 2.3 로그인 리슨
 res_login(ResponseData* res_data, char* access) {
-	printf("로그인\n");
+	//system("cls");
+	//printf(">> 로그인 <<\n\n");
 	printf("%s\n", res_data->msg);
 	printf("   session: %s\n", res_data->session);
 	strcpy(access, res_data->session);
+	res_allStock(res_data);
 	return 0;
 }
 
 // 2.4 로그아웃 리슨
 res_logout(ResponseData* res_data, char* access) {
-	printf("로그아웃\n");
+	printf(">> 로그아웃 <<\n\n");
 	printf("   session: %s\n", res_data->session);
 	strcpy(access, "NONE");
 	return 0;
@@ -137,7 +169,7 @@ res_logout(ResponseData* res_data, char* access) {
 
 // 2.5 회원정보 리슨
 res_memberInfo(ResponseData* res_data, char* access) {
-	printf("회원정보\n");
+	printf(">> 회원정보 <<\n\n");
 
 	return 0;
 }
