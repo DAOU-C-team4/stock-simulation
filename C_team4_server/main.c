@@ -6,11 +6,12 @@ sqlite3* db;
 
 // 傈开家南 包府
 SOCKET client_sockets[FD_SETSIZE];
-int num_clients = 0;
+num_clients = 0;
 
 int main(int argc, char* argv[]) {
 	// 1. 单捞磐海捞胶 凯扁
-	db = open_database("customer.db");
+	if(!db)
+		db = open_database("customer.db");
 	if (!db) {
 		return 1;
 	}

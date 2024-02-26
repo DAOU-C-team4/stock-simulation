@@ -357,7 +357,7 @@ int db_buyStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 		sqlite3_free(zErrMsg);
 		return 1;
 	}
-	printf("받아온 주식 가격 : %d, 남은갯수 : %d, 잔고 : %d\n", stock_price, stock_count, balance);
+	printf("받아온 주식 가격 : %d, 남은갯수 : %d, 잔고 : %d, 세션 : %s\n", stock_price, stock_count, balance, session);
 
 	// 돈이 모자를시
 	if (stock_price * s_cnt > balance) {

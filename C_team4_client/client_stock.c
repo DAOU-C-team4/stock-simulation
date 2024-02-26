@@ -12,6 +12,7 @@ stock_home(SOCKET client_fd, char* access) {
 		printf("\n(0. 주식 조회 / 1.주식 매수 / 2.주식 매도 / 3.로그아웃)\n");
 		printf("원하는 작업을 지정해주세요 : ");
 		scanf("%d%*c", &select);
+		printf("stock_home() 액세스토큰: %s, %s\n", send_access, access);
 
 		printf("\n========================================================================\n\n");
 		switch (select)
@@ -69,6 +70,8 @@ req_buyStock(SOCKET client_fd, char* access) {
 		printf("매수할 수량을 입력하세요: ");
 		scanf("%d%*c", &req_data.stock_data.stock_count);
 	} while (req_data.stock_data.stock_count < 0);
+
+	printf("넘어가는 세션 : %s\n", req_data.session);
 
 	// 서버로 전송
 	int bytes_sent = send(client_fd, (RequestData*)&req_data, sizeof(req_data), 0);

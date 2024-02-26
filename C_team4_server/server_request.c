@@ -2,7 +2,28 @@
 #include "server_socket.h"
 #include "server_db.h"
 
-sqlite3* db;
+static int init_stock(ResponseData* res_data_ptr) {
+	STOCK_RES* result = db_allStock(db);
+	if (result) {
+		int stock_arr_size = sizeof(res_data_ptr->stock_arr) / sizeof(res_data_ptr->stock_arr[0]);
+		//strcpy(res_data_ptr->session, "NONE");
+		res_data_ptr->select = 200;
+		for (int i = 0; i < stock_arr_size; i++) {
+			printf("stock_id[%d] = %d\n", i, result[i].stock_id);
+			printf("stock_name[%d] = %d\n", i, result[i].stock_name);
+			printf("stock_company_name[%d] = %s\n", i, result[i].stock_company_name);
+			printf("stock_price[%d] = %d\n", i, result[i].stock_price);
+			printf("stock_count[%d] = %d\n\n", i, result[i].stock_count);
+
+			res_data_ptr->stock_arr[i].stock_id = result[i].stock_id;
+			res_data_ptr->stock_arr[i].stock_name = result[i].stock_name;
+			strcpy(res_data_ptr->stock_arr[i].stock_company_name, result[i].stock_company_name);
+			res_data_ptr->stock_arr[i].stock_price = result[i].stock_price;
+			res_data_ptr->stock_arr[i].stock_count = result[i].stock_count;
+		}
+		return 0;
+	}
+}
 
 /**************** 클라이언트 요청 분기 ****************/
 // 2.2 클라이언트 요청 처리 함수
@@ -24,6 +45,13 @@ DWORD WINAPI handle_client(SOCKET client_socket) {
 		RequestData* req_data = (RequestData*)buffer;
 		ResponseData res_data = { 0 };
 		ResponseData* res_data_ptr = &res_data;
+
+		// 이벤트 신호 발생
+		//SetEvent(event);
+
+		// **클라이언트 요청 - 전체 회원에게 보내기
+		//if(sizeof(res_data_ptr->stock_arr)>0)
+		//	SendAllClnt(res_data_ptr, client_socket);
 
 		// 요청에 따라 다른 작업 실행
 		switch (req_data->select)
@@ -56,7 +84,6 @@ DWORD WINAPI handle_client(SOCKET client_socket) {
 			// 잘못된 요청 처리
 			break;
 		}
-
 
 		// 클라이언트로 결과 전송
 		int bytes_sent = send(client_socket, res_data_ptr, sizeof(res_data), 0);
@@ -110,6 +137,8 @@ int login(RequestData* req_data, ResponseData* res_data_ptr) {
 	res_data_ptr->select = 3;
 	strcpy(res_data_ptr->session, access_key);
 	strcpy(res_data_ptr->msg, "로그인 완료");
+
+	//init_stock(res_data_ptr);
 	return 0;
 }
 
@@ -128,12 +157,37 @@ int logout(RequestData* req_data, ResponseData* res_data_ptr) {
 
 
 /**************** 주식관련 함수 ****************/
+
+// **클라이언트 요청 - 전체 회원에게 보내기
+SendAllClnt(ResponseData* res_data_ptr, SOCKET client_socket) {
+	for (int i = 1; i <= num_clients; i++) {
+		if (client_sockets[i] == client_socket) {
+			WaitForSingleObject(event, INFINITE);
+			init_stock(res_data_ptr);
+			ReleaseMutex(event);
+			WaitForSingleObject(event, INFINITE);
+			// 클라이언트로 결과 전송
+			for (int i = 1; i <= num_clients; i++) {
+				//send(clntSocks[i], realMessage, BUF_SIZE, 0);
+				int bytes_sent = send(client_sockets[i], res_data_ptr, sizeof(*res_data_ptr), 0);
+				if (bytes_sent == SOCKET_ERROR) {
+					perror("send failed");
+					return 1;
+				}
+			}
+			ReleaseMutex(event);
+			break;
+		}
+	}
+}
+
 // (작업해야함!!!!!!!!) 2.0 세션 유효 검증
 int checkSession(char* session) {
 	printf("세션을 검증합니다\n");
 
 	return 0;
 }
+
 // (작업해야함!!!!!!!!) 2.0 주식 정보 조회
 int allStock(RequestData* req_data, ResponseData* res_data_ptr) {
 	printf("\n선택 : %d (주식 정보 조회)\n", req_data->select);
@@ -150,28 +204,8 @@ int allStock(RequestData* req_data, ResponseData* res_data_ptr) {
 	}
 	else {
 		// 허락 응답
-		STOCK_RES* result = db_allStock(db);
-		if (result) {
-			res_data_ptr->check = 1;
-			int stock_arr_size = sizeof(res_data_ptr->stock_arr) / sizeof(res_data_ptr->stock_arr[0]);
-
-			for (int i = 0; i < stock_arr_size; i++) {
-				printf("stock_id[%d] = %d\n", i, result[i].stock_id);
-				printf("stock_name[%d] = %d\n", i, result[i].stock_name);
-				printf("stock_company_name[%d] = %s\n", i, result[i].stock_company_name);
-				printf("stock_price[%d] = %d\n", i, result[i].stock_price);
-				printf("stock_count[%d] = %d\n\n", i, result[i].stock_count);
-
-				res_data_ptr->stock_arr[i].stock_id = result[i].stock_id;
-				res_data_ptr->stock_arr[i].stock_name = result[i].stock_name;
-				strcpy(res_data_ptr->stock_arr[i].stock_company_name, result[i].stock_company_name);
-				res_data_ptr->stock_arr[i].stock_price = result[i].stock_price;
-				res_data_ptr->stock_arr[i].stock_count = result[i].stock_count;
-			}
-			return 0;
-		}
+		init_stock(res_data_ptr);
 		res_data_ptr->check = 0;
-		strcpy(res_data_ptr->msg, "매수가 완료되었습니다.");
 	}
 	return 0;
 }
@@ -207,6 +241,11 @@ int buyStock(RequestData* req_data, ResponseData* res_data_ptr) {
 		}
 		res_data_ptr->check = 0;
 		strcpy(res_data_ptr->msg, "매수가 완료되었습니다.");
+
+		//모든 클라이언트에게 결과전송
+		//SendAllClnt(res_data_ptr, client_socket);
+		init_stock(res_data_ptr);
+
 	}
 	return 0;
 }
@@ -231,8 +270,12 @@ int sellStock(RequestData* req_data, ResponseData* res_data_ptr) {
 		result = db_sellStock(db, req_data->session, req_data->stock_data.stock_id, req_data->stock_data.stock_count);
 		res_data_ptr->check = 0;
 		strcpy(res_data_ptr->msg, "매도가 완료되었습니다.");
+		//SendAllClnt(res_data_ptr, client_socket);
+		init_stock(res_data_ptr);
 	}
 	return 0;
 }
 
 // (작업해야함!!!!!!!!) 2.3 클라이언트 요청 - 내정보 요청
+
+
