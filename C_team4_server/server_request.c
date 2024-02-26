@@ -17,12 +17,12 @@ DWORD WINAPI handle_client(SOCKET client_socket) {
 		bytes_received = recv(client_socket, buffer, MAX_BUFFER_SIZE, 0);
 		if (bytes_received == SOCKET_ERROR) {
 			perror("recv failed");
-			return;
+			return 1;
 		}
 
 		// 클라이언트로부터 받은 데이터를 req_data 구조체로 형변환
 		RequestData* req_data = (RequestData*)buffer;
-		ResponseData res_data;
+		ResponseData res_data = { 0 };
 		ResponseData* res_data_ptr = &res_data;
 
 		// 요청에 따라 다른 작업 실행
@@ -40,16 +40,32 @@ DWORD WINAPI handle_client(SOCKET client_socket) {
 		case 4:
 			logout(req_data, res_data_ptr);
 			break;
+		case 5:
+			// 회원 정보 조회 요청
+			break;
+		case 200:
+			allStock(req_data, res_data_ptr);
+			break;
+		case 201:
+			buyStock(req_data, res_data_ptr);
+			break;
+		case 202:
+			sellStock(req_data, res_data_ptr);
+			break;
+		default:
+			// 잘못된 요청 처리
+			break;
 		}
+
 
 		// 클라이언트로 결과 전송
 		int bytes_sent = send(client_socket, res_data_ptr, sizeof(res_data), 0);
 		if (bytes_sent == SOCKET_ERROR) {
 			perror("send failed");
-			return;
+			return 1;
 		}
 	} while (run);
-	return;
+	return 0;
 }
 
 /**************** 회원 관련 함수 ****************/
@@ -60,7 +76,7 @@ int add_member(RequestData* req_data, ResponseData* res_data_ptr) {
 	printf("받은 아이디: %s", req_data->id);
 	printf("받은 비밀번호: %s", req_data->password);
 	printf("받은 이름: %s", req_data->name);
-	insert_member(db, req_data->name, req_data->id, req_data->password);
+	db_insert_member(db, req_data->name, req_data->id, req_data->password);
 	// 응답데이터 기록
 	res_data_ptr->select = 1;
 	strcpy(res_data_ptr->session, "NONE");
@@ -74,7 +90,7 @@ int del_member(RequestData* req_data, ResponseData* res_data_ptr) {
 	printf("\n선택 : %d (회원탈퇴)\n", req_data->select);
 	printf("받은 아이디: %s", req_data->id);
 	printf("받은 비밀번호: %s", req_data->password);
-	delete_member(db, req_data->id, req_data->password);
+	db_delete_member(db, req_data->id, req_data->password);
 	// 응답데이터 기록
 	res_data_ptr->select = 2;
 	strcpy(res_data_ptr->session, "NONE");
@@ -89,7 +105,7 @@ int login(RequestData* req_data, ResponseData* res_data_ptr) {
 	printf("받은 아이디: %s", req_data->id);
 	printf("받은 비밀번호: %s", req_data->password);
 	char* access_key;
-	access_key = member_login(db, req_data->id, req_data->password);
+	access_key = db_login(db, req_data->id, req_data->password);
 	// 응답데이터 기록
 	res_data_ptr->select = 3;
 	strcpy(res_data_ptr->session, access_key);
@@ -102,7 +118,7 @@ int logout(RequestData* req_data, ResponseData* res_data_ptr) {
 	// 로그아웃
 	printf("\n선택 : %d (로그아웃)\n", req_data->select);
 	printf("받은 세션: %s\n", req_data->session);
-	member_logout(db, req_data->session);
+	db_logout(db, req_data->session);
 	// 응답데이터 기록
 	res_data_ptr->select = 4;
 	strcpy(res_data_ptr->session, "CLEAR");
@@ -112,10 +128,75 @@ int logout(RequestData* req_data, ResponseData* res_data_ptr) {
 
 
 /**************** 주식관련 함수 ****************/
+// (작업해야함!!!!!!!!) 2.0 세션 유효 검증
+int checkSession(char* session) {
+	printf("세션을 검증합니다\n");
+
+	return 0;
+}
+// (작업해야함!!!!!!!!) 2.0 주식 정보 조회
+int allStock(RequestData* req_data, ResponseData* res_data_ptr) {
+
+	return 0;
+}
 // 2.1 클라이언트 요청 - 주식 매수
+int buyStock(RequestData* req_data, ResponseData* res_data_ptr) {
+	printf("\n선택 : %d (주식 매수)\n", req_data->select);
+	printf("받은 세션: %s\n", req_data->session);
+	// 세션 검증
+	int check, result;
+	check = checkSession(req_data->session);
+	// 주식매수
+	res_data_ptr->select = 201;
+	if (check) {
+		// 거부 응답
+		res_data_ptr->check = 1;
+		strcpy(res_data_ptr->msg, "매수가 거부되었습니다.");
+	}
+	else {
+		// 허락 응답
+		result = db_buyStock(db, req_data->session, req_data->stock_data.stock_id, req_data->stock_data.stock_count);
+		if (result) {
+			res_data_ptr->check = 1;
+			if (result == 1) {
+				strcpy(res_data_ptr->msg, "매수가 거부되었습니다.");
+			}
+			else if (result == 2) {
+				strcpy(res_data_ptr->msg, "잔고가 부족합니다.");
+			}
+			else if (result == 3) {
+				strcpy(res_data_ptr->msg, "살 수 있는 주식 갯수를 초과했습니다.");
+			}
+			return 0;
+		}
+		res_data_ptr->check = 0;
+		strcpy(res_data_ptr->msg, "매수가 완료되었습니다.");
+	}
+	return 0;
+}
 
 // 2.2 클라이언트 요청 - 주식 매도
+int sellStock(RequestData* req_data, ResponseData* res_data_ptr) {
+	printf("\n선택 : %d (주식 매도)\n", req_data->select);
+	printf("받은 세션: %s\n", req_data->session);
+	// 세션 검증
+	int check, result;
+	char* session = req_data->session;
+	check = checkSession(session);
+	// 주식매도
+	res_data_ptr->select = 202;
+	if (check) {
+		// 거부 응답
+		res_data_ptr->check = 1;
+		strcpy(res_data_ptr->msg, "매도가 거부되었습니다.");
+	}
+	else {
+		// 허락 응답
+		result = db_sellStock(db, req_data->session, req_data->stock_data.stock_id, req_data->stock_data.stock_count);
+		res_data_ptr->check = 0;
+		strcpy(res_data_ptr->msg, "매도가 완료되었습니다.");
+	}
+	return 0;
+}
 
-// 2.3 클라이언트 요청 - 주식 정보 실시간
-
-// 2.4 클라이언트 요청 - 주식 매매정보 실시간
+// (작업해야함!!!!!!!!) 2.3 클라이언트 요청 - 내정보 요청
