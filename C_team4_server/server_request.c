@@ -136,7 +136,43 @@ int checkSession(char* session) {
 }
 // (작업해야함!!!!!!!!) 2.0 주식 정보 조회
 int allStock(RequestData* req_data, ResponseData* res_data_ptr) {
+	printf("\n선택 : %d (주식 정보 조회)\n", req_data->select);
+	printf("받은 세션: %s\n", req_data->session);
+	// 세션 검증
+	int check;
+	check = checkSession(req_data->session);
+	// 주식 정보 조회
+	res_data_ptr->select = 200;
+	if (check) {
+		// 거부 응답
+		res_data_ptr->check = 1;
+		strcpy(res_data_ptr->msg, "정보를 조회할 수 없습니다.");
+	}
+	else {
+		// 허락 응답
+		STOCK_RES* result = db_allStock(db);
+		if (result) {
+			res_data_ptr->check = 1;
+			int stock_arr_size = sizeof(res_data_ptr->stock_arr) / sizeof(res_data_ptr->stock_arr[0]);
 
+			for (int i = 0; i < stock_arr_size; i++) {
+				printf("stock_id[%d] = %d\n", i, result[i].stock_id);
+				printf("stock_name[%d] = %d\n", i, result[i].stock_name);
+				printf("stock_company_name[%d] = %s\n", i, result[i].stock_company_name);
+				printf("stock_price[%d] = %d\n", i, result[i].stock_price);
+				printf("stock_count[%d] = %d\n\n", i, result[i].stock_count);
+
+				res_data_ptr->stock_arr[i].stock_id = result[i].stock_id;
+				res_data_ptr->stock_arr[i].stock_name = result[i].stock_name;
+				strcpy(res_data_ptr->stock_arr[i].stock_company_name, result[i].stock_company_name);
+				res_data_ptr->stock_arr[i].stock_price = result[i].stock_price;
+				res_data_ptr->stock_arr[i].stock_count = result[i].stock_count;
+			}
+			return 0;
+		}
+		res_data_ptr->check = 0;
+		strcpy(res_data_ptr->msg, "매수가 완료되었습니다.");
+	}
 	return 0;
 }
 // 2.1 클라이언트 요청 - 주식 매수

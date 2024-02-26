@@ -8,6 +8,9 @@
 #define MAX_NAME_LENGTH 50
 #define MAX_SESSION_LENGTH 50
 #define MAX_MESSAGE_LENGTH 200
+#define MAX_STOCK_NAME_LENGTH 50
+
+#define MAX_STOCK_RES_LENGTH 50
 
 /**************** 구조체 선언 ****************/
 typedef struct {
@@ -27,6 +30,7 @@ typedef struct {
 typedef struct {
 	int stock_id;
 	int stock_name;
+	char stock_company_name[50];
 	int stock_price;
 	int stock_count;
 } STOCK_RES;

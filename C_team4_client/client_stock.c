@@ -9,13 +9,17 @@ stock_home(SOCKET client_fd, char* access) {
 	strcpy(send_access, access);
 	do {
 		int select = 0;
-		printf("\n(1.주식 매수 / 2.주식 매도 / 3.로그아웃)\n");
+		printf("\n(0. 주식 조회 / 1.주식 매수 / 2.주식 매도 / 3.로그아웃)\n");
 		printf("원하는 작업을 지정해주세요 : ");
 		scanf("%d%*c", &select);
 
 		printf("\n========================================================================\n\n");
 		switch (select)
 		{
+		//임시
+		case 0:
+			req_allStock(client_fd, send_access);
+			break;
 		case 1:
 			req_buyStock(client_fd, send_access);
 			break;
@@ -35,6 +39,23 @@ stock_home(SOCKET client_fd, char* access) {
 }
 
 /**************** 주식 관련 요청 함수 ****************/
+// 1.0 주식 조회 요청(임시)
+req_allStock(SOCKET client_fd, char* access) {
+	printf("주식 조회\n\n");
+	RequestData req_data;
+	req_data.select = 200;
+	strcpy(req_data.session, access);
+
+	// 서버로 전송
+	int bytes_sent = send(client_fd, (RequestData*)&req_data, sizeof(req_data), 0);
+	if (bytes_sent == SOCKET_ERROR) {
+		fprintf(stderr, "Send failed\n");
+		return 1;
+	}
+
+	WaitForSingleObject(event, INFINITE); // 신호 대기
+	return 0;
+}
 // 1.1 주식 매수 요청
 req_buyStock(SOCKET client_fd, char* access) {
 	printf("주식 매수\n\n");
@@ -90,7 +111,16 @@ req_sellStock(SOCKET client_fd, char* access) {
 res_allStock(ResponseData* res_data) {
 	// 주식정보 받고 저장
 	printf("주식정보 변경\n");
-
+	printf("=================================================================\n");
+	int stock_arr_size = sizeof(res_data->stock_arr) / sizeof(res_data->stock_arr[0]);
+	if (!stock_arr_size)
+		printf("주식정보가 존재하지 않습니다.");
+	printf("| 종목번호 |        기업명        |  현재가격  |  구매가능수량  |\n");
+	printf("=================================================================\n");
+	for(int i=0; i< stock_arr_size; i++)
+		printf("|  %5d   | %20s | %10d |    %5d       |\n",
+			res_data->stock_arr[i].stock_id, res_data->stock_arr[i].stock_company_name, 
+			res_data->stock_arr[i].stock_price, res_data->stock_arr[i].stock_count);
 	return 0;
 }
 // 2.1 주식 매수 리슨

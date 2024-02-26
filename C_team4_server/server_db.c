@@ -2,9 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include "sqlite3.h"
+#include "server_request.h"
 
 // 주식 id 파싱
 matching_data[10] = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 };
+
+int idx = 0;
 
 /**************** DB 연결 기본 ****************/
 // 콜백 함수 1 - SELECT 쿼리 결과를 처리하는 함수
@@ -39,6 +42,21 @@ static int callback_stock_count(void* user_count_ptr, int argc, char** argv, cha
 static int callback_stock_balance(void* user_balance_ptr, int argc, char** argv, char** azColName) {
 	int* balance = (int*)user_balance_ptr;
 	*balance = atoi(argv[0]); // 첫 번째 열 값을 정수로 변환하여 저장
+	return 0;
+}
+//콜백함수 6 - 전체 주식 조회
+static int callback_stockinfo(void* stockinfo_ptr, int argc, char** argv, char** azColName) {
+	STOCK_RES* stockinfo = (STOCK_RES*)stockinfo_ptr;
+	for (int i = 0; i < argc; i++){
+		stockinfo[idx].stock_id = atoi(argv[0]); // 첫 번째 열 값을 정수로 변환하여 저장
+		stockinfo[idx].stock_name = atoi(argv[1]);
+		strcpy(stockinfo[idx].stock_company_name, argv[2]);
+		stockinfo[idx].stock_price = atoi(argv[3]);
+		stockinfo[idx].stock_count = atoi(argv[4]);
+		//printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
+	}
+	printf("\n");
+	idx++;
 	return 0;
 }
 
@@ -289,9 +307,27 @@ int db_logout(sqlite3* db, const char* session) {
 
 /**************** 주식 관련 DB 함수 ****************/
 // (작업해야함!!!!!!!!) 3.0 주식 정보조회
-int db_allStock(sqlite3* db) {
-
-	return 0;
+STOCK_RES* db_allStock(sqlite3* db) {
+	char* zErrMsg = 0;
+	char sql_select_stock[200];
+	sprintf(sql_select_stock, "SELECT ID, MATCH_ID, COMPANY_NAME, CURRENT_PRICE, STOCK_COUNT FROM STOCK;");
+	STOCK_RES stockinfo[MAX_STOCK_RES_LENGTH] = { 0 };
+	idx = 0;
+	int rc = sqlite3_exec(db, sql_select_stock, callback_stockinfo, stockinfo, &zErrMsg);
+	if (rc != SQLITE_OK) {
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+		return stockinfo; // 오류가 발생한 경우 유효하지 않은 사용자로 처리
+	}
+	/*for (int i = 0; i < 10; i++) {
+		printf("stock_id[%d] = %d\n", i, stockinfo[i].stock_id);
+		printf("stock_name[%d] = %d\n", i, stockinfo[i].stock_name);
+		printf("stock_company_name[%d] = %s\n", i, stockinfo[i].stock_company_name);
+		printf("stock_price[%d] = %d\n", i, stockinfo[i].stock_price);
+		printf("stock_count[%d] = %d\n", i, stockinfo[i].stock_count);
+	}*/
+	printf("\n");
+	return stockinfo; // 구조체 반환
 }
 
 // 3.1 주식 매수
