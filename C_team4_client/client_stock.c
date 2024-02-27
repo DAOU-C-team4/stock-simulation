@@ -18,7 +18,7 @@ stock_home(SOCKET client_fd, char* access) {
 		printf("\n(1.주식 매수 / 2.주식 매도 / 3.로그아웃)\n");
 		printf("원하는 작업을 지정해주세요 : ");
 		scanf("%d%*c", &select); // scan 써야 getInputCheck에서 빌드 에러가 발생하지 않음.
-		//int select = getInputCheck("원하는 작업을 지정해주세요 : ");
+		//select = getInputCheck("원하는 작업을 지정해주세요 : ");
 
 		printf("\n=================================\n\n");
 		switch (select)
@@ -71,17 +71,12 @@ req_buyStock(SOCKET client_fd, char* access) {
 	strcpy(req_data.session, access);
 
 	req_data.stock_data.stock_id = getInputInteger("매수할 종목 번호를 입력하세요 : ");
-	//printf("복사한 매수할 종목 번호 ; %d\n\n\n", req_data.stock_data.stock_id);
-	// stock_id에 18000이상 정수 입력하면 클라이언트, 서버 모두 killed
+	if (req_data.stock_data.stock_id > 10 || req_data.stock_data.stock_id < 0) {
+		req_data.stock_data.stock_id = 100;
+	}
 	do {
-		//printf("매수할 수량을 입력하세요: ");
 		req_data.stock_data.stock_count = getInputInteger("매수할 수량을 입력하세요 : ");
 	} while (req_data.stock_data.stock_count < 0);
-
-	//printf("넘어가는 세션 : %s\n", req_data.session);
-
-	// 서버로 전송
-	//printf("복사한 매수할 종목 번호 ; %d\n\n\n", req_data.stock_data.stock_id);
 
 	int bytes_sent = send(client_fd, (RequestData*)&req_data, sizeof(req_data), 0);
 	if (bytes_sent == SOCKET_ERROR) {
@@ -105,13 +100,15 @@ req_sellStock(SOCKET client_fd, char* access) {
 
 	//printf("매도할 종목 번호를 입력하세요 : ");
 	//scanf("%d%*c", &req_data.stock_data.stock_id);
-	req_data.stock_data.stock_id = getInputInteger("매도할 종목 번호를 입력하세요: ");
-
+	req_data.stock_data.stock_id = getInputInteger("매도할 종목 번호를 입력하세요 : ");
+	if (req_data.stock_data.stock_id > 10 || req_data.stock_data.stock_id < 0) {
+		req_data.stock_data.stock_id = 100;
+	}
 	do {
 		/*printf("매도할 수량을 입력하세요 : ");
 		scanf("%d%*c", &req_data.stock_data.stock_count);*/
 		//req_data.stock_data.stock_count = getInputInteger("매도할 수량을 입력하세요: ");
-		req_data.stock_data.stock_count = getInputInteger("매도할 수량을 입력하세요: ");;
+		req_data.stock_data.stock_count = getInputInteger("매도할 수량을 입력하세요 : ");
 	} while (req_data.stock_data.stock_count < 0);
 
 	int bytes_sent = send(client_fd, (RequestData*)&req_data, sizeof(req_data), 0);

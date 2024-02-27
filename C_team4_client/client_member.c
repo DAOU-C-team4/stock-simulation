@@ -215,6 +215,11 @@ int getInputInteger(char* prompt) {
 		printf("%s", prompt);
 		fgets(input, sizeof(input), stdin);
 
+		if (strlen(input) >= 10) {
+			printf("10개 자리 이내의 수를 입력해주세요.\n");
+			continue;
+		}
+
 		// 입력에서 공백발견시 아웃처리
 		for (int i = 0; i < strlen(input); i++) {
 			if (isspace(input[i]) && i != strlen(input) - 1 || isalpha(input[i])) {
