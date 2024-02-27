@@ -51,7 +51,6 @@ enterPassword(char* password) {
 /**************** 회원 관련 요청 함수 ****************/
 // 1.1 회원가입 요청
 req_add_member(SOCKET client_fd) {
-
 	//system("cls");
 	//printf("\n반갑습니다. 키울까말까증권입니다.\n");
 	printf(">> 회원가입 <<\n\n");

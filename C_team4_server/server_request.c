@@ -30,6 +30,7 @@ DWORD WINAPI handle_client(SOCKET client_socket) {
 	char buffer[MAX_BUFFER_SIZE];
 	int bytes_received, bytes_sent;
 	int run = 1;
+
 	// 클라이언트로부터 요청 대기
 	do {
 		printf("%d번 클라이언트 요청대기\n", client_socket);
@@ -48,13 +49,6 @@ DWORD WINAPI handle_client(SOCKET client_socket) {
 		RequestData* req_data = (RequestData*)buffer;
 		ResponseData res_data = { 0 };
 		ResponseData* res_data_ptr = &res_data;
-
-		// 이벤트 신호 발생
-		//SetEvent(event);
-
-		// **클라이언트 요청 - 전체 회원에게 보내기
-		//if(sizeof(res_data_ptr->stock_arr)>0)
-		//	SendAllClnt(res_data_ptr, client_socket);
 
 		// 요청에 따라 다른 작업 실행
 		switch (req_data->select)
@@ -84,7 +78,7 @@ DWORD WINAPI handle_client(SOCKET client_socket) {
 				perror("send buyStock() failed");
 				return 1;
 			}
-			SendAllClnt(res_data_ptr);
+			sendAllClnt(res_data_ptr);
 			break;
 		case 202:
 			sellStock(req_data, res_data_ptr);
@@ -93,7 +87,7 @@ DWORD WINAPI handle_client(SOCKET client_socket) {
 				perror("send sellStock() failed");
 				return 1;
 			}
-			SendAllClnt(res_data_ptr);
+			sendAllClnt(res_data_ptr);
 			break;
 		default:
 			// 잘못된 요청 처리
@@ -174,7 +168,7 @@ int logout(RequestData* req_data, ResponseData* res_data_ptr) {
 /**************** 주식관련 함수 ****************/
 
 // **클라이언트 요청 - 전체 회원에게 보내기
-int SendAllClnt(ResponseData* res_data_ptr) {
+int sendAllClnt(ResponseData* res_data_ptr) {
 	res_data_ptr->select = 200;
 	init_stock(res_data_ptr);
 	int bytes_sent;
@@ -275,7 +269,20 @@ int sellStock(RequestData* req_data, ResponseData* res_data_ptr) {
 	else {
 		// 허락 응답
 		result = db_sellStock(db, req_data->session, req_data->stock_data.stock_id, req_data->stock_data.stock_count);
-		//예외처리 필요!!
+		if (result) {
+			res_data_ptr->check = 1;
+			if (result == 1) {
+				strcpy(res_data_ptr->msg, "매도가 거부되었습니다.");
+			}
+			else if (result == 2) {
+				strcpy(res_data_ptr->msg, "매도 수량이 현재 보유 수량보다 많습니다.");
+			}
+			// 매도는 해당 내용 불필요
+			/*else if (result == 3) {
+				strcpy(res_data_ptr->msg, "살 수 있는 주식 갯수를 초과했습니다.");
+			}*/
+			return 0;
+		}
 		res_data_ptr->check = 0;
 		strcpy(res_data_ptr->session, req_data->session);
 		strcpy(res_data_ptr->msg, "매도가 완료되었습니다.");
