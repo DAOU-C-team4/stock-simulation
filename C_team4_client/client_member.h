@@ -18,3 +18,6 @@ res_del_member(ResponseData* res_data);
 res_login(ResponseData* res_data);
 res_logout(ResponseData* res_data, char* access);
 res_memberInfo(ResponseData* res_data, char* access);
+
+/*****************문자열 입력 검사 함수 ****************/
+getInputInteger(char* prompt);
