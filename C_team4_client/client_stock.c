@@ -11,8 +11,8 @@ stock_home(SOCKET client_fd, char* access) {
 	strcpy(send_access, access);
 	do {
 		//int select = 0;
-		clearConsoleArea(0, 0, 50, 50);
-		gotoxy(0, 1);
+		/*clearConsoleArea(0, 0, 50, 50);
+		gotoxy(0, 1);*/
 		printf(">> 주식 서비스 이용 <<\n");
 		printf("\n(1.주식 매수 / 2.주식 매도 / 3.로그아웃)\n");
 		//printf("원하는 작업을 지정해주세요 : ");
@@ -67,13 +67,13 @@ req_buyStock(SOCKET client_fd, char* access) {
 	req_data.select = 201;
 	strcpy(req_data.session, access);
 
-	//printf("매수할 종목 번호를 입력하세요 : ");
-	//scanf("%d%*c", &req_data.stock_data.stock_id);
-	req_data.stock_data.stock_id = getInputInteger("매수할 종목 번호를 입력하세요: ");
+	printf("매수할 종목 번호를 입력하세요 : ");
+	scanf("%d%*c", &req_data.stock_data.stock_id);
+	//req_data.stock_data.stock_id = getInputInteger("매수할 종목 번호를 입력하세요: ");
 	do {
 		//printf("매수할 수량을 입력하세요: ");
 		//scanf("%d%*c", &req_data.stock_data.stock_count);
-		req_data.stock_data.stock_count = getInputInteger("매수할 수량을 입력하세요: ");
+		req_data.stock_data.stock_count = getInputInteger("매수할 수량을 입력하세요 : ");
 	} while (req_data.stock_data.stock_count < 0);
 
 	//printf("넘어가는 세션 : %s\n", req_data.session);
@@ -101,10 +101,10 @@ req_sellStock(SOCKET client_fd, char* access) {
 
 	//printf("매도할 종목 번호를 입력하세요 : ");
 	//scanf("%d%*c", &req_data.stock_data.stock_id);
-	req_data.stock_data.stock_id = getInputInteger("매도할 종목 번호를 입력하세요: ");
+	req_data.stock_data.stock_id = getInputInteger("매도할 종목 번호를 입력하세요 : ");
 
 	do {
-		printf("매도할 수량을 입력하세요: ");
+		printf("매도할 수량을 입력하세요 : ");
 		scanf("%d%*c", &req_data.stock_data.stock_count);
 		//req_data.stock_data.stock_count = getInputInteger("매도할 수량을 입력하세요: ");
 	} while (req_data.stock_data.stock_count < 0);

@@ -435,9 +435,15 @@ int db_buyStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 		return 1;
 	}
 
+	// 존재하지 않는 종목 매수 하는 경우
+	if (s_id <= 0 || s_id >= 11) {
+		fprintf(stderr, "유효하지 않은 종목번호.");
+		return 4;
+	}
+
 	// 돈이 모자를시
 	if (stock_price * s_cnt > balance) {
-		fprintf(stderr, "잔액이 부족합니다.\n");
+		fprintf(stderr, "잔액이 부족합니다.");
 		return 2;
 	}
 	// 매수요청 주식 개수가 잔량을 초과할 시
@@ -518,12 +524,21 @@ int db_sellStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 	}
 
 	printf("받아온 주식 가격 : %d, 가진갯수 : %d\n", stock_price, account_quantity);
+	if (account_quantity == 0) {
+		fprintf(stderr, "해당 주식을 미보유.");
+		return 2;
+	}
 
+	// 존재하지 않는 종목 매도 하는 경우
+	if (s_id <= 0 || s_id >= 11) {
+		fprintf(stderr, "유효하지 않은 종목번호");
+		return 4;
+	}
 
 	// (작업해야함!!!!!!!!) 회원이 가진 주식갯수와 비교
 	if (s_cnt > account_quantity) {
-		fprintf(stderr, "보유 수량 초과");
-		return 2;
+		fprintf(stderr, "보유 중인 주식 수량 초과");
+		return 3;
 	}
 
 	// 회원 테이블 - 회원 예치금 변경

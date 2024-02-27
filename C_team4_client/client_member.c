@@ -147,7 +147,8 @@ res_login(ResponseData* res_data, char* access) {
 
 // 2.4 ·Î±×¾Æ¿ô ¸®½¼
 res_logout(ResponseData* res_data, char* access) {
-	printf(">> ·Î±×¾Æ¿ô <<\n\n");
+	clearConsoleArea(0, 0, 50, 50); 
+	printf(">> ·Î±×¾Æ¿ô <<\n");
 	printf("   session: %s\n", res_data->session);
 	strcpy(access, "NONE");
 	return 0;

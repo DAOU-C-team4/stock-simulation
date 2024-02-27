@@ -115,7 +115,7 @@ select_task_home(SOCKET client_fd) {
 			stock_home(client_fd, access);
 			// 주식매매 홈에서 나갈시 로그아웃
 			req_logout(client_fd, access);
-			printf("\n========================================================================\n");
+		    printf("\n===================================================\n");
 			continue;
 		}
 		// 로그인 아닐시 - 회원관리
