@@ -384,6 +384,12 @@ int db_buyStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 	int b_check_accountRecord = 1;
 	printf("%d 주식 %d개 매수", matching_data[s_id - 1], s_cnt);
 
+	// 존재하지 않는 종목 매수 하는 경우
+	if (s_id <= 0 || s_id >= 11) {
+		fprintf(stderr, "유효하지 않은 종목번호.");
+		return 4;
+	}
+
 	// 주식 가격 조회
 	char sql_query[200];
 	sprintf(sql_query, "SELECT CURRENT_PRICE FROM STOCK WHERE MATCH_ID = '%d';", matching_data[s_id - 1]);
@@ -435,12 +441,7 @@ int db_buyStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 		return 1;
 	}
 
-	// 존재하지 않는 종목 매수 하는 경우
-	if (s_id <= 0 || s_id >= 11) {
-		fprintf(stderr, "유효하지 않은 종목번호.");
-		return 4;
-	}
-
+	
 	// 돈이 모자를시
 	if (stock_price * s_cnt > balance) {
 		fprintf(stderr, "잔액이 부족합니다.");
@@ -495,6 +496,12 @@ int db_sellStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 	int b_check_accountRecord = 1; // account table 내 종목이 있는지 확인
 
 	printf("%d 주식 %d개 매도", matching_data[s_id - 1], s_cnt);
+	printf("================s_id출력=========== : %d", s_id);
+	// 존재하지 않는 종목 매도 하는 경우
+	if (s_id <= 0 || s_id >= 11) {
+		fprintf(stderr, "유효하지 않은 종목번호");
+		return 4;
+	}
 
 	// 주식 가격 및 잔량 조회
 	char sql_query[200];
@@ -529,11 +536,7 @@ int db_sellStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 		return 2;
 	}
 
-	// 존재하지 않는 종목 매도 하는 경우
-	if (s_id <= 0 || s_id >= 11) {
-		fprintf(stderr, "유효하지 않은 종목번호");
-		return 4;
-	}
+	
 
 	// (작업해야함!!!!!!!!) 회원이 가진 주식갯수와 비교
 	if (s_cnt > account_quantity) {

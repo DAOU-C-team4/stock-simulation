@@ -3,6 +3,7 @@
 #include "client_member.h"
 #include <time.h>
 #include <Windows.h>
+#include <ctype.h>
 
 /**************** 주식 홈 ****************/
 // 0. 로그인후 주식관련 홈
@@ -10,14 +11,15 @@ stock_home(SOCKET client_fd, char* access) {
 	char send_access[MAX_SESSION_LENGTH];
 	strcpy(send_access, access);
 	do {
-		//int select = 0;
+		int select;
 		/*clearConsoleArea(0, 0, 50, 50);
 		gotoxy(0, 1);*/
 		printf(">> 주식 서비스 이용 <<\n");
 		printf("\n(1.주식 매수 / 2.주식 매도 / 3.로그아웃)\n");
-		//printf("원하는 작업을 지정해주세요 : ");
-		int select = getInputInteger("원하는 작업을 지정해주세요 : ");
-		//scanf("%d%*c", &select);
+		printf("원하는 작업을 지정해주세요 : ");
+		scanf("%d%*c", &select); // scan 써야 getInputCheck에서 빌드 에러가 발생하지 않음.
+		//int select = getInputCheck("원하는 작업을 지정해주세요 : ");
+
 		printf("\n=================================\n\n");
 		switch (select)
 		{
@@ -31,9 +33,10 @@ stock_home(SOCKET client_fd, char* access) {
 			printf("매매 종료. 안녕히가세요 :)\n");
 			return;
 		default:
-			printf("\n1, 2, 3번 중 하나를 입력하세요\n");
+			//clearConsoleArea(0, 0, 50, 50); ==> clearConsoleArea 실행시, 주가정보가 갑자기 꺼짐. 이후 매수하면 다시 나타남.
+			printf("\n1, 2, 3번 중 하나를 입력하세요\n\n");
 			continue;
-		}
+		};
 
 	} while (1 != 0);
 
@@ -67,18 +70,19 @@ req_buyStock(SOCKET client_fd, char* access) {
 	req_data.select = 201;
 	strcpy(req_data.session, access);
 
-	printf("매수할 종목 번호를 입력하세요 : ");
-	scanf("%d%*c", &req_data.stock_data.stock_id);
-	//req_data.stock_data.stock_id = getInputInteger("매수할 종목 번호를 입력하세요: ");
+	req_data.stock_data.stock_id = getInputInteger("매수할 종목 번호를 입력하세요 : ");
+	//printf("복사한 매수할 종목 번호 ; %d\n\n\n", req_data.stock_data.stock_id);
+	// stock_id에 18000이상 정수 입력하면 클라이언트, 서버 모두 killed
 	do {
 		//printf("매수할 수량을 입력하세요: ");
-		//scanf("%d%*c", &req_data.stock_data.stock_count);
 		req_data.stock_data.stock_count = getInputInteger("매수할 수량을 입력하세요 : ");
 	} while (req_data.stock_data.stock_count < 0);
 
 	//printf("넘어가는 세션 : %s\n", req_data.session);
 
 	// 서버로 전송
+	//printf("복사한 매수할 종목 번호 ; %d\n\n\n", req_data.stock_data.stock_id);
+
 	int bytes_sent = send(client_fd, (RequestData*)&req_data, sizeof(req_data), 0);
 	if (bytes_sent == SOCKET_ERROR) {
 		fprintf(stderr, "Send failed\n");
@@ -101,12 +105,13 @@ req_sellStock(SOCKET client_fd, char* access) {
 
 	//printf("매도할 종목 번호를 입력하세요 : ");
 	//scanf("%d%*c", &req_data.stock_data.stock_id);
-	req_data.stock_data.stock_id = getInputInteger("매도할 종목 번호를 입력하세요 : ");
+	req_data.stock_data.stock_id = getInputInteger("매도할 종목 번호를 입력하세요: ");
 
 	do {
-		printf("매도할 수량을 입력하세요 : ");
-		scanf("%d%*c", &req_data.stock_data.stock_count);
+		/*printf("매도할 수량을 입력하세요 : ");
+		scanf("%d%*c", &req_data.stock_data.stock_count);*/
 		//req_data.stock_data.stock_count = getInputInteger("매도할 수량을 입력하세요: ");
+		req_data.stock_data.stock_count = getInputInteger("매도할 수량을 입력하세요: ");;
 	} while (req_data.stock_data.stock_count < 0);
 
 	int bytes_sent = send(client_fd, (RequestData*)&req_data, sizeof(req_data), 0);
@@ -118,6 +123,20 @@ req_sellStock(SOCKET client_fd, char* access) {
 	WaitForSingleObject(event, INFINITE); // 신호 대기
 	return 0;
 }
+//// 1.3 balance 조회 요청
+//req_getBalance(SOCKET client_fd, char* access) {
+//	RequestData req_data;
+//	req_data.select = 202;
+//	strcpy(req_data.session, access);
+//	int bytes_sent = send(client_fd, (RequestData*)&req_data, sizeof(req_data), 0);
+//	if (bytes_sent == SOCKET_ERROR) {
+//		fprintf(stderr, "Send failed\n");
+//		return 1;
+//	}
+//
+//	WaitForSingleObject(event, INFINITE); // 신호 대기
+//	return 0;
+//}
 
 /**************** 주식 관련 리슨 함수 ****************/
 // 2.0 주식 정보 조회
@@ -163,7 +182,7 @@ res_allStock(ResponseData* res_data) {
 // 2.1 주식 매수 리슨
 res_buyStock(ResponseData* res_data) {
 	//system("cls");
-	clearConsoleArea(0, 0, 50, 50);
+	clearConsoleArea(0, 0, 50, 200);
 	printf("%s\n", res_data->msg);
 	printf("\n=================================\n\n");
 	// 보유 주식 및 잔고 출력
@@ -174,7 +193,7 @@ res_buyStock(ResponseData* res_data) {
 // 2.2 주식 매도 리슨
 res_sellStock(ResponseData* res_data) {
 	//system("cls");
-	clearConsoleArea(0, 0, 50, 50);
+	clearConsoleArea(0, 0, 50, 200);
 	printf("%s\n", res_data->msg);
 	printf("\n=================================\n\n");
 	// 보유 주식 및 잔고 출력
@@ -182,3 +201,8 @@ res_sellStock(ResponseData* res_data) {
 	//res_allStock(res_data);
 	return 0;
 }
+//// 2.3 balance 조회 리슨
+//res_getBalance(ResponseData* res_data) {
+//	printf("%d\n", res_data->);
+//	return 0;
+//}

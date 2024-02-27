@@ -187,7 +187,6 @@ int sendAllClnt(ResponseData* res_data_ptr) {
 // (작업해야함!!!!!!!!) 2.0 세션 유효 검증
 int checkSession(char* session) {
 	printf("세션을 검증합니다\n");
-
 	return 0;
 }
 

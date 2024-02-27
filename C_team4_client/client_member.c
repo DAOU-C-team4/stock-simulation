@@ -5,8 +5,6 @@
 #include "client_member.h"
 #include "client_stock.h"
 
-
-
 /**************** 회원 관련 요청 함수 ****************/
 // 1.1 회원가입 요청
 req_add_member(SOCKET client_fd) {
@@ -147,7 +145,7 @@ res_login(ResponseData* res_data, char* access) {
 
 // 2.4 로그아웃 리슨
 res_logout(ResponseData* res_data, char* access) {
-	clearConsoleArea(0, 0, 50, 50); 
+	clearConsoleArea(0, 0, 50, 50);
 	printf(">> 로그아웃 <<\n");
 	printf("   session: %s\n", res_data->session);
 	strcpy(access, "NONE");
@@ -209,13 +207,21 @@ enterPassword(char* password) {
 
 // 정수 입력 함수
 int getInputInteger(char* prompt) {
-	char input[20]; // 충분한 공간 할당
+	char input[1024]; // 충분한 공간 할당
 	int value;
-	bool validInput = false;
-
+	int validInput = 0;
+	
 	while (!validInput) {
 		printf("%s", prompt);
 		fgets(input, sizeof(input), stdin);
+
+		// 입력에서 공백발견시 아웃처리
+		for (int i = 0; i < strlen(input); i++) {
+			if (isspace(input[i]) && i != strlen(input) - 1 || isalpha(input[i])) {
+				strcpy(input, "byebye");
+				break;
+			}
+		}
 		// 문자열을 정수로 변환
 		if (sscanf(input, "%d", &value) != 1) {
 			printf("올바른 정수를 입력하세요.\n");
@@ -226,7 +232,7 @@ int getInputInteger(char* prompt) {
 			printf("입력값이 범위를 벗어납니다.\n");
 			continue;
 		}
-		validInput = true;
+		validInput = 1;
 	}
 
 	return value;
