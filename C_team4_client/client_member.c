@@ -318,6 +318,14 @@ int getInputInteger(char* prompt) {
 	while (!validInput) {
 		printf("%s", prompt);
 		fgets(input, sizeof(input), stdin);
+
+		// 입력에서 공백발견시 아웃처리
+		for (int i = 0; i < strlen(input); i++) {
+			if (isspace(input[i]) && i != strlen(input) - 1 || isalpha(input[i])) {
+				strcpy(input, "byebye");
+				break;
+			}
+		}
 		// 문자열을 정수로 변환
 		if (sscanf(input, "%d", &value) != 1) {
 			printf("올바른 정수를 입력하세요.\n");

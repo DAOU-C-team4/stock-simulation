@@ -112,11 +112,17 @@ int add_member(RequestData* req_data, ResponseData* res_data_ptr) {
 	printf("받은 아이디: %s\n", req_data->id);
 	printf("받은 비밀번호: %s\n", req_data->password);
 	printf("받은 이름: %s\n", req_data->name);
-	db_insert_member(db, req_data->name, req_data->id, req_data->password);
 	// 응답데이터 기록
+	int result;
+	result = db_insert_member(db, req_data->name, req_data->id, req_data->password);
 	res_data_ptr->select = 1;
 	strcpy(res_data_ptr->session, "NONE");
-	strcpy(res_data_ptr->msg, "회원가입 완료");
+	if (result) {
+		strcpy(res_data_ptr->msg, "회원가입 완료");
+	}
+	else {
+		strcpy(res_data_ptr->msg, "회원가입 실패");
+	}
 	return 0;
 }
 
@@ -126,11 +132,17 @@ int del_member(RequestData* req_data, ResponseData* res_data_ptr) {
 	printf("\n선택 : %d (회원탈퇴)\n", req_data->select);
 	printf("받은 아이디: %s\n", req_data->id);
 	printf("받은 비밀번호: %s\n", req_data->password);
-	db_delete_member(db, req_data->id, req_data->password);
 	// 응답데이터 기록
+	int result;
+	result = db_delete_member(db, req_data->id, req_data->password);
 	res_data_ptr->select = 2;
 	strcpy(res_data_ptr->session, "NONE");
-	strcpy(res_data_ptr->msg, "회원탈퇴 완료");
+	if (result) {
+		strcpy(res_data_ptr->msg, "회원탈퇴 완료");
+	}
+	else {
+		strcpy(res_data_ptr->msg, "회원탈퇴 실패. 아이디 비밀번호를 확인해주세요.");
+	}
 	return 0;
 }
 
@@ -145,7 +157,15 @@ int login(RequestData* req_data, ResponseData* res_data_ptr) {
 	// 응답데이터 기록
 	res_data_ptr->select = 3;
 	strcpy(res_data_ptr->session, access_key);
-	strcpy(res_data_ptr->msg, "로그인 완료");
+	if (!strcmp(access_key, "NONE")) {
+		strcpy(res_data_ptr->msg, "로그인 실패. 아이디 비밀번호를 확인해주세요.");
+	}
+	else if (access_key == NULL) {
+		strcpy(res_data_ptr->msg, "서버 에러");
+	}
+	else {
+		strcpy(res_data_ptr->msg, "로그인 성공");
+	}
 
 	init_stock(res_data_ptr);
 	return 0;

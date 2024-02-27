@@ -234,6 +234,12 @@ int db_insert_member(sqlite3* db, const char* name, const char* user_id, const c
 
 // 2.2 회원 정보 삭제 함수
 int db_delete_member(sqlite3* db, const char* user_id, const char* password) {
+	// 유효한 사용자인지 확인
+	if (!is_valid_user(db, user_id, password)) {
+		fprintf(stderr, "Invalid user credentials\n");
+		return 0; // 유효하지 않은 사용자인 경우 0 반환
+	}
+	// 유효한 사용자일시
 	char* zErrMsg = 0;
 	char sql_delete_member[200];
 	sprintf(sql_delete_member, "DELETE FROM MEMBER WHERE USER_ID = '%s' AND PASSWORD = '%s';", user_id, password);
@@ -254,7 +260,7 @@ int db_login(sqlite3* db, const char* user_id, const char* password) {
 	// 유효한 사용자인지 확인
 	if (!is_valid_user(db, user_id, password)) {
 		fprintf(stderr, "Invalid user credentials\n");
-		return "NONE"; // 유효하지 않은 사용자인 경우 NULL 반환
+		return "NONE"; // 유효하지 않은 사용자인 경우 NONE 반환
 	}
 
 	// 랜덤키 생성 및 검증
@@ -295,7 +301,6 @@ int is_valid_user(sqlite3* db, const char* user_id, const char* password) {
 		sqlite3_free(zErrMsg);
 		return 0; // 오류가 발생한 경우 유효하지 않은 사용자로 처리
 	}
-	printf("%d\n", user_count);
 	return user_count; // 사용자가 존재하면 1, 그렇지 않으면 0 반환
 }
 
