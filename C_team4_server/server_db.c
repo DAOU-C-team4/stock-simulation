@@ -12,11 +12,6 @@ int idx = 0;
 /**************** DB 연결 기본 ****************/
 // 콜백 함수 1 - SELECT 쿼리 결과를 처리하는 함수
 static int callback(void* NotUsed, int argc, char** argv, char** azColName) {
-	int i;
-	for (i = 0; i < argc; i++) {
-		printf("%s: %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-	}
-	printf("\n");
 	return 0;
 }
 // 콜백 함수 2 - 로그인 쿼리 결과를 처리하는 함수
@@ -73,7 +68,7 @@ static int callback_account_quantity(void* quantity_ptr, int argc, char** argv, 
 //콜백함수 10 - 전체 주식 조회
 static int callback_stockinfo(void* stockinfo_ptr, int argc, char** argv, char** azColName) {
 	STOCK_RES* stockinfo = (STOCK_RES*)stockinfo_ptr;
-	for (int i = 0; i < argc; i++){
+	for (int i = 0; i < argc; i++) {
 		stockinfo[idx].stock_id = atoi(argv[0]); // 첫 번째 열 값을 정수로 변환하여 저장
 		stockinfo[idx].stock_name = atoi(argv[1]);
 		strcpy(stockinfo[idx].stock_company_name, argv[2]);
@@ -81,7 +76,6 @@ static int callback_stockinfo(void* stockinfo_ptr, int argc, char** argv, char**
 		stockinfo[idx].stock_count = atoi(argv[4]);
 		//printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
 	}
-	printf("\n");
 	idx++;
 	return 0;
 }
@@ -323,7 +317,7 @@ int is_duplicate_key(sqlite3* db, const char* key) {
 	char sql_check_duplicate_key[200];
 	sprintf(sql_check_duplicate_key, "SELECT COUNT(*) FROM MEMBER WHERE ACCESS_KEY = '%s';", key);
 	int key_count = 0;
-	int rc = sqlite3_exec(db, sql_check_duplicate_key, callback, 0, &zErrMsg);
+	int rc = sqlite3_exec(db, sql_check_duplicate_key, NULL, &key_count, &zErrMsg);
 	if (rc != SQLITE_OK) {
 		fprintf(stderr, "SQL error: %s\n", zErrMsg);
 		sqlite3_free(zErrMsg);
@@ -371,7 +365,6 @@ STOCK_RES* db_allStock(sqlite3* db) {
 		printf("stock_price[%d] = %d\n", i, stockinfo[i].stock_price);
 		printf("stock_count[%d] = %d\n", i, stockinfo[i].stock_count);
 	}*/
-	printf("\n");
 	return stockinfo; // 구조체 반환
 }
 

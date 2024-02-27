@@ -1,10 +1,15 @@
 #pragma once
 #include <WinSock2.h>
 #include <WS2tcpip.h>    // TCP/IP 통신을 위한 헤더
+#include <limits.h>
+#include <stdbool.h>
+#include <conio.h>
+#include <ctype.h>
 #pragma comment(lib, "Ws2_32.lib")
 
 #define MAX_BUFFER_SIZE 1024
 #define MAX_ID_LENGTH 50
+#define MIN_PASSWORD_LENGTH 8
 #define MAX_PASSWORD_LENGTH 50
 #define MAX_NAME_LENGTH 50
 #define MAX_SESSION_LENGTH 50
