@@ -36,7 +36,6 @@ int main(int argc, char* argv[]) {
 DWORD WINAPI listen_thread(SOCKET client_fd) {
 	char received_message[MAX_BUFFER_SIZE];
 	int select;
-	char access_tmp[50];
 
 	while (1) {
 		// 서버 전송메세지 리슨
@@ -57,7 +56,7 @@ DWORD WINAPI listen_thread(SOCKET client_fd) {
 			strcpy(access, res_data->session);
 			printf("\nlisten_thread내부 session (%s): ", access);
 		}
-		//printf("\n서버로부터 응답 (%d): ", res_data->select);
+		//printf("\n서버로부터 응답 (%d): \n", res_data->select);
 		//printf("\nlisten_thread session (%s): ", access);
 
 		// 요청별 분기처리
@@ -94,7 +93,8 @@ DWORD WINAPI listen_thread(SOCKET client_fd) {
 		}
 
 		// 이벤트 신호 발생
-		SetEvent(event);
+		if(select!=200 && select!=0)
+			SetEvent(event);
 	}
 	return;
 }
@@ -111,7 +111,9 @@ select_task_home(SOCKET client_fd) {
 	do {
 		// 로그인시 - 주식매매
 		if (strcmp(access, "NONE") && strcmp(access, "CLEAR")) {
-			//printf("select_task_home access : %s\n", access);
+			//printf("%s\n", res_data->msg);
+			//printf("   session: %s\n", access);
+			req_allStock(client_fd, access);
 			stock_home(client_fd, access);
 			// 주식매매 홈에서 나갈시 로그아웃
 			req_logout(client_fd, access);
@@ -120,12 +122,12 @@ select_task_home(SOCKET client_fd) {
 		}
 		// 로그인 아닐시 - 회원관리
 		int select = 0;
-		system("cls");
+		//system("cls");
 		printf("\n반갑습니다. 키울까말까증권입니다.\n");
 		printf("\n(1.회원가입 / 2.회원탈퇴 / 3.로그인 / 4.종료)\n");
 		printf("원하는 작업을 지정해주세요 : ");
 		scanf("%d%*c", &select);
-		printf("\n========================================================================\n\n");
+		printf("\n====================================================\n\n");
 		switch (select)
 		{
 		case 1: // 회원가입
@@ -145,6 +147,6 @@ select_task_home(SOCKET client_fd) {
 			printf("\n잘못된 번호입니다.\n");
 			continue;
 		}
-		printf("\n========================================================================\n");
+		printf("\n====================================\n");
 	} while (run);
 }

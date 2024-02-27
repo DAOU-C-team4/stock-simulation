@@ -50,6 +50,7 @@ int login(RequestData* req_data, ResponseData* res_data_ptr);
 int logout(RequestData* req_data, ResponseData* res_data_ptr);
 
 /**************** 주식 관련 함수 ****************/
+int SendAllClnt(ResponseData* res_data_ptr);
 int checkSession(char* session);
 int allStock(RequestData* req_data, ResponseData* res_data_ptr);
 int buyStock(RequestData* req_data, ResponseData* res_data_ptr);

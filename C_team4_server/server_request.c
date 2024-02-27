@@ -8,11 +8,11 @@ static int init_stock(ResponseData* res_data_ptr) {
 		int stock_arr_size = sizeof(res_data_ptr->stock_arr) / sizeof(res_data_ptr->stock_arr[0]);
 		
 		for (int i = 0; i < stock_arr_size; i++) {
-			printf("stock_id[%d] = %d\n", i, result[i].stock_id);
+			/*printf("stock_id[%d] = %d\n", i, result[i].stock_id);
 			printf("stock_name[%d] = %d\n", i, result[i].stock_name);
 			printf("stock_company_name[%d] = %s\n", i, result[i].stock_company_name);
 			printf("stock_price[%d] = %d\n", i, result[i].stock_price);
-			printf("stock_count[%d] = %d\n\n", i, result[i].stock_count);
+			printf("stock_count[%d] = %d\n\n", i, result[i].stock_count);*/
 
 			res_data_ptr->stock_arr[i].stock_id = result[i].stock_id;
 			res_data_ptr->stock_arr[i].stock_name = result[i].stock_name;
@@ -30,13 +30,17 @@ DWORD WINAPI handle_client(SOCKET client_socket) {
 	char buffer[MAX_BUFFER_SIZE];
 	int bytes_received, bytes_sent;
 	int run = 1;
-
 	// 클라이언트로부터 요청 대기
 	do {
 		printf("%d번 클라이언트 요청대기\n", client_socket);
 		bytes_received = recv(client_socket, buffer, MAX_BUFFER_SIZE, 0);
 		if (bytes_received == SOCKET_ERROR) {
 			perror("recv failed");
+			for (int i = 0; i < FD_SETSIZE; i++) {
+				if (client_sockets[i] == client_socket) {
+					client_tf[i] = 0;
+				}
+			}
 			return 1;
 		}
 
@@ -80,7 +84,7 @@ DWORD WINAPI handle_client(SOCKET client_socket) {
 				perror("send buyStock() failed");
 				return 1;
 			}
-			SendAllClnt(res_data_ptr, client_sockets);
+			SendAllClnt(res_data_ptr);
 			break;
 		case 202:
 			sellStock(req_data, res_data_ptr);
@@ -89,7 +93,7 @@ DWORD WINAPI handle_client(SOCKET client_socket) {
 				perror("send sellStock() failed");
 				return 1;
 			}
-			SendAllClnt(res_data_ptr, client_sockets);
+			SendAllClnt(res_data_ptr);
 			break;
 		default:
 			// 잘못된 요청 처리
@@ -170,23 +174,19 @@ int logout(RequestData* req_data, ResponseData* res_data_ptr) {
 /**************** 주식관련 함수 ****************/
 
 // **클라이언트 요청 - 전체 회원에게 보내기
-int SendAllClnt(ResponseData* res_data_ptr, SOCKET client_socket) {
+int SendAllClnt(ResponseData* res_data_ptr) {
 	res_data_ptr->select = 200;
-	WaitForSingleObject(event, INFINITE);
 	init_stock(res_data_ptr);
-	ReleaseMutex(event);
-
+	int bytes_sent;
 	// 클라이언트로 결과 전송
-	WaitForSingleObject(event, INFINITE);
-	for (int i = 0; i <= num_clients; i++) {
-		//send(clntSocks[i], realMessage, BUF_SIZE, 0);
-		int bytes_sent = send(client_sockets[i], res_data_ptr, sizeof(*res_data_ptr), 0);
+	for (int i = 0; i < FD_SETSIZE; i++) {
+		if(client_tf[i]==1)
+			bytes_sent = send(client_sockets[i], res_data_ptr, sizeof(*res_data_ptr), 0);
 		if (bytes_sent == SOCKET_ERROR) {
-			perror("send failed");
+			perror("send failed : ");
 			return 1;
 		}
 	}
-	ReleaseMutex(event);
 	return 0;
 }
 

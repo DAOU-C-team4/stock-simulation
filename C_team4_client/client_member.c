@@ -27,8 +27,8 @@ clearConsoleArea(int left, int top, int width, int height) {
 // 1.1 회원가입 요청
 req_add_member(SOCKET client_fd) {
 
-	system("cls");
-	printf("\n반갑습니다. 키울까말까증권입니다.\n");
+	//system("cls");
+	//printf("\n반갑습니다. 키울까말까증권입니다.\n");
 	printf(">> 회원가입 <<\n\n");
 	RequestData req_data;
 	req_data.select = 1;
@@ -61,8 +61,8 @@ req_add_member(SOCKET client_fd) {
 
 // 1.2 회원탈퇴 요청
 req_del_member(SOCKET client_fd) {
-	system("cls");
-	printf("\n안녕하세요. 키울까말까증권입니다.\n");
+	//system("cls");
+	//printf("\n안녕하세요. 키울까말까증권입니다.\n");
 	printf(">> 회원탈퇴 <<\n\n");
 	RequestData req_data;
 	req_data.select = 2;
@@ -92,8 +92,8 @@ req_del_member(SOCKET client_fd) {
 
 // 1.3 로그인 요청
 req_login(SOCKET client_fd) {
-	system("cls");
-	printf("\n반갑습니다. 키울까말까증권입니다.\n");
+	//system("cls");
+	//printf("\n반갑습니다. 키울까말까증권입니다.\n");
 	printf(">> 로그인 <<\n\n");
 	RequestData req_data;
 	req_data.select = 3;
@@ -136,6 +136,7 @@ req_logout(SOCKET client_fd, char* access) {
 res_add_member(ResponseData* res_data) {
 	//system("cls");
 	//printf(">> 회원가입 <<\n\n");
+	system("cls");
 	printf("%s\n", res_data->msg);
 	return 0;
 }
@@ -144,6 +145,7 @@ res_add_member(ResponseData* res_data) {
 res_del_member(ResponseData* res_data) {
 	//system("cls");
 	//printf(">> 회원탈퇴 <<\n\n");
+	system("cls");
 	printf("%s\n", res_data->msg);
 	return 0;
 }
@@ -152,10 +154,11 @@ res_del_member(ResponseData* res_data) {
 res_login(ResponseData* res_data, char* access) {
 	//system("cls");
 	//printf(">> 로그인 <<\n\n");
+	system("cls");
 	printf("%s\n", res_data->msg);
 	printf("   session: %s\n", res_data->session);
 	strcpy(access, res_data->session);
-	res_allStock(res_data);
+	//res_allStock(res_data);
 	return 0;
 }
 

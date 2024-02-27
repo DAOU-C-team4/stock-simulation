@@ -6,6 +6,7 @@ sqlite3* db;
 
 // 전역소켓 관리
 SOCKET client_sockets[FD_SETSIZE];
+int client_tf[FD_SETSIZE] = { 0 };
 num_clients = 0;
 
 int main(int argc, char* argv[]) {
@@ -26,7 +27,13 @@ int main(int argc, char* argv[]) {
 	// 2.1 클라이언트의 연결을 기다림
 	while (1) {
 		SOCKET new_socket = accept(server_fd, NULL, NULL);
-		client_sockets[num_clients++] = new_socket;
+		for (int i = 0; i < FD_SETSIZE; i++) {
+			if (client_tf[i] == 0) {
+				client_sockets[i] = new_socket;
+				client_tf[i] = 1;
+				break;
+			}
+		}
 		printf("\n");
 		if (new_socket == -1) {
 			perror("accept failed");
