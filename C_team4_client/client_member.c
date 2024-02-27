@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <conio.h>
 #include "client_socket.h"
 #include "client_member.h"
 #include "client_stock.h"
@@ -23,12 +24,35 @@ clearConsoleArea(int left, int top, int width, int height) {
 	SetConsoleCursorPosition(hConsole, upperLeft);
 }
 
+enterPassword(char* password) {
+	int i = 0;
+	while (1) {
+		char ch = getch(); // 사용자가 입력한 문자를 읽어옴 (화면에 표시되지 않음)
+
+		// 엔터키가 입력되면 입력 종료
+		if (ch == '\r' || ch == '\n') {
+			password[i] = '\0'; // 비밀번호 문자열 끝에 null 문자 추가
+			break;
+		}
+		// 백스페이스 키가 입력되면 이전 문자 삭제
+		else if (ch == '\b' && i > 0) {
+			i--;
+			printf("\b \b"); // 화면에서 백스페이스로 삭제된 문자 지우기
+		}
+		// 비밀번호 입력 시 '*' 문자로 마스킹하여 출력
+		else if (i < MAX_PASSWORD_LENGTH - 1) {
+			password[i++] = ch;
+			printf("*");
+		}
+	}
+	return 0;
+}
+
 /**************** 회원 관련 요청 함수 ****************/
 // 1.1 회원가입 요청
 req_add_member(SOCKET client_fd) {
-
-	system("cls");
-	printf("\n반갑습니다. 키울까말까증권입니다.\n");
+	//system("cls");
+	//printf("\n반갑습니다. 키울까말까증권입니다.\n");
 	printf(">> 회원가입 <<\n\n");
 	RequestData req_data;
 	req_data.select = 1;
@@ -36,16 +60,18 @@ req_add_member(SOCKET client_fd) {
 
 	printf("아이디를 입력하세요: ");
 	fgets(req_data.id, MAX_ID_LENGTH, stdin);
-	printf("비밀번호를 입력하세요: ");
-	fgets(req_data.password, MAX_PASSWORD_LENGTH, stdin);
-	printf("비밀번호를 한번더 입력하세요: ");
-	fgets(password_check, MAX_PASSWORD_LENGTH, stdin);
+	printf("비밀번호를 입력하세요: "); 
+	enterPassword(req_data.password);
+	//fgets(req_data.password, MAX_PASSWORD_LENGTH, stdin);
+	printf("\n비밀번호를 한번더 입력하세요: ");
+	enterPassword(password_check);
+	//fgets(password_check, MAX_PASSWORD_LENGTH, stdin);
 	// 비밀번호 확인
 	if (strcmp(req_data.password, password_check) != 0) {
-		printf("비밀번호가 일치하지 않습니다. 다시 시도해주세요.\n");
+		printf("\n비밀번호가 일치하지 않습니다. 다시 시도해주세요.\n");
 		return 1;
 	}
-	printf("이름을 입력하세요: ");
+	printf("\n이름을 입력하세요: ");
 	fgets(req_data.name, MAX_NAME_LENGTH, stdin);
 
 	// 서버로 전송
@@ -61,8 +87,8 @@ req_add_member(SOCKET client_fd) {
 
 // 1.2 회원탈퇴 요청
 req_del_member(SOCKET client_fd) {
-	system("cls");
-	printf("\n안녕하세요. 키울까말까증권입니다.\n");
+	//system("cls");
+	//printf("\n안녕하세요. 키울까말까증권입니다.\n");
 	printf(">> 회원탈퇴 <<\n\n");
 	RequestData req_data;
 	req_data.select = 2;
@@ -71,8 +97,9 @@ req_del_member(SOCKET client_fd) {
 	printf("아이디를 입력하세요: ");
 	fgets(req_data.id, MAX_ID_LENGTH, stdin);
 	printf("비밀번호를 입력하세요: ");
-	fgets(req_data.password, MAX_PASSWORD_LENGTH, stdin);
-	printf("정말 탈퇴하시겠습니까? (y/n): ");
+	enterPassword(req_data.password);
+	//fgets(req_data.password, MAX_PASSWORD_LENGTH, stdin);
+	printf("\n정말 탈퇴하시겠습니까? (y/n): ");
 	confirmation = fgetc(stdin);
 	if (confirmation != 'y' && confirmation != 'Y') {
 		printf("회원탈퇴가 취소되었습니다.\n");
@@ -92,8 +119,8 @@ req_del_member(SOCKET client_fd) {
 
 // 1.3 로그인 요청
 req_login(SOCKET client_fd) {
-	system("cls");
-	printf("\n반갑습니다. 키울까말까증권입니다.\n");
+	//system("cls");
+	//printf("\n반갑습니다. 키울까말까증권입니다.\n");
 	printf(">> 로그인 <<\n\n");
 	RequestData req_data;
 	req_data.select = 3;
@@ -101,7 +128,8 @@ req_login(SOCKET client_fd) {
 	printf("아이디를 입력하세요: ");
 	fgets(req_data.id, MAX_ID_LENGTH, stdin);
 	printf("비밀번호를 입력하세요: ");
-	fgets(req_data.password, MAX_PASSWORD_LENGTH, stdin);
+	enterPassword(req_data.password);
+	//fgets(req_data.password, MAX_PASSWORD_LENGTH, stdin);
 
 	// 서버로 전송
 	int bytes_sent = send(client_fd, (char*)&req_data, sizeof(req_data), 0);
@@ -136,6 +164,7 @@ req_logout(SOCKET client_fd, char* access) {
 res_add_member(ResponseData* res_data) {
 	//system("cls");
 	//printf(">> 회원가입 <<\n\n");
+	system("cls");
 	printf("%s\n", res_data->msg);
 	return 0;
 }
@@ -144,6 +173,7 @@ res_add_member(ResponseData* res_data) {
 res_del_member(ResponseData* res_data) {
 	//system("cls");
 	//printf(">> 회원탈퇴 <<\n\n");
+	system("cls");
 	printf("%s\n", res_data->msg);
 	return 0;
 }
@@ -152,10 +182,11 @@ res_del_member(ResponseData* res_data) {
 res_login(ResponseData* res_data, char* access) {
 	//system("cls");
 	//printf(">> 로그인 <<\n\n");
+	system("cls");
 	printf("%s\n", res_data->msg);
 	printf("   session: %s\n", res_data->session);
 	strcpy(access, res_data->session);
-	res_allStock(res_data);
+	//res_allStock(res_data);
 	return 0;
 }
 

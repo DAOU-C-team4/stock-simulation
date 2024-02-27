@@ -8,11 +8,11 @@ static int init_stock(ResponseData* res_data_ptr) {
 		int stock_arr_size = sizeof(res_data_ptr->stock_arr) / sizeof(res_data_ptr->stock_arr[0]);
 		
 		for (int i = 0; i < stock_arr_size; i++) {
-			printf("stock_id[%d] = %d\n", i, result[i].stock_id);
+			/*printf("stock_id[%d] = %d\n", i, result[i].stock_id);
 			printf("stock_name[%d] = %d\n", i, result[i].stock_name);
 			printf("stock_company_name[%d] = %s\n", i, result[i].stock_company_name);
 			printf("stock_price[%d] = %d\n", i, result[i].stock_price);
-			printf("stock_count[%d] = %d\n\n", i, result[i].stock_count);
+			printf("stock_count[%d] = %d\n\n", i, result[i].stock_count);*/
 
 			res_data_ptr->stock_arr[i].stock_id = result[i].stock_id;
 			res_data_ptr->stock_arr[i].stock_name = result[i].stock_name;
@@ -37,6 +37,11 @@ DWORD WINAPI handle_client(SOCKET client_socket) {
 		bytes_received = recv(client_socket, buffer, MAX_BUFFER_SIZE, 0);
 		if (bytes_received == SOCKET_ERROR) {
 			perror("recv failed");
+			for (int i = 0; i < FD_SETSIZE; i++) {
+				if (client_sockets[i] == client_socket) {
+					client_tf[i] = 0;
+				}
+			}
 			return 1;
 		}
 
@@ -44,13 +49,6 @@ DWORD WINAPI handle_client(SOCKET client_socket) {
 		RequestData* req_data = (RequestData*)buffer;
 		ResponseData res_data = { 0 };
 		ResponseData* res_data_ptr = &res_data;
-
-		// 이벤트 신호 발생
-		//SetEvent(event);
-
-		// **클라이언트 요청 - 전체 회원에게 보내기
-		//if(sizeof(res_data_ptr->stock_arr)>0)
-		//	SendAllClnt(res_data_ptr, client_socket);
 
 		// 요청에 따라 다른 작업 실행
 		switch (req_data->select)
@@ -80,7 +78,7 @@ DWORD WINAPI handle_client(SOCKET client_socket) {
 				perror("send buyStock() failed");
 				return 1;
 			}
-			SendAllClnt(res_data_ptr, client_sockets);
+			sendAllClnt(res_data_ptr);
 			break;
 		case 202:
 			sellStock(req_data, res_data_ptr);
@@ -89,7 +87,7 @@ DWORD WINAPI handle_client(SOCKET client_socket) {
 				perror("send sellStock() failed");
 				return 1;
 			}
-			SendAllClnt(res_data_ptr, client_sockets);
+			sendAllClnt(res_data_ptr);
 			break;
 		default:
 			// 잘못된 요청 처리
@@ -170,23 +168,19 @@ int logout(RequestData* req_data, ResponseData* res_data_ptr) {
 /**************** 주식관련 함수 ****************/
 
 // **클라이언트 요청 - 전체 회원에게 보내기
-int SendAllClnt(ResponseData* res_data_ptr, SOCKET client_socket) {
+int sendAllClnt(ResponseData* res_data_ptr) {
 	res_data_ptr->select = 200;
-	WaitForSingleObject(event, INFINITE);
 	init_stock(res_data_ptr);
-	ReleaseMutex(event);
-
+	int bytes_sent;
 	// 클라이언트로 결과 전송
-	WaitForSingleObject(event, INFINITE);
-	for (int i = 0; i <= num_clients; i++) {
-		//send(clntSocks[i], realMessage, BUF_SIZE, 0);
-		int bytes_sent = send(client_sockets[i], res_data_ptr, sizeof(*res_data_ptr), 0);
+	for (int i = 0; i < FD_SETSIZE; i++) {
+		if(client_tf[i]==1)
+			bytes_sent = send(client_sockets[i], res_data_ptr, sizeof(*res_data_ptr), 0);
 		if (bytes_sent == SOCKET_ERROR) {
-			perror("send failed");
+			perror("send failed : ");
 			return 1;
 		}
 	}
-	ReleaseMutex(event);
 	return 0;
 }
 
@@ -275,7 +269,20 @@ int sellStock(RequestData* req_data, ResponseData* res_data_ptr) {
 	else {
 		// 허락 응답
 		result = db_sellStock(db, req_data->session, req_data->stock_data.stock_id, req_data->stock_data.stock_count);
-		//예외처리 필요!!
+		if (result) {
+			res_data_ptr->check = 1;
+			if (result == 1) {
+				strcpy(res_data_ptr->msg, "매도가 거부되었습니다.");
+			}
+			else if (result == 2) {
+				strcpy(res_data_ptr->msg, "매도 수량이 현재 보유 수량보다 많습니다.");
+			}
+			// 매도는 해당 내용 불필요
+			/*else if (result == 3) {
+				strcpy(res_data_ptr->msg, "살 수 있는 주식 갯수를 초과했습니다.");
+			}*/
+			return 0;
+		}
 		res_data_ptr->check = 0;
 		strcpy(res_data_ptr->session, req_data->session);
 		strcpy(res_data_ptr->msg, "매도가 완료되었습니다.");

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "client_member.h"
 #include <time.h>
+#include <Windows.h>
 
 /**************** 주식 홈 ****************/
 // 0. 로그인후 주식관련 홈
@@ -10,23 +11,15 @@ stock_home(SOCKET client_fd, char* access) {
 	strcpy(send_access, access);
 	do {
 		int select = 0;
-		clearConsoleArea(0, 0, 50, 50);
-		req_allStock(client_fd, send_access);
-		gotoxy(0, 0);
+		//clearConsoleArea(0, 0, 50, 50);
+		//gotoxy(0, 1);
 		printf(">> 주식 서비스 이용 <<\n");
-		//printf("\n(0. 주식 조회 / 1.주식 매수 / 2.주식 매도 / 3.로그아웃)\n");
 		printf("\n(1.주식 매수 / 2.주식 매도 / 3.로그아웃)\n");
 		printf("원하는 작업을 지정해주세요 : ");
 		scanf("%d%*c", &select);
-		//printf("stock_home() 액세스토큰: %s, %s\n", send_access, access);
-
 		printf("\n=================================\n\n");
 		switch (select)
 		{
-		//임시
-		//case 0:
-		//	req_allStock(client_fd, send_access);
-		//	break;
 		case 1:
 			req_buyStock(client_fd, send_access);
 			break;
@@ -40,6 +33,7 @@ stock_home(SOCKET client_fd, char* access) {
 			printf("\n1, 2, 3번 중 하나를 입력하세요\n");
 			continue;
 		}
+
 	} while (1 != 0);
 
 	return 0;
@@ -60,7 +54,7 @@ req_allStock(SOCKET client_fd, char* access) {
 		return 1;
 	}
 
-	WaitForSingleObject(event, INFINITE); // 신호 대기
+	//WaitForSingleObject(event, INFINITE); // 신호 대기
 	return 0;
 }
 // 1.1 주식 매수 요청
@@ -79,7 +73,7 @@ req_buyStock(SOCKET client_fd, char* access) {
 		scanf("%d%*c", &req_data.stock_data.stock_count);
 	} while (req_data.stock_data.stock_count < 0);
 
-	printf("넘어가는 세션 : %s\n", req_data.session);
+	//printf("넘어가는 세션 : %s\n", req_data.session);
 
 	// 서버로 전송
 	int bytes_sent = send(client_fd, (RequestData*)&req_data, sizeof(req_data), 0);
@@ -122,9 +116,15 @@ req_sellStock(SOCKET client_fd, char* access) {
 /**************** 주식 관련 리슨 함수 ****************/
 // 2.0 주식 정보 조회
 res_allStock(ResponseData* res_data) {
+	//로그인 직후에는 stock_home보다 먼저 나오고, 기능 작업 후에는 stock_home보다 나중에 나오므로
+	//언제든 이전 커서 위치를 기억했다가 복구해야한다.
+	CONSOLE_SCREEN_BUFFER_INFO presentCur; // 콘솔 출력창의 정보를 담기 위해서 정의한 구조체 	
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &presentCur);  //현재 커서의 위치 정보를 저장하는 함수	
+	int pre_x = presentCur.dwCursorPosition.X;
+	int pre_y = presentCur.dwCursorPosition.Y + 1;
 
-	int x = 50, y = 1, c = 0;
-	clearConsoleArea(50, 0, 120, 25);// (50, 0) 위치로부터 120*25 크기의 영역 클리어
+	int y = 1, c = 0;
+	//clearConsoleArea(50, 0, 80, 25);// (50, 0) 위치로부터 80*25 크기의 영역 클리어
 
 	// 주식정보 받고 저장
 	int stock_arr_size = sizeof(res_data->stock_arr) / sizeof(res_data->stock_arr[0]);
@@ -151,11 +151,15 @@ res_allStock(ResponseData* res_data) {
 		}
 	}
 	//원래 좌표로 옮기기!!
+	gotoxy(pre_x, pre_y);
 	return 0;
 }
 // 2.1 주식 매수 리슨
 res_buyStock(ResponseData* res_data) {
+	//system("cls");
+	clearConsoleArea(0, 0, 50, 50);
 	printf("%s\n", res_data->msg);
+	printf("\n=================================\n\n");
 	// 보유 주식 및 잔고 출력
 
 	//res_allStock(res_data);
@@ -163,7 +167,10 @@ res_buyStock(ResponseData* res_data) {
 }
 // 2.2 주식 매도 리슨
 res_sellStock(ResponseData* res_data) {
+	//system("cls");
+	clearConsoleArea(0, 0, 50, 50);
 	printf("%s\n", res_data->msg);
+	printf("\n=================================\n\n");
 	// 보유 주식 및 잔고 출력
 
 	//res_allStock(res_data);

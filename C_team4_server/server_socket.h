@@ -17,3 +17,4 @@ DWORD WINAPI handle_client(SOCKET client_socket);
 // 전역 소켓 관리
 extern int num_clients;
 extern SOCKET client_sockets[FD_SETSIZE];
+extern int client_tf[FD_SETSIZE]; //클라이언트 소켓 메모리 관리(클라이언트 존재여부 저장)
