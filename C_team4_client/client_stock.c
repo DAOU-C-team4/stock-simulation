@@ -73,7 +73,7 @@ req_buyStock(SOCKET client_fd, char* access) {
 		scanf("%d%*c", &req_data.stock_data.stock_count);
 	} while (req_data.stock_data.stock_count < 0);
 
-	printf("넘어가는 세션 : %s\n", req_data.session);
+	//printf("넘어가는 세션 : %s\n", req_data.session);
 
 	// 서버로 전송
 	int bytes_sent = send(client_fd, (RequestData*)&req_data, sizeof(req_data), 0);
@@ -159,6 +159,7 @@ res_buyStock(ResponseData* res_data) {
 	//system("cls");
 	clearConsoleArea(0, 0, 50, 50);
 	printf("%s\n", res_data->msg);
+	printf("\n=================================\n\n");
 	// 보유 주식 및 잔고 출력
 
 	//res_allStock(res_data);
@@ -169,6 +170,7 @@ res_sellStock(ResponseData* res_data) {
 	//system("cls");
 	clearConsoleArea(0, 0, 50, 50);
 	printf("%s\n", res_data->msg);
+	printf("\n=================================\n\n");
 	// 보유 주식 및 잔고 출력
 
 	//res_allStock(res_data);
