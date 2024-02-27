@@ -47,9 +47,7 @@ DWORD WINAPI listen_thread(SOCKET client_fd) {
 		}
 		// 서버로부터 받은 메시지 처리
 		ResponseData* res_data = (ResponseData*)received_message;
-		// 요청대기를 받기때문에 두번 받게됨!
-			//+이거 해결하고 주식데이터 동시 출력
-			//모듈 형식으로 출력까지 반영해보기
+
 		if (strcmp(res_data->session, "NONE") && strcmp(res_data->session, "CLEAR" )
 			&& strcmp(res_data->session, "") && strcmp(res_data->session, "\0")
 			&& res_data->session==NULL) {

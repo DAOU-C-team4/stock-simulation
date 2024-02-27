@@ -4,6 +4,7 @@
 #define gotoxy(x,y) printf("\033[%d;%dH", (y), (x))
 
 clearConsoleArea(int left, int top, int width, int height);
+enterPassword(char* password);
 
 /**************** 회원 관련 요청 함수 ****************/
 req_add_member(SOCKET client_fd);
