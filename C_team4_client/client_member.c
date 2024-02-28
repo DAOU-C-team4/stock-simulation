@@ -5,9 +5,7 @@
 /**************** 회원 관련 요청 함수 ****************/
 // 1.1 회원가입 요청
 req_add_member(SOCKET client_fd) {
-	system("cls");
-	printf("\n반갑습니다. 키울까말까증권입니다.\n");
-	printf(">> 회원가입 <<\n\n");
+	printf("\n>> 회원가입 <<\n\n");
 	RequestData req_data;
 	req_data.select = 1;
 	char password_check[MAX_PASSWORD_LENGTH];
@@ -42,9 +40,7 @@ req_add_member(SOCKET client_fd) {
 
 // 1.2 회원탈퇴 요청
 req_del_member(SOCKET client_fd) {
-	system("cls");
-	printf("\n안녕하세요. 키울까말까증권입니다.\n");
-	printf(">> 회원탈퇴 <<\n\n");
+	printf("\n>> 회원탈퇴 <<\n\n");
 	RequestData req_data;
 	req_data.select = 2;
 	char confirmation = 'y';
@@ -87,9 +83,7 @@ req_del_member(SOCKET client_fd) {
 
 // 1.3 로그인 요청
 req_login(SOCKET client_fd) {
-	system("cls");
-	printf("\n반갑습니다. 키울까말까증권입니다.\n");
-	printf(">> 로그인 <<\n\n");
+	printf("\n>> 로그인 <<\n\n");
 	RequestData req_data;
 	req_data.select = 3;
 
@@ -131,21 +125,18 @@ req_logout(SOCKET client_fd, char* access) {
 /**************** 회원 관련 리슨 함수 ****************/
 // 2.1 회원가입 리슨
 res_add_member(ResponseData* res_data) {
-	system("cls");
 	printf("\n%s\n", res_data->msg);
 	return 0;
 }
 
 // 2.2 회원탈퇴 리슨
 res_del_member(ResponseData* res_data) {
-	system("cls");
 	printf("\n%s\n", res_data->msg);
 	return 0;
 }
 
 // 2.3 로그인 리슨
 res_login(ResponseData* res_data, char* access) {
-	system("cls");
 	printf("\n%s\n", res_data->msg);
 	printf("   session: %s\n", res_data->session);
 	strcpy(access, res_data->session);
@@ -155,6 +146,7 @@ res_login(ResponseData* res_data, char* access) {
 // 2.4 로그아웃 리슨
 res_logout(ResponseData* res_data, char* access) {
 	//system("cls");
+	printf("\n>> 서버로부터 온 메시지 <<\n");
 	printf("\n>> 로그아웃 <<\n");
 	printf("   session: %s\n", res_data->session);
 	strcpy(access, "NONE");
@@ -163,7 +155,8 @@ res_logout(ResponseData* res_data, char* access) {
 
 // 2.5 회원정보 리슨
 res_memberInfo(ResponseData* res_data, char* access) {
-	printf(">> 회원정보 <<\n\n");
+	printf(">> 서버로부터 온 메시지 <<\n");
+	printf("\n>> 회원정보 <<\n\n");
 
 	return 0;
 }

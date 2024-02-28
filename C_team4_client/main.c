@@ -60,6 +60,10 @@ DWORD WINAPI listen_thread(SOCKET client_fd) {
 
 		// 요청별 분기처리
 		select = res_data->select;
+		if (select == 1 || select == 2 || select == 3 || select==201 || select==202 ) {
+			system("cls");
+			printf(">> 서버로부터 온 메시지 <<\n");
+		}
 		switch (select) {
 		case 1: // 회원가입
 			res_add_member(res_data);
@@ -120,10 +124,22 @@ select_task_home(SOCKET client_fd) {
 		// 로그인 아닐시 - 회원관리
 		int select = 0;
 		//system("cls");
-		printf("\n반갑습니다. 키울까말까증권입니다.\n");
-		printf("\n(1.회원가입 / 2.회원탈퇴 / 3.로그인 / 4.종료)\n\n");
+		printf("\n");
+		printf(" ______  _______  _____  _     _      _______ _______  _____  _______ _     _\n");
+		printf(" |     ` |_____| |     | |     |      |______    |    |     | |       |____/ \n");
+		printf(" |_____/ |     | |_____| |_____|      ______|    |    |_____| |_____  |    `_\n");
+		printf("\n");
+		printf("\n 1.회원가입 \n 2.회원탈퇴 \n 3.로그인 \n 4.종료\n\n");
 		select = getInputInteger("원하는 작업을 지정해주세요 : ");
 		printf("\n====================================================\n\n");
+
+		system("cls");
+		printf("\n");
+		printf(" ______  _______  _____  _     _      _______ _______  _____  _______ _     _\n");
+		printf(" |     ` |_____| |     | |     |      |______    |    |     | |       |____/ \n");
+		printf(" |_____/ |     | |_____| |_____|      ______|    |    |_____| |_____  |    `_\n");
+		printf("\n");
+		printf("\n반갑습니다. 키울까말까증권입니다.\n");
 		switch (select)
 		{
 		case 1: // 회원가입
@@ -143,6 +159,6 @@ select_task_home(SOCKET client_fd) {
 			printf("\n잘못된 번호입니다.\n");
 			continue;
 		}
-		printf("\n====================================\n");
+		printf("\n=============================================\n");
 	} while (run);
 }
