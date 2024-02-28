@@ -2,6 +2,8 @@
 #include "server_socket.h"
 #include "server_db.h"
 
+client_login[FD_SETSIZE] = { 0 };
+
 static int init_stock(ResponseData* res_data_ptr) {
 	STOCK_RES* result = db_allStock(db);
 	if (result) {
@@ -55,10 +57,10 @@ DWORD WINAPI handle_client(SOCKET client_socket) {
 			del_member(req_data, res_data_ptr);
 			break;
 		case 3:
-			login(req_data, res_data_ptr);
+			login(req_data, res_data_ptr, client_socket);
 			break;
 		case 4:
-			logout(req_data, res_data_ptr);
+			logout(req_data, res_data_ptr, client_socket);
 			break;
 		case 5:
 			// 회원 정보 조회 요청
@@ -142,7 +144,7 @@ int del_member(RequestData* req_data, ResponseData* res_data_ptr) {
 }
 
 // 1.3 클라이언트 요청 - 로그인
-int login(RequestData* req_data, ResponseData* res_data_ptr) {
+int login(RequestData* req_data, ResponseData* res_data_ptr, SOCKET client_socket) {
 	// 로그인
 	printf("\n선택 : %d (로그인)\n", req_data->select);
 	printf("받은 아이디: %s\n", req_data->id);
@@ -160,16 +162,28 @@ int login(RequestData* req_data, ResponseData* res_data_ptr) {
 	}
 	else {
 		strcpy(res_data_ptr->msg, "로그인 성공");
+		for (int i = 0; i < FD_SETSIZE; i++) {
+			if (client_sockets[i] == client_socket) {
+				client_login[i] = 1;
+				break;
+			}
+		}
 	}
 	return 0;
 }
 
 // 1.4 클라이언트 요청 - 로그아웃
-int logout(RequestData* req_data, ResponseData* res_data_ptr) {
+int logout(RequestData* req_data, ResponseData* res_data_ptr, SOCKET client_socket) {
 	// 로그아웃
 	printf("\n선택 : %d (로그아웃)\n", req_data->select);
 	printf("받은 세션: %s\n", req_data->session);
 	db_logout(db, req_data->session);
+	for (int i = 0; i < FD_SETSIZE; i++) {
+		if (client_sockets[i] == client_socket) {
+			client_login[i] = 0;
+			break;
+		}
+	}
 	// 응답데이터 기록
 	res_data_ptr->select = 4;
 	strcpy(res_data_ptr->session, "CLEAR");
@@ -189,7 +203,7 @@ int sendAllClnt(ResponseData* res_data_ptr) {
 	// 클라이언트로 결과 전송
 	printf("모든 클라이언트에게 발송 시작\n");
 	for (int i = 0; i < FD_SETSIZE; i++) {
-		if (client_tf[i] == 1) {
+		if (client_tf[i] == 1 && client_login[i]==1) {
 			bytes_sent = send(client_sockets[i], res_data_ptr, sizeof(*res_data_ptr), 0);
 			if (bytes_sent == SOCKET_ERROR) {
 				perror("send failed : ");
