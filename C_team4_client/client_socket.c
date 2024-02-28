@@ -28,7 +28,7 @@ SOCKET connect_to_server() {
 		exit(EXIT_FAILURE);
 	}
 
-	printf("Connected to server\n");
+	//printf("Connected to server\n");
 
 	return client_fd;
 }

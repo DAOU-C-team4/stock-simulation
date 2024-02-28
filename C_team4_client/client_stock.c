@@ -16,14 +16,14 @@ stock_home(SOCKET client_fd, char* access) {
 	strcpy(send_access, access);
 	do {
 		int select;
-		printf(">> 주식 서비스 이용 <<\n");
-		printf("\n(1.주식 매수 / 2.주식 매도 / 3.로그아웃)\n");
+		printf("\n>> 주식 서비스 이용 <<\n");
+		printf("\n 1.주식 매수 \n 2.주식 매도 \n 3.로그아웃 \n");
 		gotoxy(0, 18);
 		printf("\n===================================================================================================================\n\n");
 		select = getInputInteger(" 원하는 작업을 지정해주세요 : ");
 
 		system("cls");
-		printf(">> 주식 서비스 이용 <<\n\n");
+		printf("\n>> 주식 서비스 이용 <<\n\n");
 
 		if(select!=3)
 			req_allStock(client_fd, send_access);
@@ -37,10 +37,11 @@ stock_home(SOCKET client_fd, char* access) {
 			req_sellStock(client_fd, send_access);
 			break;
 		case 3:
-			printf("매매 종료. 안녕히가세요 :)\n");
+			printf(" 매매 종료. 안녕히가세요 :)\n");
 			return; 
 		default:
-			printf("\n1, 2, 3번 중 하나를 입력하세요\n\n");
+			printf("1, 2, 3번 중 하나를 입력하세요\n");
+			printf("\n=========================================\n\n");
 			continue;
 		};
 
@@ -81,7 +82,7 @@ req_buyStock(SOCKET client_fd, char* access) {
 	do {
 		/*printf("매수할 종목 수량을 입력하세요 : ");
 	scanf("%d%*c", &req_data.stock_data.stock_count);*/
-		req_data.stock_data.stock_count = getInputInteger("매수할 수량을 입력하세요 : ");
+		req_data.stock_data.stock_count = getInputInteger("\n매수할 수량을 입력하세요 : ");
 	} while (req_data.stock_data.stock_count < 0);
 
 	int bytes_sent = send(client_fd, (RequestData*)&req_data, sizeof(req_data), 0);
@@ -113,7 +114,7 @@ req_sellStock(SOCKET client_fd, char* access) {
 		/*printf("매도할 수량을 입력하세요 : ");
 		scanf("%d%*c", &req_data.stock_data.stock_count);*/
 		//req_data.stock_data.stock_count = getInputInteger("매도할 수량을 입력하세요: ");
-		req_data.stock_data.stock_count = getInputInteger("매도할 수량을 입력하세요 : ");
+		req_data.stock_data.stock_count = getInputInteger("\n매도할 수량을 입력하세요 : ");
 	} while (req_data.stock_data.stock_count < 0);
 
 	int bytes_sent = send(client_fd, (RequestData*)&req_data, sizeof(req_data), 0);
@@ -152,7 +153,6 @@ res_allStock(ResponseData* res_data) {
 	int pre_y = presentCur.dwCursorPosition.Y + 1;
 
 	int y = 1, c = 0;
-
 	// 주식정보 받고 저장
 	gotoxy(50, y);
 	printf(">> 실시간 주식정보 <<");
@@ -181,18 +181,16 @@ res_allStock(ResponseData* res_data) {
 }
 // 2.1 주식 매수 리슨
 res_buyStock(ResponseData* res_data) {
-	system("cls");
-	printf("%s\n", res_data->msg);
-	printf("\n=================================\n\n");
+	printf("\n%s\n", res_data->msg);
+	printf("\n==========================================\n\n");
 	// 보유 주식 및 잔고 출력
 
 	return 0;
 }
 // 2.2 주식 매도 리슨
 res_sellStock(ResponseData* res_data) {
-	system("cls");
-	printf("%s\n", res_data->msg);
-	printf("\n=================================\n\n");
+	printf("\n%s\n", res_data->msg);
+	printf("\n=========================================\n\n");
 	// 보유 주식 및 잔고 출력
 
 	return 0;
