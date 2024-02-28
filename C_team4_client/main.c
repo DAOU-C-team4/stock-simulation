@@ -6,6 +6,7 @@
 char access[31] = "NONE";
 
 int main(int argc, char* argv[]) {
+
 	// 0.1 소켓연결
 	SOCKET client_fd = connect_to_server();
 	// 0.2 이벤트 객체 생성
@@ -105,6 +106,7 @@ select_task_home(SOCKET client_fd) {
 	/*system("cls");
 	printf("\n반갑습니다. 키울까말까증권입니다.\n");*/
 
+	
 	// 홈 메뉴 반복
 	do {
 		// 로그인시 - 주식매매
@@ -115,7 +117,7 @@ select_task_home(SOCKET client_fd) {
 			stock_home(client_fd, access);
 			// 주식매매 홈에서 나갈시 로그아웃
 			req_logout(client_fd, access);
-			printf("\n========================================================================\n");
+		    printf("\n===================================================\n");
 			continue;
 		}
 		// 로그인 아닐시 - 회원관리

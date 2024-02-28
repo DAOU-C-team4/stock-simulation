@@ -5,13 +5,9 @@
 #include "client_member.h"
 #include "client_stock.h"
 
-
-
 /**************** 회원 관련 요청 함수 ****************/
 // 1.1 회원가입 요청
 req_add_member(SOCKET client_fd) {
-	//system("cls");
-	//printf("\n안녕하세요. 키울까말까증권입니다.\n");
 	printf(">> 회원가입 <<\n\n");
 	RequestData req_data;
 	req_data.select = 1;
@@ -166,7 +162,8 @@ res_login(ResponseData* res_data, char* access) {
 
 // 2.4 로그아웃 리슨
 res_logout(ResponseData* res_data, char* access) {
-	printf(">> 로그아웃 <<\n\n");
+	clearConsoleArea(0, 0, 50, 50);
+	printf(">> 로그아웃 <<\n");
 	printf("   session: %s\n", res_data->session);
 	strcpy(access, "NONE");
 	return 0;
@@ -311,13 +308,20 @@ enterPasswordLogin(char* password) {
 
 // 정수 입력 함수
 int getInputInteger(char* prompt) {
-	char input[20]; // 충분한 공간 할당
+	char input[1024]; // 충분한 공간 할당
 	int value;
+	int c;
 	bool validInput = false;
 
 	while (!validInput) {
 		printf("%s", prompt);
 		fgets(input, sizeof(input), stdin);
+
+		if (strlen(input) >= 11) {
+			printf("입력값이 범위를 벗어납니다. 아무 키나 누르세요 ");
+			while ((c = getchar()) != '\n' && c != EOF);
+			continue;
+		}
 
 		// 입력에서 공백발견시 아웃처리
 		for (int i = 0; i < strlen(input); i++) {
@@ -333,7 +337,8 @@ int getInputInteger(char* prompt) {
 		}
 		// 입력값의 범위 확인
 		if (value < INT_MIN || value > INT_MAX) {
-			printf("입력값이 범위를 벗어납니다.\n");
+			printf("입력값이 범위를 벗어납니다. 아무 키나 누르세요 ");
+			while ((c = getchar()) != '\n' && c != EOF);
 			continue;
 		}
 		validInput = true;
