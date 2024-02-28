@@ -1,7 +1,0 @@
-﻿  main.c
-C:\stock-simulation\C_team4_server\main.c(40,9): warning C4022: 'free': 실제 매개 변수 1의 포인터가 일치하지 않습니다.
-C:\stock-simulation\C_team4_server\main.c(47,55): warning C4028: 정식 매개 변수 1이(가) 선언과 다릅니다.
-C:\stock-simulation\C_team4_server\main.c(47,57): warning C4022: 'CreateThread': 실제 매개 변수 4의 포인터가 일치하지 않습니다.
-C:\stock-simulation\C_team4_server\main.c(50,9): warning C4022: 'free': 실제 매개 변수 1의 포인터가 일치하지 않습니다.
-C:\stock-simulation\C_team4_server\main.c(21,29): warning C4101: 'valread' :참조되지 않은 지역 변수입니다.
-  C_team4.vcxproj -> C:\stock-simulation\C_team4_server\Debug\C_team4.exe

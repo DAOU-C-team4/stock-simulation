@@ -6,7 +6,7 @@ static int init_stock(ResponseData* res_data_ptr) {
 	STOCK_RES* result = db_allStock(db);
 	if (result) {
 		int stock_arr_size = sizeof(res_data_ptr->stock_arr) / sizeof(res_data_ptr->stock_arr[0]);
-		
+
 		for (int i = 0; i < stock_arr_size; i++) {
 			/*printf("stock_id[%d] = %d\n", i, result[i].stock_id);
 			printf("stock_name[%d] = %d\n", i, result[i].stock_name);
@@ -109,14 +109,20 @@ DWORD WINAPI handle_client(SOCKET client_socket) {
 int add_member(RequestData* req_data, ResponseData* res_data_ptr) {
 	// 회원 db 등록
 	printf("\n선택 : %d (회원가입)\n", req_data->select);
-	printf("받은 아이디: %s", req_data->id);
-	printf("받은 비밀번호: %s", req_data->password);
-	printf("받은 이름: %s", req_data->name);
-	db_insert_member(db, req_data->name, req_data->id, req_data->password);
+	printf("받은 아이디: %s\n", req_data->id);
+	printf("받은 비밀번호: %s\n", req_data->password);
+	printf("받은 이름: %s\n", req_data->name);
 	// 응답데이터 기록
+	int result;
+	result = db_insert_member(db, req_data->name, req_data->id, req_data->password);
 	res_data_ptr->select = 1;
 	strcpy(res_data_ptr->session, "NONE");
-	strcpy(res_data_ptr->msg, "회원가입 완료");
+	if (result) {
+		strcpy(res_data_ptr->msg, "회원가입 완료");
+	}
+	else {
+		strcpy(res_data_ptr->msg, "회원가입 실패");
+	}
 	return 0;
 }
 
@@ -124,13 +130,19 @@ int add_member(RequestData* req_data, ResponseData* res_data_ptr) {
 int del_member(RequestData* req_data, ResponseData* res_data_ptr) {
 	// 회원 db 삭제
 	printf("\n선택 : %d (회원탈퇴)\n", req_data->select);
-	printf("받은 아이디: %s", req_data->id);
-	printf("받은 비밀번호: %s", req_data->password);
-	db_delete_member(db, req_data->id, req_data->password);
+	printf("받은 아이디: %s\n", req_data->id);
+	printf("받은 비밀번호: %s\n", req_data->password);
 	// 응답데이터 기록
+	int result;
+	result = db_delete_member(db, req_data->id, req_data->password);
 	res_data_ptr->select = 2;
 	strcpy(res_data_ptr->session, "NONE");
-	strcpy(res_data_ptr->msg, "회원탈퇴 완료");
+	if (result) {
+		strcpy(res_data_ptr->msg, "회원탈퇴 완료");
+	}
+	else {
+		strcpy(res_data_ptr->msg, "회원탈퇴 실패. 아이디 비밀번호를 확인해주세요.");
+	}
 	return 0;
 }
 
@@ -138,14 +150,22 @@ int del_member(RequestData* req_data, ResponseData* res_data_ptr) {
 int login(RequestData* req_data, ResponseData* res_data_ptr) {
 	// 로그인
 	printf("\n선택 : %d (로그인)\n", req_data->select);
-	printf("받은 아이디: %s", req_data->id);
-	printf("받은 비밀번호: %s", req_data->password);
+	printf("받은 아이디: %s\n", req_data->id);
+	printf("받은 비밀번호: %s\n", req_data->password);
 	char* access_key;
 	access_key = db_login(db, req_data->id, req_data->password);
 	// 응답데이터 기록
 	res_data_ptr->select = 3;
 	strcpy(res_data_ptr->session, access_key);
-	strcpy(res_data_ptr->msg, "로그인 완료");
+	if (!strcmp(access_key, "NONE")) {
+		strcpy(res_data_ptr->msg, "로그인 실패. 아이디 비밀번호를 확인해주세요.");
+	}
+	else if (access_key == NULL) {
+		strcpy(res_data_ptr->msg, "서버 에러");
+	}
+	else {
+		strcpy(res_data_ptr->msg, "로그인 성공");
+	}
 
 	init_stock(res_data_ptr);
 	return 0;
@@ -174,7 +194,7 @@ int sendAllClnt(ResponseData* res_data_ptr) {
 	int bytes_sent;
 	// 클라이언트로 결과 전송
 	for (int i = 0; i < FD_SETSIZE; i++) {
-		if(client_tf[i]==1)
+		if (client_tf[i] == 1)
 			bytes_sent = send(client_sockets[i], res_data_ptr, sizeof(*res_data_ptr), 0);
 		if (bytes_sent == SOCKET_ERROR) {
 			perror("send failed : ");

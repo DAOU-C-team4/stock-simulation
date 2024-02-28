@@ -15,9 +15,6 @@ req_logout(SOCKET client_fd, char* access);
 /**************** 회원 관련 리슨 함수 ****************/
 res_add_member(ResponseData* res_data);
 res_del_member(ResponseData* res_data);
-res_login(ResponseData* res_data);
+res_login(ResponseData* res_data, char* access);
 res_logout(ResponseData* res_data, char* access);
 res_memberInfo(ResponseData* res_data, char* access);
-
-/*****************문자열 입력 검사 함수 ****************/
-int getInputInteger(char* prompt);

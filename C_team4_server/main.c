@@ -11,7 +11,7 @@ num_clients = 0;
 
 int main(int argc, char* argv[]) {
 	// 1. 데이터베이스 열기
-	if(!db)
+	if (!db)
 		db = open_database("customer.db");
 	if (!db) {
 		return 1;
