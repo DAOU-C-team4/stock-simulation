@@ -1,5 +1,12 @@
 #pragma once
 #include "client_socket.h"
+#include <time.h>
+#include <Windows.h>
+#include <ctype.h>
+
+#define gotoxy(x,y) printf("\033[%d;%dH", (y), (x))
+
+delay(clock_t delay_time);
 
 /**************** аж╫д х╗ ****************/
 stock_home(SOCKET client_fd, char* access);

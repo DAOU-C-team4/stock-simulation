@@ -1,13 +1,16 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "sqlite3.h"
+#include "server_db.h"
 #include "server_request.h"
 
 // 주식 id 파싱
 matching_data[10] = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 };
 
 int idx = 0;
+
+delay(clock_t delay_time) {
+	clock_t start = clock(); //clock 함수는 1/1000
+	while (clock() - start < delay_time);
+	return 0;
+}
 
 /**************** DB 연결 기본 ****************/
 // 콜백 함수 1 - SELECT 쿼리 결과를 처리하는 함수
@@ -18,7 +21,7 @@ static int callback(void* NotUsed, int argc, char** argv, char** azColName) {
 static int callback_login(void* user_count_ptr, int argc, char** argv, char** azColName) {
 	int* user_count = (int*)user_count_ptr;
 	*user_count = atoi(argv[0]); // 첫 번째 열 값을 정수로 변환하여 user_count에 저장
-	printf("Callback called: user count = %d\n", *user_count);
+	printf("\nCallback called: user count = %d\n", *user_count);
 	return 0;
 }
 // 콜백 함수 3 - 주식 가격 로드
@@ -533,8 +536,6 @@ int db_sellStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 		fprintf(stderr, "해당 주식을 미보유.");
 		return 2;
 	}
-
-	
 
 	// (작업해야함!!!!!!!!) 회원이 가진 주식갯수와 비교
 	if (s_cnt > account_quantity) {

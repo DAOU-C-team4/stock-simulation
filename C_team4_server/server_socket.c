@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "server_socket.h"
 
 /**************** 통신 소켓 기본 ****************/

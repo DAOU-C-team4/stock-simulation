@@ -25,6 +25,6 @@ int is_duplicate_key(sqlite3* db, const char* key);
 int db_logout(sqlite3* db, const char* session);
 
 /**************** 주식 관련 DB 함수 ****************/
-int db_allStock(sqlite3* db);
+//int db_allStock(sqlite3* db);
 int db_buyStock(sqlite3* db, char* session, int s_id, int s_cnt);
 int db_sellStock(sqlite3* db, char* session, int s_id, int s_cnt);

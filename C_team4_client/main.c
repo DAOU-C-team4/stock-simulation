@@ -103,9 +103,6 @@ select_task_home(SOCKET client_fd) {
 	// 기본 세팅
 	int run = 1;
 	char message[MAX_BUFFER_SIZE];
-	/*system("cls");
-	printf("\n반갑습니다. 키울까말까증권입니다.\n");*/
-
 	
 	// 홈 메뉴 반복
 	do {
@@ -124,7 +121,7 @@ select_task_home(SOCKET client_fd) {
 		int select = 0;
 		//system("cls");
 		printf("\n반갑습니다. 키울까말까증권입니다.\n");
-		printf("\n(1.회원가입 / 2.회원탈퇴 / 3.로그인 / 4.종료)\n");
+		printf("\n(1.회원가입 / 2.회원탈퇴 / 3.로그인 / 4.종료)\n\n");
 		select = getInputInteger("원하는 작업을 지정해주세요 : ");
 		printf("\n====================================================\n\n");
 		switch (select)

@@ -1,6 +1,4 @@
 #include "client_socket.h"
-#include <WinSock2.h>
-#pragma comment(lib, "Ws2_32.lib")
 
 
 // 0. 소켓연결

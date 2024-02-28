@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #define MAX_BUFFER_SIZE 1024
 #define MAX_ID_LENGTH 50
@@ -41,6 +42,8 @@ typedef struct {
 	STOCK_RES stock_arr[MAX_STOCK_RES_LENGTH];          // 주식 정보
 	STOCK_RES my_stock[MAX_STOCK_RES_LENGTH];           // 내 주식 잔고
 } ResponseData;
+
+delay(clock_t delay_time);
 
 /**************** 회원 관련 함수 ****************/
 int add_member(RequestData* req_data, ResponseData* res_data_ptr);

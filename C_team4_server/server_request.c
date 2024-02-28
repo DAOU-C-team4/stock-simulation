@@ -5,9 +5,7 @@
 static int init_stock(ResponseData* res_data_ptr) {
 	STOCK_RES* result = db_allStock(db);
 	if (result) {
-		int stock_arr_size = sizeof(res_data_ptr->stock_arr) / sizeof(res_data_ptr->stock_arr[0]);
-
-		for (int i = 0; i < stock_arr_size; i++) {
+		for (int i = 0; i < MAX_STOCK_RES_LENGTH; i++) {
 			/*printf("stock_id[%d] = %d\n", i, result[i].stock_id);
 			printf("stock_name[%d] = %d\n", i, result[i].stock_name);
 			printf("stock_company_name[%d] = %s\n", i, result[i].stock_company_name);
@@ -20,6 +18,7 @@ static int init_stock(ResponseData* res_data_ptr) {
 			res_data_ptr->stock_arr[i].stock_price = result[i].stock_price;
 			res_data_ptr->stock_arr[i].stock_count = result[i].stock_count;
 		}
+		printf("실시간 주식 정보 저장완료\n");
 		return 0;
 	}
 }
@@ -33,10 +32,12 @@ DWORD WINAPI handle_client(SOCKET client_socket) {
 
 	// 클라이언트로부터 요청 대기
 	do {
+		printf("\n===========================\n");
 		printf("%d번 클라이언트 요청대기\n", client_socket);
 		bytes_received = recv(client_socket, buffer, MAX_BUFFER_SIZE, 0);
 		if (bytes_received == SOCKET_ERROR) {
-			perror("recv failed");
+			printf("%d ", client_socket);
+			perror("client recv failed");
 			for (int i = 0; i < FD_SETSIZE; i++) {
 				if (client_sockets[i] == client_socket) {
 					client_tf[i] = 0;
@@ -166,8 +167,6 @@ int login(RequestData* req_data, ResponseData* res_data_ptr) {
 	else {
 		strcpy(res_data_ptr->msg, "로그인 성공");
 	}
-
-	init_stock(res_data_ptr);
 	return 0;
 }
 
@@ -191,16 +190,21 @@ int logout(RequestData* req_data, ResponseData* res_data_ptr) {
 int sendAllClnt(ResponseData* res_data_ptr) {
 	res_data_ptr->select = 200;
 	init_stock(res_data_ptr);
+	delay(100);
 	int bytes_sent;
 	// 클라이언트로 결과 전송
+	printf("모든 클라이언트에게 발송 시작\n");
 	for (int i = 0; i < FD_SETSIZE; i++) {
-		if (client_tf[i] == 1)
+		if (client_tf[i] == 1) {
 			bytes_sent = send(client_sockets[i], res_data_ptr, sizeof(*res_data_ptr), 0);
-		if (bytes_sent == SOCKET_ERROR) {
-			perror("send failed : ");
-			return 1;
+			if (bytes_sent == SOCKET_ERROR) {
+				perror("send failed : ");
+				return 1;
+			}
+			printf("%d번, ", client_sockets[i]);
 		}
 	}
+	printf("에게 발송 완료\n");
 	return 0;
 }
 

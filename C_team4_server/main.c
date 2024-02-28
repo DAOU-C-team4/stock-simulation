@@ -40,6 +40,7 @@ int main(int argc, char* argv[]) {
 			free(new_socket);
 			continue;
 		}
+		printf("\n===========================\n");
 		printf("%d번 클라이언트 연결\n", new_socket);
 
 		// 클라이언트 요청을 처리하는 새로운 스레드 생성
