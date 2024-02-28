@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <WinSock2.h>    // 네트워크 소켓 관련 헤더
+#pragma comment(lib, "Ws2_32.lib") // Windows 소켓 라이브러리 링크
 
 #define MAX_BUFFER_SIZE 1024
 #define MAX_ID_LENGTH 50
@@ -48,8 +50,8 @@ delay(clock_t delay_time);
 /**************** 회원 관련 함수 ****************/
 int add_member(RequestData* req_data, ResponseData* res_data_ptr);
 int del_member(RequestData* req_data, ResponseData* res_data_ptr);
-int login(RequestData* req_data, ResponseData* res_data_ptr);
-int logout(RequestData* req_data, ResponseData* res_data_ptr);
+int login(RequestData* req_data, ResponseData* res_data_ptr, SOCKET client_socket);
+int logout(RequestData* req_data, ResponseData* res_data_ptr, SOCKET client_socket);
 
 /**************** 주식 관련 함수 ****************/
 int sendAllClnt(ResponseData* res_data_ptr);
