@@ -12,7 +12,7 @@ num_clients = 0;
 int main(int argc, char* argv[]) {
 	// 1. 데이터베이스 열기
 	if (!db)
-		db = open_database("customer.db");
+		db = open_database("stock_simulation.db");
 	if (!db) {
 		return 1;
 	}
@@ -41,8 +41,7 @@ int main(int argc, char* argv[]) {
 			continue;
 		}
 		printf("\n===========================\n");
-		printf("%d번 클라이언트 연결\n", new_socket);
-
+		printf("\n%d번 클라이언트 연결\n", new_socket);
 		// 클라이언트 요청을 처리하는 새로운 스레드 생성
 		DWORD dwThreadId;
 		HANDLE hThread = CreateThread(NULL, 0, handle_client, new_socket, 0, &dwThreadId);
@@ -62,7 +61,8 @@ int main(int argc, char* argv[]) {
 	//create_stock_table(db);
 	//create_account_table(db);
 	//// 고객 정보 추가
-	//db_insert_member(db, "name", "test", "1234");
+	//db_insert_member(db, "name1", "test1", "1234");
+	//db_insert_member(db, "name2", "test2", "1234");
 	//// 주식 정보 추가
 	//insert_stock_dummyData(db);
 

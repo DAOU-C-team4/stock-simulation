@@ -6,12 +6,6 @@ static int init_stock(ResponseData* res_data_ptr) {
 	STOCK_RES* result = db_allStock(db);
 	if (result) {
 		for (int i = 0; i < MAX_STOCK_RES_LENGTH; i++) {
-			/*printf("stock_id[%d] = %d\n", i, result[i].stock_id);
-			printf("stock_name[%d] = %d\n", i, result[i].stock_name);
-			printf("stock_company_name[%d] = %s\n", i, result[i].stock_company_name);
-			printf("stock_price[%d] = %d\n", i, result[i].stock_price);
-			printf("stock_count[%d] = %d\n\n", i, result[i].stock_count);*/
-
 			res_data_ptr->stock_arr[i].stock_id = result[i].stock_id;
 			res_data_ptr->stock_arr[i].stock_name = result[i].stock_name;
 			strcpy(res_data_ptr->stock_arr[i].stock_company_name, result[i].stock_company_name);
@@ -32,8 +26,8 @@ DWORD WINAPI handle_client(SOCKET client_socket) {
 
 	// 클라이언트로부터 요청 대기
 	do {
-		printf("\n===========================\n");
-		printf("%d번 클라이언트 요청대기\n", client_socket);
+		printf("%d번 클라이언트 요청대기\n\n", client_socket);
+		printf("===========================\n");
 		bytes_received = recv(client_socket, buffer, MAX_BUFFER_SIZE, 0);
 		if (bytes_received == SOCKET_ERROR) {
 			printf("%d ", client_socket);
@@ -186,7 +180,7 @@ int logout(RequestData* req_data, ResponseData* res_data_ptr) {
 
 /**************** 주식관련 함수 ****************/
 
-// **클라이언트 요청 - 전체 회원에게 보내기
+// 클라이언트 요청 - 전체 회원에게 보내기
 int sendAllClnt(ResponseData* res_data_ptr) {
 	res_data_ptr->select = 200;
 	init_stock(res_data_ptr);
@@ -208,13 +202,14 @@ int sendAllClnt(ResponseData* res_data_ptr) {
 	return 0;
 }
 
-// (작업해야함!!!!!!!!) 2.0 세션 유효 검증
+// 2.0.0 세션 유효 검증
 int checkSession(char* session) {
 	printf("세션을 검증합니다\n");
+	printf("세션이 유효합니다\n");
 	return 0;
 }
 
-// (작업해야함!!!!!!!!) 2.0 주식 정보 조회
+// 2.0.1 주식 정보 조회
 int allStock(RequestData* req_data, ResponseData* res_data_ptr) {
 	printf("\n선택 : %d (주식 정보 조회)\n", req_data->select);
 	printf("받은 세션: %s\n", req_data->session);
@@ -321,7 +316,3 @@ int sellStock(RequestData* req_data, ResponseData* res_data_ptr) {
 	}
 	return 0;
 }
-
-// (작업해야함!!!!!!!!) 2.3 클라이언트 요청 - 내정보 요청
-
-

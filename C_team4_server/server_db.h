@@ -16,6 +16,7 @@ int create_stock_table(sqlite3* db);
 int create_account_table(sqlite3* db);
 int insert_stock_dummyData(sqlite3* db);
 int insert_account_dummyData(sqlite3* db);
+
 /**************** 회원 관련 DB 함수 ****************/
 int db_insert_member(sqlite3* db, const char* name, const char* user_id, const char* password);
 int db_delete_member(sqlite3* db, const char* user_id, const char* password);

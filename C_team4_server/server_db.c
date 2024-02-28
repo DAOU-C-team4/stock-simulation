@@ -21,7 +21,7 @@ static int callback(void* NotUsed, int argc, char** argv, char** azColName) {
 static int callback_login(void* user_count_ptr, int argc, char** argv, char** azColName) {
 	int* user_count = (int*)user_count_ptr;
 	*user_count = atoi(argv[0]); // 첫 번째 열 값을 정수로 변환하여 user_count에 저장
-	printf("\nCallback called: user count = %d\n", *user_count);
+	printf("Callback called: user count = %d\n", *user_count);
 	return 0;
 }
 // 콜백 함수 3 - 주식 가격 로드
@@ -58,7 +58,7 @@ static int callback_company_name(void* company_name_ptr, int argc, char** argv, 
 static int callback_check_accountRecord(void* b_check_accountRecord_ptr, int argc, char** argv, char** azColName) {
 	int* b_check_accountRecord = (int*)b_check_accountRecord_ptr;
 	*b_check_accountRecord = atoi(argv[0]);
-	printf("Callback called: ACCOUNT내 조합 개수 = %d\n", *b_check_accountRecord);
+	printf("Callback called: (member_id, stock_id) 개수 = %d\n", *b_check_accountRecord);
 	return 0;
 }
 // 콜백 함수 9 - ACCOUNT 테이블 QUANTITY 조회 (보유 종목 수량)
@@ -77,7 +77,6 @@ static int callback_stockinfo(void* stockinfo_ptr, int argc, char** argv, char**
 		strcpy(stockinfo[idx].stock_company_name, argv[2]);
 		stockinfo[idx].stock_price = atoi(argv[3]);
 		stockinfo[idx].stock_count = atoi(argv[4]);
-		//printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
 	}
 	idx++;
 	return 0;
@@ -353,7 +352,7 @@ int db_logout(sqlite3* db, const char* session) {
 }
 
 /**************** 주식 관련 DB 함수 ****************/
-// (작업해야함!!!!!!!!) 3.0 주식 정보조회
+// 3.0 주식 정보조회
 STOCK_RES* db_allStock(sqlite3* db) {
 	char* zErrMsg = 0;
 	char sql_select_stock[200];
@@ -366,13 +365,6 @@ STOCK_RES* db_allStock(sqlite3* db) {
 		sqlite3_free(zErrMsg);
 		return stockinfo; // 오류가 발생한 경우 유효하지 않은 사용자로 처리
 	}
-	/*for (int i = 0; i < 10; i++) {
-		printf("stock_id[%d] = %d\n", i, stockinfo[i].stock_id);
-		printf("stock_name[%d] = %d\n", i, stockinfo[i].stock_name);
-		printf("stock_company_name[%d] = %s\n", i, stockinfo[i].stock_company_name);
-		printf("stock_price[%d] = %d\n", i, stockinfo[i].stock_price);
-		printf("stock_count[%d] = %d\n", i, stockinfo[i].stock_count);
-	}*/
 	return stockinfo; // 구조체 반환
 }
 
@@ -383,11 +375,10 @@ int db_buyStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 	int member_id;
 	int stock_price = 0, stock_count = 0, balance = 0;
 	int b_check_accountRecord = 1;
-	printf("%d 주식 %d개 매수", matching_data[s_id - 1], s_cnt);
-
+	
 	// 존재하지 않는 종목 매수 하는 경우
 	if (s_id <= 0 || s_id >= 11) {
-		fprintf(stderr, "유효하지 않은 종목번호.");
+		fprintf(stderr, "유효하지 않은 종목번호.\n");
 		return 4;
 	}
 
@@ -413,8 +404,6 @@ int db_buyStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 		sqlite3_free(zErrMsg);
 		return 1;
 	}
-	printf("받아온 주식 가격 : %d, 남은갯수 : %d, 잔고 : %d\n", stock_price, stock_count, balance);
-
 	// 유저 고유 아이디 조회( Auto Increment ) => user_id 아님
 	sprintf(sql_query, "SELECT ID FROM MEMBER WHERE ACCESS_KEY = '%s';", session);
 	rc = sqlite3_exec(db, sql_query, callback_member_id, &member_id, &zErrMsg);
@@ -430,19 +419,15 @@ int db_buyStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 		return 1;
 	}
 	// ( 유저 고유 아이디, STOCK_ID ) 의 조합이 account table 내 UNIQUE 한지 확인
-	printf("SQL문에 들어가는 변수들\n");
-	printf("\n조회한 유저 고유 아이디 : %d\n", member_id);
-	printf("\n조회한 회사명 : %d\n", matching_data[s_id - 1]);
 	sprintf(sql_query, "SELECT COUNT(*) FROM ACCOUNT WHERE MEMBER_ID = %d AND STOCK_ID = %d;", member_id, matching_data[s_id - 1]);
 	rc = sqlite3_exec(db, sql_query, callback_check_accountRecord, &b_check_accountRecord, &zErrMsg);
-	printf("SQL 실행 결과 : b_check_accountRecord : %d\n\n\n", b_check_accountRecord);
+	//printf("SQL 실행 결과 : b_check_accountRecord : %d\n\n\n", b_check_accountRecord);
 	if (rc != SQLITE_OK) {
 		printf("Account Record 조회 에러 발생 :!!!!!\n\n\n");
 		sqlite3_free(zErrMsg);
 		return 1;
 	}
 
-	
 	// 돈이 모자를시
 	if (stock_price * s_cnt > balance) {
 		fprintf(stderr, "잔액이 부족합니다.");
@@ -456,7 +441,6 @@ int db_buyStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 
 	// 회원 테이블 - 회원 예치금 변경
 	sprintf(sql_buyStock, "UPDATE MEMBER SET BALANCE = BALANCE - %d WHERE ACCESS_KEY = '%s';", stock_price * (int)s_cnt, session);
-	//printf("|||||매수 금액 추가 : %d\n\n", stock_price * s_cnt);
 	rc = sqlite3_exec(db, sql_buyStock, callback, 0, &zErrMsg);
 	if (rc != SQLITE_OK) {
 		sqlite3_free(zErrMsg);
@@ -519,9 +503,7 @@ int db_sellStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 		sqlite3_free(zErrMsg);
 		return 1;
 	}
-	printf("\n\n유저 고유 아이디 출력 : %d, 종목번호 \n\n", member_id, matching_data[s_id - 1]);
-
-	// (작업해야함!!!!!!!!) 회원이 가진 주식갯수 불러오기
+	// 회원이 가진 주식갯수 불러오기
 	sprintf(sql_query, "SELECT QUANTITY FROM ACCOUNT WHERE MEMBER_ID = %d AND STOCK_ID = %d;", member_id, matching_data[s_id - 1]);
 	rc = sqlite3_exec(db, sql_query, callback_account_quantity, &account_quantity, &zErrMsg);
 
@@ -531,13 +513,11 @@ int db_sellStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 		return 1;
 	}
 
-	printf("받아온 주식 가격 : %d, 가진갯수 : %d\n", stock_price, account_quantity);
 	if (account_quantity == 0) {
 		fprintf(stderr, "해당 주식을 미보유.");
 		return 2;
 	}
 
-	// (작업해야함!!!!!!!!) 회원이 가진 주식갯수와 비교
 	if (s_cnt > account_quantity) {
 		fprintf(stderr, "보유 중인 주식 수량 초과");
 		return 3;
@@ -545,7 +525,6 @@ int db_sellStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 
 	// 회원 테이블 - 회원 예치금 변경
 	sprintf(sql_sellStock, "UPDATE MEMBER SET BALANCE = BALANCE + %d WHERE ACCESS_KEY = '%s';", stock_price * s_cnt, session);
-	printf("|||||매도 금액 추가 : %d\n\n", stock_price * s_cnt);
 	rc = sqlite3_exec(db, sql_sellStock, callback, 0, &zErrMsg);
 	if (rc != SQLITE_OK) {
 		sqlite3_free(zErrMsg);
@@ -561,10 +540,7 @@ int db_sellStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 		return 1;
 	}
 
-	/**************************ACCOUNT TABLE CRUD***************************/
 	// 계좌 테이블 - (멤버ID, 주식ID)별 레코드 변경
-	// 매도는 insert 불필요
-	// 보유 잔량 == 매도 잔량 시, 레코드 제거
 	if (account_quantity == s_cnt) {
 		db_delete_account(db, member_id, matching_data[s_id - 1]);
 	}
@@ -600,7 +576,6 @@ int db_delete_account(sqlite3* db, const int member_id, const int stock_id) {
 	char sql_delete_account[500];
 
 	// 매수, 매도 파악
-	// "UPDATE MEMBER SET ACCESS_KEY = '%s' WHERE USER_ID = '%s' AND PASSWORD = '%s';", access_key, user_id, password);
 	sprintf(sql_delete_account, "DELETE FROM ACCOUNT WHERE MEMBER_ID = %d AND STOCK_ID = %d;", member_id, stock_id); // trade_category => 매수 1, 매도 -1  => 보유수량(QUANTITY)를 매수 매도에 맞게 계산
 	int rc = sqlite3_exec(db, sql_delete_account, callback, 0, &zErrMsg);
 	if (rc != SQLITE_OK) {
@@ -619,7 +594,6 @@ int db_update_account(sqlite3* db, const int member_id, const int stock_id, cons
 	char sql_insert_account[500];
 
 	// 매수, 매도 파악
-	// "UPDATE MEMBER SET ACCESS_KEY = '%s' WHERE USER_ID = '%s' AND PASSWORD = '%s';", access_key, user_id, password);
 	sprintf(sql_insert_account, "UPDATE ACCOUNT SET QUANTITY = QUANTITY + %d WHERE MEMBER_ID = %d AND STOCK_ID = %d;", trade_category * s_cnt, member_id, stock_id); // trade_category => 매수 1, 매도 -1  => 보유수량(QUANTITY)를 매수 매도에 맞게 계산
 	int rc = sqlite3_exec(db, sql_insert_account, callback, 0, &zErrMsg);
 	if (rc != SQLITE_OK) {
@@ -633,7 +607,6 @@ int db_update_account(sqlite3* db, const int member_id, const int stock_id, cons
 	}
 }
 
-// 주식관련 유틸리티함수
 // 호가단위 계산 (주가에 따라 tikSize 호가단위 책정)
 int calTikSize(int stock_price) {
 	int tikSize = 1;
@@ -662,5 +635,3 @@ int calTikSize(int stock_price) {
 
 	return tikSize;
 }
-
-// (작업해야함!!!!!!!!) 3.3 내 정보 조회
