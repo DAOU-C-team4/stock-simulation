@@ -17,8 +17,8 @@ stock_home(SOCKET client_fd, char* access) {
 		printf(">> 주식 서비스 이용 <<\n");
 		printf("\n(1.주식 매수 / 2.주식 매도 / 3.로그아웃)\n");
 		printf("원하는 작업을 지정해주세요 : ");
-		scanf("%d%*c", &select); // scan 써야 getInputCheck에서 빌드 에러가 발생하지 않음.
-		//select = getInputCheck("원하는 작업을 지정해주세요 : ");
+		scanf("%d%*c", &select);
+		//select = getInputInteger("원하는 작업을 지정해주세요 : ");
 
 		printf("\n=================================\n\n");
 		switch (select)
@@ -70,11 +70,16 @@ req_buyStock(SOCKET client_fd, char* access) {
 	req_data.select = 201;
 	strcpy(req_data.session, access);
 
+
+	/*printf("매수할 종목 번호를 입력하세요 : ");
+	scanf("%d%*c", &req_data.stock_data.stock_id);*/
 	req_data.stock_data.stock_id = getInputInteger("매수할 종목 번호를 입력하세요 : ");
 	if (req_data.stock_data.stock_id > 10 || req_data.stock_data.stock_id < 0) {
 		req_data.stock_data.stock_id = 100;
 	}
 	do {
+		/*printf("매수할 종목 수량을 입력하세요 : ");
+	scanf("%d%*c", &req_data.stock_data.stock_count);*/
 		req_data.stock_data.stock_count = getInputInteger("매수할 수량을 입력하세요 : ");
 	} while (req_data.stock_data.stock_count < 0);
 

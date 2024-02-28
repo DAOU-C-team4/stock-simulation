@@ -206,19 +206,52 @@ enterPassword(char* password) {
 }
 
 // 정수 입력 함수
+//int getInputInteger(char* prompt) {
+//	char input[1024]; // 충분한 공간 할당
+//	int value;
+//	int validInput = 0;
+//	
+//	while (!validInput) {
+//		printf("%s", prompt);
+//		fgets(input, sizeof(input), stdin);
+//
+//		if (strlen(input) >= 10) {
+//			printf("10개 자리 이내의 수를 입력해주세요.\n");
+//			continue;
+//		}
+//
+//		// 입력에서 공백발견시 아웃처리
+//		for (int i = 0; i < strlen(input); i++) {
+//			if (isspace(input[i]) && i != strlen(input) - 1 || isalpha(input[i])) {
+//				strcpy(input, "byebye");
+//				break;
+//			}
+//		}
+//		// 문자열을 정수로 변환
+//		if (sscanf(input, "%d", &value) != 1) {
+//			printf("올바른 정수를 입력하세요.\n");
+//			continue;
+//		}
+//		// 입력값의 범위 확인
+//		if (value < INT_MIN || value > INT_MAX) {
+//			printf("입력값이 범위를 벗어납니다.\n");
+//			continue;
+//		}
+//		validInput = 1;
+//	}
+//
+//	return value;
+//}
+
+// 정수 입력 함수
 int getInputInteger(char* prompt) {
-	char input[1024]; // 충분한 공간 할당
+	char input[20]; // 충분한 공간 할당
 	int value;
-	int validInput = 0;
-	
+	bool validInput = false;
+
 	while (!validInput) {
 		printf("%s", prompt);
 		fgets(input, sizeof(input), stdin);
-
-		if (strlen(input) >= 10) {
-			printf("10개 자리 이내의 수를 입력해주세요.\n");
-			continue;
-		}
 
 		// 입력에서 공백발견시 아웃처리
 		for (int i = 0; i < strlen(input); i++) {
@@ -237,8 +270,13 @@ int getInputInteger(char* prompt) {
 			printf("입력값이 범위를 벗어납니다.\n");
 			continue;
 		}
-		validInput = 1;
+		validInput = true;
 	}
 
 	return value;
 }
+
+
+
+
+

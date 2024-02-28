@@ -20,4 +20,4 @@ res_logout(ResponseData* res_data, char* access);
 res_memberInfo(ResponseData* res_data, char* access);
 
 /*****************문자열 입력 검사 함수 ****************/
-//int getInputInteger(char* prompt);
+int getInputInteger(char* prompt);

@@ -1,13 +1,14 @@
-﻿  main.c
-C:\C_Basic\team_project\stock-simulation\C_team4_client\main.c(20,54): warning C4028: 정식 매개 변수 1이(가) 선언과 다릅니다.
-C:\C_Basic\team_project\stock-simulation\C_team4_client\main.c(20,56): warning C4022: 'CreateThread': 실제 매개 변수 4의 포인터가 일치하지 않습니다.
-C:\C_Basic\team_project\stock-simulation\C_team4_client\main.c(27,18): warning C4013: 'select_task_home'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\C_Basic\team_project\stock-simulation\C_team4_client\main.c(52,9): warning C4013: 'printf'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\C_Basic\team_project\stock-simulation\C_team4_client\main.c(105,2): warning C4033: 'listen_thread'은(는) 값을 반환해야 합니다.
-C:\C_Basic\team_project\stock-simulation\C_team4_client\main.c(62,4): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-C:\C_Basic\team_project\stock-simulation\C_team4_client\main.c(39,7): warning C4101: 'access_tmp' :참조되지 않은 지역 변수입니다.
-C:\C_Basic\team_project\stock-simulation\C_team4_client\main.c(130,8): warning C4013: 'scanf'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
-C:\C_Basic\team_project\stock-simulation\C_team4_client\main.c(112,7): warning C4101: 'message' :참조되지 않은 지역 변수입니다.
-C:\C_Basic\team_project\stock-simulation\C_team4_client\main.c(153): warning C4716: 'select_task_home': 값을 반환해야 합니다.
-C:\C_Basic\team_project\stock-simulation\C_team4_client\main.c(106): warning C4716: 'listen_thread': 값을 반환해야 합니다.
-  C_team4_client.vcxproj -> C:\C_Basic\team_project\stock-simulation\C_team4_client\Debug\C_team4_client.exe
+﻿  client_stock.c
+C:\stock-simulation\C_team4_client\client_stock.c(27,16): warning C4013: 'req_buyStock'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+C:\stock-simulation\C_team4_client\client_stock.c(30,17): warning C4013: 'req_sellStock'이(가) 정의되지 않았습니다. extern은 int형을 반환하는 것으로 간주합니다.
+C:\stock-simulation\C_team4_client\client_stock.c(34,4): warning C4033: 'stock_home'은(는) 값을 반환해야 합니다.
+C:\stock-simulation\C_team4_client\client_stock.c(12,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_client\client_stock.c(20,3): warning C4996: 'scanf': This function or variable may be unsafe. Consider using scanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_client\client_stock.c(55,58): warning C4133: '함수': 'RequestData *'과(와) 'const char *' 사이의 형식이 호환되지 않습니다.
+C:\stock-simulation\C_team4_client\client_stock.c(52,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_client\client_stock.c(86,58): warning C4133: '함수': 'RequestData *'과(와) 'const char *' 사이의 형식이 호환되지 않습니다.
+C:\stock-simulation\C_team4_client\client_stock.c(71,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_client\client_stock.c(119,58): warning C4133: '함수': 'RequestData *'과(와) 'const char *' 사이의 형식이 호환되지 않습니다.
+C:\stock-simulation\C_team4_client\client_stock.c(103,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\stock-simulation\C_team4_client\client_stock.c(44): warning C4715: 'stock_home': 모든 제어 경로에서 값을 반환하지는 않습니다.
+  C_team4_client.vcxproj -> C:\stock-simulation\C_team4_client\Debug\C_team4_client.exe

@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\C_Basic\team_project\stock-simulation\C_team4_server\Debug\C_team4.exe</FullPath>
+      <FullPath>C:\stock-simulation\C_team4_server\Debug\C_team4.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

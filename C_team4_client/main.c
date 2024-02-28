@@ -6,6 +6,7 @@
 char access[31] = "NONE";
 
 int main(int argc, char* argv[]) {
+
 	// 0.1 소켓연결
 	SOCKET client_fd = connect_to_server();
 	// 0.2 이벤트 객체 생성
@@ -105,6 +106,7 @@ select_task_home(SOCKET client_fd) {
 	/*system("cls");
 	printf("\n반갑습니다. 키울까말까증권입니다.\n");*/
 
+	
 	// 홈 메뉴 반복
 	do {
 		// 로그인시 - 주식매매
@@ -125,6 +127,7 @@ select_task_home(SOCKET client_fd) {
 		printf("\n(1.회원가입 / 2.회원탈퇴 / 3.로그인 / 4.종료)\n");
 		printf("원하는 작업을 지정해주세요 : ");
 		scanf("%d%*c", &select);
+		//select = getInputInteger("원하는 작업을 지정해주세요 : ");
 		printf("\n====================================================\n\n");
 		switch (select)
 		{
