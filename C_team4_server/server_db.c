@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "sqlite3.h"
+#include "server_db.h"
 #include "server_request.h"
 
 // 주식 id 파싱
@@ -9,21 +6,22 @@ matching_data[10] = { 100, 200, 300, 400, 500, 600, 700, 800, 900, 1000 };
 
 int idx = 0;
 
+delay(clock_t delay_time) {
+	clock_t start = clock(); //clock 함수는 1/1000
+	while (clock() - start < delay_time);
+	return 0;
+}
+
 /**************** DB 연결 기본 ****************/
 // 콜백 함수 1 - SELECT 쿼리 결과를 처리하는 함수
 static int callback(void* NotUsed, int argc, char** argv, char** azColName) {
-	int i;
-	for (i = 0; i < argc; i++) {
-		printf("%s: %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-	}
-	printf("\n");
 	return 0;
 }
 // 콜백 함수 2 - 로그인 쿼리 결과를 처리하는 함수
 static int callback_login(void* user_count_ptr, int argc, char** argv, char** azColName) {
 	int* user_count = (int*)user_count_ptr;
 	*user_count = atoi(argv[0]); // 첫 번째 열 값을 정수로 변환하여 user_count에 저장
-	printf("Callback called: user count = %d\n", *user_count);
+	printf("\nCallback called: user count = %d\n", *user_count);
 	return 0;
 }
 // 콜백 함수 3 - 주식 가격 로드
@@ -73,7 +71,7 @@ static int callback_account_quantity(void* quantity_ptr, int argc, char** argv, 
 //콜백함수 10 - 전체 주식 조회
 static int callback_stockinfo(void* stockinfo_ptr, int argc, char** argv, char** azColName) {
 	STOCK_RES* stockinfo = (STOCK_RES*)stockinfo_ptr;
-	for (int i = 0; i < argc; i++){
+	for (int i = 0; i < argc; i++) {
 		stockinfo[idx].stock_id = atoi(argv[0]); // 첫 번째 열 값을 정수로 변환하여 저장
 		stockinfo[idx].stock_name = atoi(argv[1]);
 		strcpy(stockinfo[idx].stock_company_name, argv[2]);
@@ -81,7 +79,6 @@ static int callback_stockinfo(void* stockinfo_ptr, int argc, char** argv, char**
 		stockinfo[idx].stock_count = atoi(argv[4]);
 		//printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
 	}
-	printf("\n");
 	idx++;
 	return 0;
 }
@@ -240,6 +237,12 @@ int db_insert_member(sqlite3* db, const char* name, const char* user_id, const c
 
 // 2.2 회원 정보 삭제 함수
 int db_delete_member(sqlite3* db, const char* user_id, const char* password) {
+	// 유효한 사용자인지 확인
+	if (!is_valid_user(db, user_id, password)) {
+		fprintf(stderr, "Invalid user credentials\n");
+		return 0; // 유효하지 않은 사용자인 경우 0 반환
+	}
+	// 유효한 사용자일시
 	char* zErrMsg = 0;
 	char sql_delete_member[200];
 	sprintf(sql_delete_member, "DELETE FROM MEMBER WHERE USER_ID = '%s' AND PASSWORD = '%s';", user_id, password);
@@ -260,7 +263,7 @@ int db_login(sqlite3* db, const char* user_id, const char* password) {
 	// 유효한 사용자인지 확인
 	if (!is_valid_user(db, user_id, password)) {
 		fprintf(stderr, "Invalid user credentials\n");
-		return "NONE"; // 유효하지 않은 사용자인 경우 NULL 반환
+		return "NONE"; // 유효하지 않은 사용자인 경우 NONE 반환
 	}
 
 	// 랜덤키 생성 및 검증
@@ -301,7 +304,6 @@ int is_valid_user(sqlite3* db, const char* user_id, const char* password) {
 		sqlite3_free(zErrMsg);
 		return 0; // 오류가 발생한 경우 유효하지 않은 사용자로 처리
 	}
-	printf("%d\n", user_count);
 	return user_count; // 사용자가 존재하면 1, 그렇지 않으면 0 반환
 }
 
@@ -323,7 +325,7 @@ int is_duplicate_key(sqlite3* db, const char* key) {
 	char sql_check_duplicate_key[200];
 	sprintf(sql_check_duplicate_key, "SELECT COUNT(*) FROM MEMBER WHERE ACCESS_KEY = '%s';", key);
 	int key_count = 0;
-	int rc = sqlite3_exec(db, sql_check_duplicate_key, callback, 0, &zErrMsg);
+	int rc = sqlite3_exec(db, sql_check_duplicate_key, NULL, &key_count, &zErrMsg);
 	if (rc != SQLITE_OK) {
 		fprintf(stderr, "SQL error: %s\n", zErrMsg);
 		sqlite3_free(zErrMsg);
@@ -371,7 +373,6 @@ STOCK_RES* db_allStock(sqlite3* db) {
 		printf("stock_price[%d] = %d\n", i, stockinfo[i].stock_price);
 		printf("stock_count[%d] = %d\n", i, stockinfo[i].stock_count);
 	}*/
-	printf("\n");
 	return stockinfo; // 구조체 반환
 }
 
@@ -383,6 +384,12 @@ int db_buyStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 	int stock_price = 0, stock_count = 0, balance = 0;
 	int b_check_accountRecord = 1;
 	printf("%d 주식 %d개 매수", matching_data[s_id - 1], s_cnt);
+
+	// 존재하지 않는 종목 매수 하는 경우
+	if (s_id <= 0 || s_id >= 11) {
+		fprintf(stderr, "유효하지 않은 종목번호.");
+		return 4;
+	}
 
 	// 주식 가격 조회
 	char sql_query[200];
@@ -435,9 +442,10 @@ int db_buyStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 		return 1;
 	}
 
+	
 	// 돈이 모자를시
 	if (stock_price * s_cnt > balance) {
-		fprintf(stderr, "잔액이 부족합니다.\n");
+		fprintf(stderr, "잔액이 부족합니다.");
 		return 2;
 	}
 	// 매수요청 주식 개수가 잔량을 초과할 시
@@ -489,6 +497,12 @@ int db_sellStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 	int b_check_accountRecord = 1; // account table 내 종목이 있는지 확인
 
 	printf("%d 주식 %d개 매도", matching_data[s_id - 1], s_cnt);
+	printf("================s_id출력=========== : %d", s_id);
+	// 존재하지 않는 종목 매도 하는 경우
+	if (s_id <= 0 || s_id >= 11) {
+		fprintf(stderr, "유효하지 않은 종목번호");
+		return 4;
+	}
 
 	// 주식 가격 및 잔량 조회
 	char sql_query[200];
@@ -518,12 +532,15 @@ int db_sellStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 	}
 
 	printf("받아온 주식 가격 : %d, 가진갯수 : %d\n", stock_price, account_quantity);
-
+	if (account_quantity == 0) {
+		fprintf(stderr, "해당 주식을 미보유.");
+		return 2;
+	}
 
 	// (작업해야함!!!!!!!!) 회원이 가진 주식갯수와 비교
 	if (s_cnt > account_quantity) {
-		fprintf(stderr, "보유 수량 초과");
-		return 2;
+		fprintf(stderr, "보유 중인 주식 수량 초과");
+		return 3;
 	}
 
 	// 회원 테이블 - 회원 예치금 변경

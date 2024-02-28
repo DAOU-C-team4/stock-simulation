@@ -6,6 +6,7 @@
 char access[31] = "NONE";
 
 int main(int argc, char* argv[]) {
+
 	// 0.1 소켓연결
 	SOCKET client_fd = connect_to_server();
 	// 0.2 이벤트 객체 생성
@@ -48,9 +49,9 @@ DWORD WINAPI listen_thread(SOCKET client_fd) {
 		// 서버로부터 받은 메시지 처리
 		ResponseData* res_data = (ResponseData*)received_message;
 
-		if (strcmp(res_data->session, "NONE") && strcmp(res_data->session, "CLEAR" )
+		if (strcmp(res_data->session, "NONE") && strcmp(res_data->session, "CLEAR")
 			&& strcmp(res_data->session, "") && strcmp(res_data->session, "\0")
-			&& res_data->session==NULL) {
+			&& res_data->session == NULL) {
 			strcpy(access, res_data->session);
 			printf("\nlisten_thread내부 session (%s): ", access);
 		}
@@ -59,6 +60,10 @@ DWORD WINAPI listen_thread(SOCKET client_fd) {
 
 		// 요청별 분기처리
 		select = res_data->select;
+		if (select == 1 || select == 2 || select == 3 || select==201 || select==202 ) {
+			system("cls");
+			printf(">> 서버로부터 온 메시지 <<\n");
+		}
 		switch (select) {
 		case 1: // 회원가입
 			res_add_member(res_data);
@@ -91,7 +96,7 @@ DWORD WINAPI listen_thread(SOCKET client_fd) {
 		}
 
 		// 이벤트 신호 발생
-		if(select!=200 && select!=0)
+		if (select != 200 && select != 0)
 			SetEvent(event);
 	}
 	return;
@@ -102,9 +107,7 @@ select_task_home(SOCKET client_fd) {
 	// 기본 세팅
 	int run = 1;
 	char message[MAX_BUFFER_SIZE];
-	/*system("cls");
-	printf("\n반갑습니다. 키울까말까증권입니다.\n");*/
-
+	
 	// 홈 메뉴 반복
 	do {
 		// 로그인시 - 주식매매
@@ -115,17 +118,29 @@ select_task_home(SOCKET client_fd) {
 			stock_home(client_fd, access);
 			// 주식매매 홈에서 나갈시 로그아웃
 			req_logout(client_fd, access);
-			printf("\n========================================================================\n");
+		    printf("\n===================================================\n");
 			continue;
 		}
 		// 로그인 아닐시 - 회원관리
 		int select = 0;
 		//system("cls");
+		printf("\n");
+		printf(" ______  _______  _____  _     _      _______ _______  _____  _______ _     _\n");
+		printf(" |     ` |_____| |     | |     |      |______    |    |     | |       |____/ \n");
+		printf(" |_____/ |     | |_____| |_____|      ______|    |    |_____| |_____  |    `_\n");
+		printf("\n");
 		printf("\n반갑습니다. 키울까말까증권입니다.\n");
-		printf("\n(1.회원가입 / 2.회원탈퇴 / 3.로그인 / 4.종료)\n");
-		printf("원하는 작업을 지정해주세요 : ");
-		scanf("%d%*c", &select);
+		printf("\n 1.회원가입 \n 2.회원탈퇴 \n 3.로그인 \n 4.종료\n\n");
+		select = getInputInteger("원하는 작업을 지정해주세요 : ");
 		printf("\n====================================================\n\n");
+
+		system("cls");
+		printf("\n");
+		printf(" ______  _______  _____  _     _      _______ _______  _____  _______ _     _\n");
+		printf(" |     ` |_____| |     | |     |      |______    |    |     | |       |____/ \n");
+		printf(" |_____/ |     | |_____| |_____|      ______|    |    |_____| |_____  |    `_\n");
+		printf("\n");
+		printf("\n반갑습니다. 키울까말까증권입니다.\n");
 		switch (select)
 		{
 		case 1: // 회원가입
@@ -145,6 +160,6 @@ select_task_home(SOCKET client_fd) {
 			printf("\n잘못된 번호입니다.\n");
 			continue;
 		}
-		printf("\n====================================\n");
+		printf("\n=============================================\n");
 	} while (run);
 }

@@ -1,6 +1,4 @@
 #include "client_socket.h"
-#include <WinSock2.h>
-#pragma comment(lib, "Ws2_32.lib")
 
 
 // 0. 소켓연결
@@ -30,7 +28,7 @@ SOCKET connect_to_server() {
 		exit(EXIT_FAILURE);
 	}
 
-	printf("Connected to server\n");
+	//printf("Connected to server\n");
 
 	return client_fd;
 }
