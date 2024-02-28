@@ -258,10 +258,10 @@ int buyStock(RequestData* req_data, ResponseData* res_data_ptr) {
 				strcpy(res_data_ptr->msg, "잔고가 부족합니다.");
 			}
 			else if (result == 3) {
-				strcpy(res_data_ptr->msg, "살 수 있는 주식 갯수를 초과했습니다.");
+				strcpy(res_data_ptr->msg, "주식잔량을 초과했습니다.");
 			}
 			else if (result == 4) {
-				strcpy(res_data_ptr->msg, "유효한 종목 번호를 입력하세요.");
+				strcpy(res_data_ptr->msg, "유효한 종목번호를 입력하세요.");
 			}
 			return 0;
 		}
@@ -299,7 +299,7 @@ int sellStock(RequestData* req_data, ResponseData* res_data_ptr) {
 				strcpy(res_data_ptr->msg, "해당 주식을 보유하고 있지 않습니다.");
 			}
 			else if (result == 3) {
-				strcpy(res_data_ptr->msg, "매도 요청한 수량이 현재 보유 수량보다 많습니다.");
+				strcpy(res_data_ptr->msg, "요청한 매도수량이 보유수량보다 많습니다.");
 			}
 			else if (result == 4) {
 				strcpy(res_data_ptr->msg, "유효한 종목 번호를 입력하세요.");
