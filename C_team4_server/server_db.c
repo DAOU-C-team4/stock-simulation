@@ -480,8 +480,8 @@ int db_sellStock(sqlite3* db, char* session, int s_id, int s_cnt) {
 	int account_quantity = 0; // 해당 종목의 보유 잔량
 	int b_check_accountRecord = 1; // account table 내 종목이 있는지 확인
 
-	printf("%d 주식 %d개 매도", matching_data[s_id - 1], s_cnt);
-	printf("================s_id출력=========== : %d", s_id);
+	//printf("%d 주식 %d개 매도", matching_data[s_id - 1], s_cnt);
+	//printf("================s_id출력=========== : %d", s_id);
 	// 존재하지 않는 종목 매도 하는 경우
 	if (s_id <= 0 || s_id >= 11) {
 		fprintf(stderr, "유효하지 않은 종목번호");
