@@ -308,13 +308,20 @@ enterPasswordLogin(char* password) {
 
 // 정수 입력 함수
 int getInputInteger(char* prompt) {
-	char input[20]; // 충분한 공간 할당
+	char input[1024]; // 충분한 공간 할당
 	int value;
+	int c;
 	bool validInput = false;
 
 	while (!validInput) {
 		printf("%s", prompt);
 		fgets(input, sizeof(input), stdin);
+
+		if (strlen(input) >= 11) {
+			printf("입력값이 범위를 벗어납니다. 아무 키나 누르세요 ");
+			while ((c = getchar()) != '\n' && c != EOF);
+			continue;
+		}
 
 		// 입력에서 공백발견시 아웃처리
 		for (int i = 0; i < strlen(input); i++) {
@@ -330,7 +337,8 @@ int getInputInteger(char* prompt) {
 		}
 		// 입력값의 범위 확인
 		if (value < INT_MIN || value > INT_MAX) {
-			printf("입력값이 범위를 벗어납니다.\n");
+			printf("입력값이 범위를 벗어납니다. 아무 키나 누르세요 ");
+			while ((c = getchar()) != '\n' && c != EOF);
 			continue;
 		}
 		validInput = true;

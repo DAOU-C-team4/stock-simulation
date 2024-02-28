@@ -16,9 +16,7 @@ stock_home(SOCKET client_fd, char* access) {
 		gotoxy(0, 1);*/
 		printf(">> 주식 서비스 이용 <<\n");
 		printf("\n(1.주식 매수 / 2.주식 매도 / 3.로그아웃)\n");
-		printf("원하는 작업을 지정해주세요 : ");
-		scanf("%d%*c", &select);
-		//select = getInputInteger("원하는 작업을 지정해주세요 : ");
+		select = getInputInteger("원하는 작업을 지정해주세요 : ");
 
 		printf("\n=================================\n\n");
 		switch (select)
@@ -183,8 +181,8 @@ res_allStock(ResponseData* res_data) {
 }
 // 2.1 주식 매수 리슨
 res_buyStock(ResponseData* res_data) {
-	//system("cls");
-	clearConsoleArea(0, 0, 50, 200);
+	system("cls");
+	//clearConsoleArea(0, 0, 50, 50);
 	printf("%s\n", res_data->msg);
 	printf("\n=================================\n\n");
 	// 보유 주식 및 잔고 출력
@@ -194,8 +192,8 @@ res_buyStock(ResponseData* res_data) {
 }
 // 2.2 주식 매도 리슨
 res_sellStock(ResponseData* res_data) {
-	//system("cls");
-	clearConsoleArea(0, 0, 50, 200);
+	system("cls");
+	//clearConsoleArea(0, 0, 50, 50);
 	printf("%s\n", res_data->msg);
 	printf("\n=================================\n\n");
 	// 보유 주식 및 잔고 출력
