@@ -67,16 +67,15 @@ VS 툴 사용 권장
 ### 프로젝트 코드 구조
 
 ##### 클라이언트
-![](images/c_arch.png)
+![](images/c_arch.PNG)
 
 ##### 서버
-![](images/s_arch.png)
+![](images/s_arch.PNG)
 
 <br/>
 <hr/>
 
 ### 프로젝트 DB ERD
-이미지
 ![](images/ERD.png)
 
 <br/>
