@@ -14,21 +14,21 @@ static int init_stock(ResponseData* res_data_ptr) {
 			res_data_ptr->stock_arr[i].stock_price = result[i].stock_price;
 			res_data_ptr->stock_arr[i].stock_count = result[i].stock_count;
 		}
-		printf("½Ç½Ã°£ ÁÖ½Ä Á¤º¸ ÀúÀå¿Ï·á\n");
+		printf("ì‹¤ì‹œê°„ ì£¼ì‹ ì •ë³´ ì €ì¥ì™„ë£Œ\n");
 		return 0;
 	}
 }
 
-/**************** Å¬¶óÀÌ¾ğÆ® ¿äÃ» ºĞ±â ****************/
-// 2.2 Å¬¶óÀÌ¾ğÆ® ¿äÃ» Ã³¸® ÇÔ¼ö
+/**************** í´ë¼ì´ì–¸íŠ¸ ìš”ì²­ ë¶„ê¸° ****************/
+// 2.2 í´ë¼ì´ì–¸íŠ¸ ìš”ì²­ ì²˜ë¦¬ í•¨ìˆ˜
 DWORD WINAPI handle_client(SOCKET client_socket) {
 	char buffer[MAX_BUFFER_SIZE];
 	int bytes_received, bytes_sent;
 	int run = 1;
 
-	// Å¬¶óÀÌ¾ğÆ®·ÎºÎÅÍ ¿äÃ» ´ë±â
+	// í´ë¼ì´ì–¸íŠ¸ë¡œë¶€í„° ìš”ì²­ ëŒ€ê¸°
 	do {
-		printf("%d¹ø Å¬¶óÀÌ¾ğÆ® ¿äÃ»´ë±â\n\n", client_socket);
+		printf("%dë²ˆ í´ë¼ì´ì–¸íŠ¸ ìš”ì²­ëŒ€ê¸°\n\n", client_socket);
 		printf("===========================\n");
 		bytes_received = recv(client_socket, buffer, MAX_BUFFER_SIZE, 0);
 		if (bytes_received == SOCKET_ERROR) {
@@ -42,12 +42,12 @@ DWORD WINAPI handle_client(SOCKET client_socket) {
 			return 1;
 		}
 
-		// Å¬¶óÀÌ¾ğÆ®·ÎºÎÅÍ ¹ŞÀº µ¥ÀÌÅÍ¸¦ req_data ±¸Á¶Ã¼·Î Çüº¯È¯
+		// í´ë¼ì´ì–¸íŠ¸ë¡œë¶€í„° ë°›ì€ ë°ì´í„°ë¥¼ req_data êµ¬ì¡°ì²´ë¡œ í˜•ë³€í™˜
 		RequestData* req_data = (RequestData*)buffer;
 		ResponseData res_data = { 0 };
 		ResponseData* res_data_ptr = &res_data;
 
-		// ¿äÃ»¿¡ µû¶ó ´Ù¸¥ ÀÛ¾÷ ½ÇÇà
+		// ìš”ì²­ì— ë”°ë¼ ë‹¤ë¥¸ ì‘ì—… ì‹¤í–‰
 		switch (req_data->select)
 		{
 		case 1:
@@ -63,7 +63,7 @@ DWORD WINAPI handle_client(SOCKET client_socket) {
 			logout(req_data, res_data_ptr, client_socket);
 			break;
 		case 5:
-			// È¸¿ø Á¤º¸ Á¶È¸ ¿äÃ»
+			// íšŒì› ì •ë³´ ì¡°íšŒ ìš”ì²­
 			break;
 		case 200:
 			allStock(req_data, res_data_ptr);
@@ -87,11 +87,11 @@ DWORD WINAPI handle_client(SOCKET client_socket) {
 			sendAllClnt(res_data_ptr);
 			break;
 		default:
-			// Àß¸øµÈ ¿äÃ» Ã³¸®
+			// ì˜ëª»ëœ ìš”ì²­ ì²˜ë¦¬
 			break;
 		}
 
-		// Å¬¶óÀÌ¾ğÆ®·Î °á°ú Àü¼Û
+		// í´ë¼ì´ì–¸íŠ¸ë¡œ ê²°ê³¼ ì „ì†¡
 		bytes_sent = send(client_socket, res_data_ptr, sizeof(res_data), 0);
 		if (bytes_sent == SOCKET_ERROR) {
 			perror("send failed");
@@ -101,67 +101,67 @@ DWORD WINAPI handle_client(SOCKET client_socket) {
 	return 0;
 }
 
-/**************** È¸¿ø °ü·Ã ÇÔ¼ö ****************/
-// 1.1 Å¬¶óÀÌ¾ğÆ® ¿äÃ» - È¸¿ø °¡ÀÔ
+/**************** íšŒì› ê´€ë ¨ í•¨ìˆ˜ ****************/
+// 1.1 í´ë¼ì´ì–¸íŠ¸ ìš”ì²­ - íšŒì› ê°€ì…
 int add_member(RequestData* req_data, ResponseData* res_data_ptr) {
-	// È¸¿ø db µî·Ï
-	printf("\n¼±ÅÃ : %d (È¸¿ø°¡ÀÔ)\n", req_data->select);
-	printf("¹ŞÀº ¾ÆÀÌµğ: %s\n", req_data->id);
-	printf("¹ŞÀº ºñ¹Ğ¹øÈ£: %s\n", req_data->password);
-	printf("¹ŞÀº ÀÌ¸§: %s\n", req_data->name);
-	// ÀÀ´äµ¥ÀÌÅÍ ±â·Ï
+	// íšŒì› db ë“±ë¡
+	printf("\nì„ íƒ : %d (íšŒì›ê°€ì…)\n", req_data->select);
+	printf("ë°›ì€ ì•„ì´ë””: %s\n", req_data->id);
+	printf("ë°›ì€ ë¹„ë°€ë²ˆí˜¸: %s\n", req_data->password);
+	printf("ë°›ì€ ì´ë¦„: %s\n", req_data->name);
+	// ì‘ë‹µë°ì´í„° ê¸°ë¡
 	int result;
 	result = db_insert_member(db, req_data->name, req_data->id, req_data->password);
 	res_data_ptr->select = 1;
 	strcpy(res_data_ptr->session, "NONE");
 	if (result) {
-		strcpy(res_data_ptr->msg, "È¸¿ø°¡ÀÔ ¿Ï·á");
+		strcpy(res_data_ptr->msg, "íšŒì›ê°€ì… ì™„ë£Œ");
 	}
 	else {
-		strcpy(res_data_ptr->msg, "È¸¿ø°¡ÀÔ ½ÇÆĞ");
+		strcpy(res_data_ptr->msg, "íšŒì›ê°€ì… ì‹¤íŒ¨");
 	}
 	return 0;
 }
 
-// 1.2 Å¬¶óÀÌ¾ğÆ® ¿äÃ» - È¸¿ø Å»Åğ
+// 1.2 í´ë¼ì´ì–¸íŠ¸ ìš”ì²­ - íšŒì› íƒˆí‡´
 int del_member(RequestData* req_data, ResponseData* res_data_ptr) {
-	// È¸¿ø db »èÁ¦
-	printf("\n¼±ÅÃ : %d (È¸¿øÅ»Åğ)\n", req_data->select);
-	printf("¹ŞÀº ¾ÆÀÌµğ: %s\n", req_data->id);
-	printf("¹ŞÀº ºñ¹Ğ¹øÈ£: %s\n", req_data->password);
-	// ÀÀ´äµ¥ÀÌÅÍ ±â·Ï
+	// íšŒì› db ì‚­ì œ
+	printf("\nì„ íƒ : %d (íšŒì›íƒˆí‡´)\n", req_data->select);
+	printf("ë°›ì€ ì•„ì´ë””: %s\n", req_data->id);
+	printf("ë°›ì€ ë¹„ë°€ë²ˆí˜¸: %s\n", req_data->password);
+	// ì‘ë‹µë°ì´í„° ê¸°ë¡
 	int result;
 	result = db_delete_member(db, req_data->id, req_data->password);
 	res_data_ptr->select = 2;
 	strcpy(res_data_ptr->session, "NONE");
 	if (result) {
-		strcpy(res_data_ptr->msg, "È¸¿øÅ»Åğ ¿Ï·á");
+		strcpy(res_data_ptr->msg, "íšŒì›íƒˆí‡´ ì™„ë£Œ");
 	}
 	else {
-		strcpy(res_data_ptr->msg, "È¸¿øÅ»Åğ ½ÇÆĞ. ¾ÆÀÌµğ ºñ¹Ğ¹øÈ£¸¦ È®ÀÎÇØÁÖ¼¼¿ä.");
+		strcpy(res_data_ptr->msg, "íšŒì›íƒˆí‡´ ì‹¤íŒ¨. ì•„ì´ë”” ë¹„ë°€ë²ˆí˜¸ë¥¼ í™•ì¸í•´ì£¼ì„¸ìš”.");
 	}
 	return 0;
 }
 
-// 1.3 Å¬¶óÀÌ¾ğÆ® ¿äÃ» - ·Î±×ÀÎ
+// 1.3 í´ë¼ì´ì–¸íŠ¸ ìš”ì²­ - ë¡œê·¸ì¸
 int login(RequestData* req_data, ResponseData* res_data_ptr, SOCKET client_socket) {
-	// ·Î±×ÀÎ
-	printf("\n¼±ÅÃ : %d (·Î±×ÀÎ)\n", req_data->select);
-	printf("¹ŞÀº ¾ÆÀÌµğ: %s\n", req_data->id);
-	printf("¹ŞÀº ºñ¹Ğ¹øÈ£: %s\n", req_data->password);
+	// ë¡œê·¸ì¸
+	printf("\nì„ íƒ : %d (ë¡œê·¸ì¸)\n", req_data->select);
+	printf("ë°›ì€ ì•„ì´ë””: %s\n", req_data->id);
+	printf("ë°›ì€ ë¹„ë°€ë²ˆí˜¸: %s\n", req_data->password);
 	char* access_key;
 	access_key = db_login(db, req_data->id, req_data->password);
-	// ÀÀ´äµ¥ÀÌÅÍ ±â·Ï
+	// ì‘ë‹µë°ì´í„° ê¸°ë¡
 	res_data_ptr->select = 3;
 	strcpy(res_data_ptr->session, access_key);
 	if (!strcmp(access_key, "NONE")) {
-		strcpy(res_data_ptr->msg, "·Î±×ÀÎ ½ÇÆĞ. ¾ÆÀÌµğ ºñ¹Ğ¹øÈ£¸¦ È®ÀÎÇØÁÖ¼¼¿ä.");
+		strcpy(res_data_ptr->msg, "ë¡œê·¸ì¸ ì‹¤íŒ¨. ì•„ì´ë”” ë¹„ë°€ë²ˆí˜¸ë¥¼ í™•ì¸í•´ì£¼ì„¸ìš”.");
 	}
 	else if (access_key == NULL) {
-		strcpy(res_data_ptr->msg, "¼­¹ö ¿¡·¯");
+		strcpy(res_data_ptr->msg, "ì„œë²„ ì—ëŸ¬");
 	}
 	else {
-		strcpy(res_data_ptr->msg, "·Î±×ÀÎ ¼º°ø");
+		strcpy(res_data_ptr->msg, "ë¡œê·¸ì¸ ì„±ê³µ");
 		for (int i = 0; i < FD_SETSIZE; i++) {
 			if (client_sockets[i] == client_socket) {
 				client_login[i] = 1;
@@ -172,11 +172,11 @@ int login(RequestData* req_data, ResponseData* res_data_ptr, SOCKET client_socke
 	return 0;
 }
 
-// 1.4 Å¬¶óÀÌ¾ğÆ® ¿äÃ» - ·Î±×¾Æ¿ô
+// 1.4 í´ë¼ì´ì–¸íŠ¸ ìš”ì²­ - ë¡œê·¸ì•„ì›ƒ
 int logout(RequestData* req_data, ResponseData* res_data_ptr, SOCKET client_socket) {
-	// ·Î±×¾Æ¿ô
-	printf("\n¼±ÅÃ : %d (·Î±×¾Æ¿ô)\n", req_data->select);
-	printf("¹ŞÀº ¼¼¼Ç: %s\n", req_data->session);
+	// ë¡œê·¸ì•„ì›ƒ
+	printf("\nì„ íƒ : %d (ë¡œê·¸ì•„ì›ƒ)\n", req_data->select);
+	printf("ë°›ì€ ì„¸ì…˜: %s\n", req_data->session);
 	db_logout(db, req_data->session);
 	for (int i = 0; i < FD_SETSIZE; i++) {
 		if (client_sockets[i] == client_socket) {
@@ -184,24 +184,23 @@ int logout(RequestData* req_data, ResponseData* res_data_ptr, SOCKET client_sock
 			break;
 		}
 	}
-	// ÀÀ´äµ¥ÀÌÅÍ ±â·Ï
+	// ì‘ë‹µë°ì´í„° ê¸°ë¡
 	res_data_ptr->select = 4;
 	strcpy(res_data_ptr->session, "CLEAR");
-	strcpy(res_data_ptr->msg, "·Î±×¾Æ¿ô ¿Ï·á");
+	strcpy(res_data_ptr->msg, "ë¡œê·¸ì•„ì›ƒ ì™„ë£Œ");
 	return 0;
 }
 
 
-/**************** ÁÖ½Ä°ü·Ã ÇÔ¼ö ****************/
-
-// Å¬¶óÀÌ¾ğÆ® ¿äÃ» - ÀüÃ¼ È¸¿ø¿¡°Ô º¸³»±â
+/**************** ì£¼ì‹ê´€ë ¨ í•¨ìˆ˜ ****************/
+// í´ë¼ì´ì–¸íŠ¸ ìš”ì²­ - ì „ì²´ íšŒì›ì—ê²Œ ë³´ë‚´ê¸°
 int sendAllClnt(ResponseData* res_data_ptr) {
 	res_data_ptr->select = 200;
 	init_stock(res_data_ptr);
 	delay(100);
 	int bytes_sent;
-	// Å¬¶óÀÌ¾ğÆ®·Î °á°ú Àü¼Û
-	printf("¸ğµç Å¬¶óÀÌ¾ğÆ®¿¡°Ô ¹ß¼Û ½ÃÀÛ\n");
+	// í´ë¼ì´ì–¸íŠ¸ë¡œ ê²°ê³¼ ì „ì†¡
+	printf("ëª¨ë“  í´ë¼ì´ì–¸íŠ¸ì—ê²Œ ë°œì†¡ ì‹œì‘\n");
 	for (int i = 0; i < FD_SETSIZE; i++) {
 		if (client_tf[i] == 1 && client_login[i]==1) {
 			bytes_sent = send(client_sockets[i], res_data_ptr, sizeof(*res_data_ptr), 0);
@@ -209,124 +208,122 @@ int sendAllClnt(ResponseData* res_data_ptr) {
 				perror("send failed : ");
 				return 1;
 			}
-			printf("%d¹ø, ", client_sockets[i]);
+			printf("%dë²ˆ, ", client_sockets[i]);
 		}
 	}
-	printf("¿¡°Ô ¹ß¼Û ¿Ï·á\n");
+	printf("ì—ê²Œ ë°œì†¡ ì™„ë£Œ\n");
 	return 0;
 }
 
-// 2.0.0 ¼¼¼Ç À¯È¿ °ËÁõ
+// 2.0.0 ì„¸ì…˜ ìœ íš¨ ê²€ì¦
 int checkSession(char* session) {
-	printf("¼¼¼ÇÀ» °ËÁõÇÕ´Ï´Ù\n");
-	printf("¼¼¼ÇÀÌ À¯È¿ÇÕ´Ï´Ù\n");
+	printf("ì„¸ì…˜ì„ ê²€ì¦í•©ë‹ˆë‹¤\n");
+	// ë¯¸êµ¬í˜„
+	printf("ì„¸ì…˜ì´ ìœ íš¨í•©ë‹ˆë‹¤\n");
 	return 0;
 }
 
-// 2.0.1 ÁÖ½Ä Á¤º¸ Á¶È¸
+// 2.0.1 ì£¼ì‹ ì •ë³´ ì¡°íšŒ
 int allStock(RequestData* req_data, ResponseData* res_data_ptr) {
-	printf("\n¼±ÅÃ : %d (ÁÖ½Ä Á¤º¸ Á¶È¸)\n", req_data->select);
-	printf("¹ŞÀº ¼¼¼Ç: %s\n", req_data->session);
-	// ¼¼¼Ç °ËÁõ
+	printf("\nì„ íƒ : %d (ì£¼ì‹ ì •ë³´ ì¡°íšŒ)\n", req_data->select);
+	printf("ë°›ì€ ì„¸ì…˜: %s\n", req_data->session);
+	// ì„¸ì…˜ ê²€ì¦
 	int check;
 	check = checkSession(req_data->session);
-	// ÁÖ½Ä Á¤º¸ Á¶È¸
+	// ì£¼ì‹ ì •ë³´ ì¡°íšŒ
 	res_data_ptr->select = 200;
 	if (check) {
-		// °ÅºÎ ÀÀ´ä
+		// ê±°ë¶€ ì‘ë‹µ
 		res_data_ptr->check = 1;
-		strcpy(res_data_ptr->msg, "Á¤º¸¸¦ Á¶È¸ÇÒ ¼ö ¾ø½À´Ï´Ù.");
+		strcpy(res_data_ptr->msg, "ì •ë³´ë¥¼ ì¡°íšŒí•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 	}
 	else {
 		res_data_ptr->check = 0;
-		// Çã¶ô ÀÀ´ä
-		strcpy(res_data_ptr->msg, "Á¤º¸¸¦ Á¶È¸Çß½À´Ï´Ù.");
+		// í—ˆë½ ì‘ë‹µ
+		strcpy(res_data_ptr->msg, "ì •ë³´ë¥¼ ì¡°íšŒí–ˆìŠµë‹ˆë‹¤.");
 		strcpy(res_data_ptr->session, req_data->session);
 		init_stock(res_data_ptr);
 	}
 	return 0;
 }
-// 2.1 Å¬¶óÀÌ¾ğÆ® ¿äÃ» - ÁÖ½Ä ¸Å¼ö
+
+// 2.1 í´ë¼ì´ì–¸íŠ¸ ìš”ì²­ - ì£¼ì‹ ë§¤ìˆ˜
 int buyStock(RequestData* req_data, ResponseData* res_data_ptr) {
-	printf("\n¼±ÅÃ : %d (ÁÖ½Ä ¸Å¼ö)\n", req_data->select);
-	printf("¹ŞÀº ¼¼¼Ç: %s\n", req_data->session);
-	// ¼¼¼Ç °ËÁõ
+	printf("\nì„ íƒ : %d (ì£¼ì‹ ë§¤ìˆ˜)\n", req_data->select);
+	printf("ë°›ì€ ì„¸ì…˜: %s\n", req_data->session);
+	// ì„¸ì…˜ ê²€ì¦
 	int check, result;
 	check = checkSession(req_data->session);
-	// ÁÖ½Ä¸Å¼ö
+	// ì£¼ì‹ë§¤ìˆ˜
 	res_data_ptr->select = 201;
 	if (check) {
-		// °ÅºÎ ÀÀ´ä
+		// ê±°ë¶€ ì‘ë‹µ
 		res_data_ptr->check = 1;
-		strcpy(res_data_ptr->msg, "¸Å¼ö°¡ °ÅºÎµÇ¾ú½À´Ï´Ù.");
+		strcpy(res_data_ptr->msg, "ë§¤ìˆ˜ê°€ ê±°ë¶€ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	}
 	else {
-		// Çã¶ô ÀÀ´ä
+		// í—ˆë½ ì‘ë‹µ
 		result = db_buyStock(db, req_data->session, req_data->stock_data.stock_id, req_data->stock_data.stock_count);
 		if (result) {
 			res_data_ptr->check = 1;
 			if (result == 1) {
-				strcpy(res_data_ptr->msg, "¸Å¼ö°¡ °ÅºÎµÇ¾ú½À´Ï´Ù.");
+				strcpy(res_data_ptr->msg, "ë§¤ìˆ˜ê°€ ê±°ë¶€ë˜ì—ˆìŠµë‹ˆë‹¤.");
 			}
 			else if (result == 2) {
-				strcpy(res_data_ptr->msg, "ÀÜ°í°¡ ºÎÁ·ÇÕ´Ï´Ù.");
+				strcpy(res_data_ptr->msg, "ì”ê³ ê°€ ë¶€ì¡±í•©ë‹ˆë‹¤.");
 			}
 			else if (result == 3) {
-				strcpy(res_data_ptr->msg, "ÁÖ½ÄÀÜ·®À» ÃÊ°úÇß½À´Ï´Ù.");
+				strcpy(res_data_ptr->msg, "ì£¼ì‹ì”ëŸ‰ì„ ì´ˆê³¼í–ˆìŠµë‹ˆë‹¤.");
 			}
 			else if (result == 4) {
-				strcpy(res_data_ptr->msg, "À¯È¿ÇÑ Á¾¸ñ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+				strcpy(res_data_ptr->msg, "ìœ íš¨í•œ ì¢…ëª©ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”.");
 			}
 			return 0;
 		}
 		res_data_ptr->check = 0;
 		strcpy(res_data_ptr->session, req_data->session);
-		strcpy(res_data_ptr->msg, "¸Å¼ö°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+		strcpy(res_data_ptr->msg, "ë§¤ìˆ˜ê°€ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 	}
 	return 0;
 }
 
-// 2.2 Å¬¶óÀÌ¾ğÆ® ¿äÃ» - ÁÖ½Ä ¸Åµµ
+// 2.2 í´ë¼ì´ì–¸íŠ¸ ìš”ì²­ - ì£¼ì‹ ë§¤ë„
 int sellStock(RequestData* req_data, ResponseData* res_data_ptr) {
-	printf("\n¼±ÅÃ : %d (ÁÖ½Ä ¸Åµµ)\n", req_data->select);
-	printf("¹ŞÀº ¼¼¼Ç: %s\n", req_data->session);
-	// ¼¼¼Ç °ËÁõ
+	printf("\nì„ íƒ : %d (ì£¼ì‹ ë§¤ë„)\n", req_data->select);
+	printf("ë°›ì€ ì„¸ì…˜: %s\n", req_data->session);
+	// ì„¸ì…˜ ê²€ì¦
 	int check, result;
 	char* session = req_data->session;
 	check = checkSession(session);
-	// ÁÖ½Ä¸Åµµ
+	// ì£¼ì‹ë§¤ë„
 	res_data_ptr->select = 202;
 	if (check) {
-		// °ÅºÎ ÀÀ´ä
+		// ê±°ë¶€ ì‘ë‹µ
 		res_data_ptr->check = 1;
-		strcpy(res_data_ptr->msg, "¸Åµµ°¡ °ÅºÎµÇ¾ú½À´Ï´Ù.");
+		strcpy(res_data_ptr->msg, "ë§¤ë„ê°€ ê±°ë¶€ë˜ì—ˆìŠµë‹ˆë‹¤.");
 	}
 	else {
-		// Çã¶ô ÀÀ´ä
+		// í—ˆë½ ì‘ë‹µ
 		result = db_sellStock(db, req_data->session, req_data->stock_data.stock_id, req_data->stock_data.stock_count);
 		if (result) {
 			res_data_ptr->check = 1;
 			if (result == 1) {
-				strcpy(res_data_ptr->msg, "¸Åµµ°¡ °ÅºÎµÇ¾ú½À´Ï´Ù.");
+				strcpy(res_data_ptr->msg, "ë§¤ë„ê°€ ê±°ë¶€ë˜ì—ˆìŠµë‹ˆë‹¤.");
 			}
 			else if (result == 2) {
-				strcpy(res_data_ptr->msg, "ÇØ´ç ÁÖ½ÄÀ» º¸À¯ÇÏ°í ÀÖÁö ¾Ê½À´Ï´Ù.");
+				strcpy(res_data_ptr->msg, "í•´ë‹¹ ì£¼ì‹ì„ ë³´ìœ í•˜ê³  ìˆì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			}
 			else if (result == 3) {
-				strcpy(res_data_ptr->msg, "¿äÃ»ÇÑ ¸Åµµ¼ö·®ÀÌ º¸À¯¼ö·®º¸´Ù ¸¹½À´Ï´Ù.");
+				strcpy(res_data_ptr->msg, "ìš”ì²­í•œ ë§¤ë„ìˆ˜ëŸ‰ì´ ë³´ìœ ìˆ˜ëŸ‰ë³´ë‹¤ ë§ìŠµë‹ˆë‹¤.");
 			}
 			else if (result == 4) {
-				strcpy(res_data_ptr->msg, "À¯È¿ÇÑ Á¾¸ñ ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+				strcpy(res_data_ptr->msg, "ìœ íš¨í•œ ì¢…ëª© ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš”.");
 			}
-			// ¸Åµµ´Â ÇØ´ç ³»¿ë ºÒÇÊ¿ä
-			/*else if (result == 3) {
-				strcpy(res_data_ptr->msg, "»ì ¼ö ÀÖ´Â ÁÖ½Ä °¹¼ö¸¦ ÃÊ°úÇß½À´Ï´Ù.");
-			}*/
 			return 0;
 		}
 		res_data_ptr->check = 0;
 		strcpy(res_data_ptr->session, req_data->session);
-		strcpy(res_data_ptr->msg, "¸Åµµ°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+		strcpy(res_data_ptr->msg, "ë§¤ë„ê°€ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 	}
 	return 0;
 }
