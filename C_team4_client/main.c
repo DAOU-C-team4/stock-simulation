@@ -6,7 +6,6 @@
 char access[31] = "NONE";
 
 int main(int argc, char* argv[]) {
-
 	// 0.1 소켓연결
 	SOCKET client_fd = connect_to_server();
 	// 0.2 이벤트 객체 생성
