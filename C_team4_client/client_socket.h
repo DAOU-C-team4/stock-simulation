@@ -1,6 +1,6 @@
 #pragma once
 #include <WinSock2.h>
-#include <WS2tcpip.h>    // TCP/IP Åë½ÅÀ» À§ÇÑ Çì´õ
+#include <WS2tcpip.h>    // TCP/IP í†µì‹ ì„ ìœ„í•œ í—¤ë”
 #include <limits.h>
 #include <stdbool.h>
 #include <string.h>
@@ -19,21 +19,21 @@
 #define MAX_STOCK_RES_LENGTH 10
 
 #define PORT 8080
-#define SERVER_IP "127.0.0.1" // ·ÎÄÃ pc ¼­¹ö ipÁÖ¼Ò
-//#define SERVER_IP "172.30.1.93" // ÁØÇÏ´Ô pc ¼­¹ö ipÁÖ¼Ò
+#define SERVER_IP "127.0.0.1" // ë¡œì»¬ pc ì„œë²„ ipì£¼ì†Œ
+//#define SERVER_IP "xxx.xxx.xxx.xxx" // ì‚¬ìš©í•  ì„œë²„ì˜ ipì£¼ì†Œ
 
-// ÀÌº¥Æ® °´Ã¼ - ¸ÖÆ¼½º·¹µå ½ÅÈ£Á¦¾î
+// ì´ë²¤íŠ¸ ê°ì²´ - ë©€í‹°ìŠ¤ë ˆë“œ ì‹ í˜¸ì œì–´
 HANDLE event;
 
-/**************** ±¸Á¶Ã¼ ¼±¾ğ ****************/
+/**************** êµ¬ì¡°ì²´ ì„ ì–¸ ****************/
 typedef struct {
-	int select;       // ¸Å¼ö ¸Åµµ ºÒ¸°°ª
-	int stock_id;     // ¸Å¼ö ¸ÅµµÇÒ ÁÖ½Ä id
-	int stock_count;  // ¸Å¼ö ¸ÅµµÇÒ ÁÖ½Ä °¹¼ö
+	int select;       // ë§¤ìˆ˜ ë§¤ë„ ë¶ˆë¦°ê°’
+	int stock_id;     // ë§¤ìˆ˜ ë§¤ë„í•  ì£¼ì‹ id
+	int stock_count;  // ë§¤ìˆ˜ ë§¤ë„í•  ì£¼ì‹ ê°¯ìˆ˜
 } STOCK_REQ;
 typedef struct {
-	int select;  // ¸Ş´º ¼±ÅÃ
-	int balance; // Çö±İÀÜ°í
+	int select;  // ë©”ë‰´ ì„ íƒ
+	int balance; // í˜„ê¸ˆì”ê³ 
 	char name[MAX_NAME_LENGTH];
 	char id[MAX_ID_LENGTH];
 	char password[MAX_PASSWORD_LENGTH];
@@ -50,12 +50,12 @@ typedef struct {
 typedef struct {
 	int select;
 	int check;
-	char session[MAX_SESSION_LENGTH]; // ·Î±×ÀÎ½Ã ¹ß±Ş¹Ş´Â ÅäÅ«
-	char msg[MAX_MESSAGE_LENGTH];     // ¼­¹ö Àü´Ş ¸Ş¼¼Áö
-	STOCK_RES stock_arr[MAX_STOCK_RES_LENGTH];          // ÁÖ½Ä Á¤º¸
-	STOCK_RES my_stock[MAX_STOCK_RES_LENGTH];           // ³» ÁÖ½Ä ÀÜ°í
+	char session[MAX_SESSION_LENGTH]; // ë¡œê·¸ì¸ì‹œ ë°œê¸‰ë°›ëŠ” í† í°
+	char msg[MAX_MESSAGE_LENGTH];     // ì„œë²„ ì „ë‹¬ ë©”ì„¸ì§€
+	STOCK_RES stock_arr[MAX_STOCK_RES_LENGTH];          // ì£¼ì‹ ì •ë³´
+	STOCK_RES my_stock[MAX_STOCK_RES_LENGTH];           // ë‚´ ì£¼ì‹ ì”ê³ 
 } ResponseData;
 
-/**************** ¼ÒÄÏ °ü·Ã ÇÔ¼ö ****************/
+/**************** ì†Œì¼“ ê´€ë ¨ í•¨ìˆ˜ ****************/
 SOCKET connect_to_server();
 DWORD WINAPI listen_thread(SOCKET client_fd);
