@@ -2,21 +2,21 @@
 #include "client_stock.h"
 #include "client_socket.h"
 
-// ¿¡¼¼½º °ü¸®
+// ì—ì„¸ìŠ¤ ê´€ë¦¬
 char access[31] = "NONE";
 
 int main(int argc, char* argv[]) {
 
-	// 0.1 ¼ÒÄÏ¿¬°á
+	// 0.1 ì†Œì¼“ì—°ê²°
 	SOCKET client_fd = connect_to_server();
-	// 0.2 ÀÌº¥Æ® °´Ã¼ »ı¼º
+	// 0.2 ì´ë²¤íŠ¸ ê°ì²´ ìƒì„±
 	event = CreateEvent(NULL, FALSE, FALSE, NULL);
 	if (event == NULL) {
 		perror("Event creation failed");
 		return 1;
 	}
 
-	// 1. ¸®½¼ ½º·¹µå
+	// 1. ë¦¬ìŠ¨ ìŠ¤ë ˆë“œ
 	DWORD dwThreadId;
 	HANDLE hThread = CreateThread(NULL, 0, listen_thread, client_fd, 0, &dwThreadId);
 	if (hThread == NULL) {
@@ -24,104 +24,99 @@ int main(int argc, char* argv[]) {
 		return 1;
 	}
 
-	// 2. ¿äÃ» ½º·¹µå
+	// 2. ìš”ì²­ ìŠ¤ë ˆë“œ
 	select_task_home(client_fd);
 
-	// end. ¼ÒÄÏÁ¾·á
+	// end. ì†Œì¼“ì¢…ë£Œ
 	closesocket(client_fd);
 	WSACleanup();
 	return 0;
 }
 
-// 1.1 ¸®½¼ ½º·¹µå
+// 1.1 ë¦¬ìŠ¨ ìŠ¤ë ˆë“œ
 DWORD WINAPI listen_thread(SOCKET client_fd) {
 	char received_message[MAX_BUFFER_SIZE];
 	int select;
 
 	while (1) {
-		// ¼­¹ö Àü¼Û¸Ş¼¼Áö ¸®½¼
+		// ì„œë²„ ì „ì†¡ë©”ì„¸ì§€ ë¦¬ìŠ¨
 		int bytes_received = recv(client_fd, received_message, MAX_BUFFER_SIZE, 0);
 		if (bytes_received == SOCKET_ERROR) {
 			perror("recv failed");
-			// ¿¡·¯ Ã³¸® ·ÎÁ÷ Ãß°¡
+			// ì—ëŸ¬ ì²˜ë¦¬ ë¡œì§ ì¶”ê°€
 			break;
 		}
-		// ¼­¹ö·ÎºÎÅÍ ¹ŞÀº ¸Ş½ÃÁö Ã³¸®
+		// ì„œë²„ë¡œë¶€í„° ë°›ì€ ë©”ì‹œì§€ ì²˜ë¦¬
 		ResponseData* res_data = (ResponseData*)received_message;
 
 		if (strcmp(res_data->session, "NONE") && strcmp(res_data->session, "CLEAR")
 			&& strcmp(res_data->session, "") && strcmp(res_data->session, "\0")
 			&& res_data->session == NULL) {
 			strcpy(access, res_data->session);
-			printf("\nlisten_thread³»ºÎ session (%s): ", access);
+			printf("\nlisten_threadë‚´ë¶€ session (%s): ", access);
 		}
-		//printf("\n¼­¹ö·ÎºÎÅÍ ÀÀ´ä (%d): \n", res_data->select);
-		//printf("\nlisten_thread session (%s): ", access);
+		//printf("\nì„œë²„ë¡œë¶€í„° ì‘ë‹µ (%d): \n", res_data->select);
 
-		// ¿äÃ»º° ºĞ±âÃ³¸®
+		// ìš”ì²­ë³„ ë¶„ê¸°ì²˜ë¦¬
 		select = res_data->select;
 		if (select == 1 || select == 2 || select == 3 || select==201 || select==202 ) {
 			system("cls");
-			printf(">> ¼­¹ö·ÎºÎÅÍ ¿Â ¸Ş½ÃÁö <<\n");
+			printf(">> ì„œë²„ë¡œë¶€í„° ì˜¨ ë©”ì‹œì§€ <<\n");
 		}
 		switch (select) {
-		case 1: // È¸¿ø°¡ÀÔ
+		case 1: // íšŒì›ê°€ì…
 			res_add_member(res_data);
 			break;
-		case 2: // È¸¿øÅ»Åğ
+		case 2: // íšŒì›íƒˆí‡´
 			res_del_member(res_data);
 			break;
-		case 3: // ·Î±×ÀÎ
+		case 3: // ë¡œê·¸ì¸
 			res_login(res_data, access);
 			break;
-		case 4: // ·Î±×¾Æ¿ô
+		case 4: // ë¡œê·¸ì•„ì›ƒ
 			res_logout(res_data, access);
 			break;
-		case 5: // È¸¿ø Á¤º¸ Á¶È¸
+		case 5: // íšŒì› ì •ë³´ ì¡°íšŒ
 			res_memberInfo(res_data, access);
 			continue;
-		case 200: // ÁÖ°¡ ½Ç½Ã°£ Á¶È¸
+		case 200: // ì£¼ê°€ ì‹¤ì‹œê°„ ì¡°íšŒ
 			res_allStock(res_data);
 			break;
-		case 201: // ÁÖ½Ä ¸Å¼ö
+		case 201: // ì£¼ì‹ ë§¤ìˆ˜
 			res_buyStock(res_data);
 			break;
-		case 202: // ÁÖ½Ä ¸Åµµ
+		case 202: // ì£¼ì‹ ë§¤ë„
 			res_sellStock(res_data);
 			break;
-
 		default:
-			//printf("\n¾Ë ¼ö ¾ø´Â ¿äÃ»ÀÔ´Ï´Ù.\n");
 			continue;
 		}
 
-		// ÀÌº¥Æ® ½ÅÈ£ ¹ß»ı
+		// ì´ë²¤íŠ¸ ì‹ í˜¸ ë°œìƒ
 		if (select != 200 && select != 0)
 			SetEvent(event);
 	}
 	return;
 }
 
-// 1.2 ¿äÃ» ½º·¹µå
+// 1.2 ìš”ì²­ ìŠ¤ë ˆë“œ
 select_task_home(SOCKET client_fd) {
-	// ±âº» ¼¼ÆÃ
+	// ê¸°ë³¸ ì„¸íŒ…
 	int run = 1;
 	char message[MAX_BUFFER_SIZE];
 	
-	// È¨ ¸Ş´º ¹İº¹
+	// í™ˆ ë©”ë‰´ ë°˜ë³µ
 	do {
-		// ·Î±×ÀÎ½Ã - ÁÖ½Ä¸Å¸Å
+		// ë¡œê·¸ì¸ì‹œ - ì£¼ì‹ë§¤ë§¤
 		if (strcmp(access, "NONE") && strcmp(access, "CLEAR")) {
-			//printf("%s\n", res_data->msg);
-			//printf("   session: %s\n", access);
 			req_allStock(client_fd, access);
 			stock_home(client_fd, access);
-			// ÁÖ½Ä¸Å¸Å È¨¿¡¼­ ³ª°¥½Ã ·Î±×¾Æ¿ô
+			// ì£¼ì‹ë§¤ë§¤ í™ˆì—ì„œ ë‚˜ê°ˆì‹œ ë¡œê·¸ì•„ì›ƒ
 			req_logout(client_fd, access);
-		    printf("\n===================================================\n");
+		    	printf("\n===================================================\n");
 			continue;
 		}
-		// ·Î±×ÀÎ ¾Æ´Ò½Ã - È¸¿ø°ü¸®
+		// ë¡œê·¸ì¸ ì•„ë‹ì‹œ - íšŒì›ê´€ë¦¬
 		int select = 0;
 		//system("cls");
 		printf("\n");
@@ -129,8 +124,8 @@ select_task_home(SOCKET client_fd) {
 		printf(" |     ` |_____| |     | |     |      |______    |    |     | |       |____/ \n");
 		printf(" |_____/ |     | |_____| |_____|      ______|    |    |_____| |_____  |    `_\n");
 		printf("\n");
-		printf("\n 1.È¸¿ø°¡ÀÔ \n 2.È¸¿øÅ»Åğ \n 3.·Î±×ÀÎ \n 4.Á¾·á\n\n");
-		select = getInputInteger("¿øÇÏ´Â ÀÛ¾÷À» ÁöÁ¤ÇØÁÖ¼¼¿ä : ");
+		printf("\n 1.íšŒì›ê°€ì… \n 2.íšŒì›íƒˆí‡´ \n 3.ë¡œê·¸ì¸ \n 4.ì¢…ë£Œ\n\n");
+		select = getInputInteger("ì›í•˜ëŠ” ì‘ì—…ì„ ì§€ì •í•´ì£¼ì„¸ìš” : ");
 		printf("\n====================================================\n\n");
 
 		system("cls");
@@ -139,24 +134,25 @@ select_task_home(SOCKET client_fd) {
 		printf(" |     ` |_____| |     | |     |      |______    |    |     | |       |____/ \n");
 		printf(" |_____/ |     | |_____| |_____|      ______|    |    |_____| |_____  |    `_\n");
 		printf("\n");
-		printf("\n¹İ°©½À´Ï´Ù. Å°¿ï±î¸»±îÁõ±ÇÀÔ´Ï´Ù.\n");
+		printf("\në°˜ê°‘ìŠµë‹ˆë‹¤. í‚¤ìš¸ê¹Œë§ê¹Œì¦ê¶Œì…ë‹ˆë‹¤.\n");
+		
 		switch (select)
 		{
-		case 1: // È¸¿ø°¡ÀÔ
+		case 1: // íšŒì›ê°€ì…
 			req_add_member(client_fd);
 			break;
-		case 2: // È¸¿øÅ»Åğ
+		case 2: // íšŒì›íƒˆí‡´
 			req_del_member(client_fd);
 			break;
-		case 3: // ·Î±×ÀÎ
+		case 3: // ë¡œê·¸ì¸
 			req_login(client_fd);
 			break;
-		case 4: // ·Î±×¾Æ¿ô
-			printf("\nÇÁ·Î±×·¥À» Á¾·áÇÕ´Ï´Ù. ÁÁÀº ÇÏ·ç µÇ¼¼¿ä :)\n");
+		case 4: // ë¡œê·¸ì•„ì›ƒ
+			printf("\ní”„ë¡œê·¸ë¨ì„ ì¢…ë£Œí•©ë‹ˆë‹¤. ì¢‹ì€ í•˜ë£¨ ë˜ì„¸ìš” :)\n");
 			run = 0;
 			break;
 		default:
-			printf("\nÀß¸øµÈ ¹øÈ£ÀÔ´Ï´Ù.\n");
+			printf("\nì˜ëª»ëœ ë²ˆí˜¸ì…ë‹ˆë‹¤.\n");
 			continue;
 		}
 		printf("\n=============================================\n");
