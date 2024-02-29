@@ -1,7 +1,6 @@
 #include "client_socket.h"
 
-
-// 0. ¼ÒÄÏ¿¬°á
+// 0. ì†Œì¼“ ìƒì„± ë° ì—°ê²°
 SOCKET connect_to_server() {
 	WSADATA wsaData;
 	SOCKET client_fd;
@@ -27,7 +26,6 @@ SOCKET connect_to_server() {
 		perror("connect failed");
 		exit(EXIT_FAILURE);
 	}
-
 	//printf("Connected to server\n");
 
 	return client_fd;
