@@ -1,29 +1,29 @@
 #include "client_member.h"
 #include "client_stock.h"
 
+// ë”œë ˆì´ í•¨ìˆ˜
 delay(clock_t delay_time)
 {
-	clock_t start = clock(); //clock ÇÔ¼ö´Â 1/1000
+	clock_t start = clock(); //clock í•¨ìˆ˜ëŠ” 1/1000
 	while (clock() - start < delay_time);
 	return 0;
-
 }
 
-/**************** ÁÖ½Ä È¨ ****************/
-// 0. ·Î±×ÀÎÈÄ ÁÖ½Ä°ü·Ã È¨
+/**************** ì£¼ì‹ í™ˆ ****************/
+// 0. ë¡œê·¸ì¸í›„ ì£¼ì‹ê´€ë ¨ í™ˆ
 stock_home(SOCKET client_fd, char* access) {
 	char send_access[MAX_SESSION_LENGTH];
 	strcpy(send_access, access);
 	do {
 		int select;
-		printf("\n>> ÁÖ½Ä ¼­ºñ½º ÀÌ¿ë <<\n");
-		printf("\n 1.ÁÖ½Ä ¸Å¼ö \n 2.ÁÖ½Ä ¸Åµµ \n 3.·Î±×¾Æ¿ô \n");
+		printf("\n>> ì£¼ì‹ ì„œë¹„ìŠ¤ ì´ìš© <<\n");
+		printf("\n 1.ì£¼ì‹ ë§¤ìˆ˜ \n 2.ì£¼ì‹ ë§¤ë„ \n 3.ë¡œê·¸ì•„ì›ƒ \n");
 		gotoxy(0, 18);
 		printf("\n===================================================================================================================\n\n");
-		select = getInputInteger(" ¿øÇÏ´Â ÀÛ¾÷À» ÁöÁ¤ÇØÁÖ¼¼¿ä : ");
+		select = getInputInteger(" ì›í•˜ëŠ” ì‘ì—…ì„ ì§€ì •í•´ì£¼ì„¸ìš” : ");
 
 		system("cls");
-		printf("\n>> ÁÖ½Ä ¼­ºñ½º ÀÌ¿ë <<\n\n");
+		printf("\n>> ì£¼ì‹ ì„œë¹„ìŠ¤ ì´ìš© <<\n\n");
 
 		if(select!=3)
 			req_allStock(client_fd, send_access);
@@ -37,10 +37,10 @@ stock_home(SOCKET client_fd, char* access) {
 			req_sellStock(client_fd, send_access);
 			break;
 		case 3:
-			printf(" ¸Å¸Å Á¾·á. ¾È³çÈ÷°¡¼¼¿ä :)\n");
+			printf(" ë§¤ë§¤ ì¢…ë£Œ. ì•ˆë…•íˆê°€ì„¸ìš” :)\n");
 			return; 
 		default:
-			printf("1, 2, 3¹ø Áß ÇÏ³ª¸¦ ÀÔ·ÂÇÏ¼¼¿ä\n");
+			printf("1, 2, 3ë²ˆ ì¤‘ í•˜ë‚˜ë¥¼ ì…ë ¥í•˜ì„¸ìš”\n");
 			printf("\n=========================================\n\n");
 			continue;
 		};
@@ -50,14 +50,14 @@ stock_home(SOCKET client_fd, char* access) {
 	return 0;
 }
 
-/**************** ÁÖ½Ä °ü·Ã ¿äÃ» ÇÔ¼ö ****************/
-// 1.0 ÁÖ½Ä ½Ç½Ã°£ Á¶È¸ ¿äÃ»
+/**************** ì£¼ì‹ ê´€ë ¨ ìš”ì²­ í•¨ìˆ˜ ****************/
+// 1.0 ì£¼ì‹ ì‹¤ì‹œê°„ ì¡°íšŒ ìš”ì²­
 req_allStock(SOCKET client_fd, char* access) {
 	RequestData req_data;
 	req_data.select = 200;
 	strcpy(req_data.session, access);
 
-	// ¼­¹ö·Î Àü¼Û
+	// ì„œë²„ë¡œ ì „ì†¡
 	int bytes_sent = send(client_fd, (RequestData*)&req_data, sizeof(req_data), 0);
 	if (bytes_sent == SOCKET_ERROR) {
 		fprintf(stderr, "Send failed\n");
@@ -66,23 +66,24 @@ req_allStock(SOCKET client_fd, char* access) {
 
 	return 0;
 }
-// 1.1 ÁÖ½Ä ¸Å¼ö ¿äÃ»
+
+// 1.1 ì£¼ì‹ ë§¤ìˆ˜ ìš”ì²­
 req_buyStock(SOCKET client_fd, char* access) {
-	printf("\n1. ÁÖ½Ä ¸Å¼ö\n\n");
+	printf("\n1. ì£¼ì‹ ë§¤ìˆ˜\n\n");
 	RequestData req_data;
 	req_data.select = 201;
 	strcpy(req_data.session, access);
 
 	gotoxy(0, 18);
 	printf("\n===================================================================================================================\n\n");
-	req_data.stock_data.stock_id = getInputInteger("¸Å¼öÇÒ Á¾¸ñ ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä : ");
+	req_data.stock_data.stock_id = getInputInteger("ë§¤ìˆ˜í•  ì¢…ëª© ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš” : ");
 	if (req_data.stock_data.stock_id > 10 || req_data.stock_data.stock_id < 0) {
 		req_data.stock_data.stock_id = 100;
 	}
 	do {
-		/*printf("¸Å¼öÇÒ Á¾¸ñ ¼ö·®À» ÀÔ·ÂÇÏ¼¼¿ä : ");
+		/*printf("ë§¤ìˆ˜í•  ì¢…ëª© ìˆ˜ëŸ‰ì„ ì…ë ¥í•˜ì„¸ìš” : ");
 	scanf("%d%*c", &req_data.stock_data.stock_count);*/
-		req_data.stock_data.stock_count = getInputInteger("\n¸Å¼öÇÒ ¼ö·®À» ÀÔ·ÂÇÏ¼¼¿ä : ");
+		req_data.stock_data.stock_count = getInputInteger("\në§¤ìˆ˜í•  ìˆ˜ëŸ‰ì„ ì…ë ¥í•˜ì„¸ìš” : ");
 	} while (req_data.stock_data.stock_count < 0);
 
 	int bytes_sent = send(client_fd, (RequestData*)&req_data, sizeof(req_data), 0);
@@ -91,30 +92,30 @@ req_buyStock(SOCKET client_fd, char* access) {
 		return 1;
 	}
 
-	WaitForSingleObject(event, INFINITE); // ½ÅÈ£ ´ë±â
+	WaitForSingleObject(event, INFINITE); // ì‹ í˜¸ ëŒ€ê¸°
 	return 0;
 }
 
-// 1.2 ÁÖ½Ä ¸Åµµ ¿äÃ»
+// 1.2 ì£¼ì‹ ë§¤ë„ ìš”ì²­
 req_sellStock(SOCKET client_fd, char* access) {
-	printf("\n2. ÁÖ½Ä ¸Åµµ\n\n");
+	printf("\n2. ì£¼ì‹ ë§¤ë„\n\n");
 	RequestData req_data;
 	req_data.select = 202;
 	strcpy(req_data.session, access);
 	gotoxy(0, 18);
 	printf("\n===================================================================================================================\n\n");
 
-	//printf("¸ÅµµÇÒ Á¾¸ñ ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä : ");
+	//printf("ë§¤ë„í•  ì¢…ëª© ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš” : ");
 	//scanf("%d%*c", &req_data.stock_data.stock_id);
-	req_data.stock_data.stock_id = getInputInteger("¸ÅµµÇÒ Á¾¸ñ ¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä : ");
+	req_data.stock_data.stock_id = getInputInteger("ë§¤ë„í•  ì¢…ëª© ë²ˆí˜¸ë¥¼ ì…ë ¥í•˜ì„¸ìš” : ");
 	if (req_data.stock_data.stock_id > 10 || req_data.stock_data.stock_id < 0) {
 		req_data.stock_data.stock_id = 100;
 	}
 	do {
-		/*printf("¸ÅµµÇÒ ¼ö·®À» ÀÔ·ÂÇÏ¼¼¿ä : ");
+		/*printf("ë§¤ë„í•  ìˆ˜ëŸ‰ì„ ì…ë ¥í•˜ì„¸ìš” : ");
 		scanf("%d%*c", &req_data.stock_data.stock_count);*/
-		//req_data.stock_data.stock_count = getInputInteger("¸ÅµµÇÒ ¼ö·®À» ÀÔ·ÂÇÏ¼¼¿ä: ");
-		req_data.stock_data.stock_count = getInputInteger("\n¸ÅµµÇÒ ¼ö·®À» ÀÔ·ÂÇÏ¼¼¿ä : ");
+		//req_data.stock_data.stock_count = getInputInteger("ë§¤ë„í•  ìˆ˜ëŸ‰ì„ ì…ë ¥í•˜ì„¸ìš”: ");
+		req_data.stock_data.stock_count = getInputInteger("\në§¤ë„í•  ìˆ˜ëŸ‰ì„ ì…ë ¥í•˜ì„¸ìš” : ");
 	} while (req_data.stock_data.stock_count < 0);
 
 	int bytes_sent = send(client_fd, (RequestData*)&req_data, sizeof(req_data), 0);
@@ -123,10 +124,11 @@ req_sellStock(SOCKET client_fd, char* access) {
 		return 1;
 	}
 
-	WaitForSingleObject(event, INFINITE); // ½ÅÈ£ ´ë±â
+	WaitForSingleObject(event, INFINITE); // ì‹ í˜¸ ëŒ€ê¸°
 	return 0;
 }
-//// 1.3 balance Á¶È¸ ¿äÃ»
+
+//// 1.3 balance ì¡°íšŒ ìš”ì²­
 //req_getBalance(SOCKET client_fd, char* access) {
 //	RequestData req_data;
 //	req_data.select = 202;
@@ -137,32 +139,32 @@ req_sellStock(SOCKET client_fd, char* access) {
 //		return 1;
 //	}
 //
-//	WaitForSingleObject(event, INFINITE); // ½ÅÈ£ ´ë±â
+//	WaitForSingleObject(event, INFINITE); // ì‹ í˜¸ ëŒ€ê¸°
 //	return 0;
 //}
 
-/**************** ÁÖ½Ä °ü·Ã ¸®½¼ ÇÔ¼ö ****************/
-// 2.0 ÁÖ½Ä Á¤º¸ Á¶È¸
+/**************** ì£¼ì‹ ê´€ë ¨ ë¦¬ìŠ¨ í•¨ìˆ˜ ****************/
+// 2.0 ì£¼ì‹ ì •ë³´ ì¡°íšŒ
 res_allStock(ResponseData* res_data) {
-	//·Î±×ÀÎ Á÷ÈÄ¿¡´Â stock_homeº¸´Ù ¸ÕÀú ³ª¿À°í, ±â´É ÀÛ¾÷ ÈÄ¿¡´Â stock_homeº¸´Ù ³ªÁß¿¡ ³ª¿À¹Ç·Î
-	//¾ğÁ¦µç ÀÌÀü Ä¿¼­ À§Ä¡¸¦ ±â¾ïÇß´Ù°¡ º¹±¸ÇØ¾ßÇÑ´Ù.
+	//ë¡œê·¸ì¸ ì§í›„ì—ëŠ” stock_homeë³´ë‹¤ ë¨¼ì € ë‚˜ì˜¤ê³ , ê¸°ëŠ¥ ì‘ì—… í›„ì—ëŠ” stock_homeë³´ë‹¤ ë‚˜ì¤‘ì— ë‚˜ì˜¤ë¯€ë¡œ
+	//ì–¸ì œë“  ì´ì „ ì»¤ì„œ ìœ„ì¹˜ë¥¼ ê¸°ì–µí–ˆë‹¤ê°€ ë³µêµ¬í•´ì•¼í•œë‹¤.
 	delay(100);
-	CONSOLE_SCREEN_BUFFER_INFO presentCur; // ÄÜ¼Ö Ãâ·ÂÃ¢ÀÇ Á¤º¸¸¦ ´ã±â À§ÇØ¼­ Á¤ÀÇÇÑ ±¸Á¶Ã¼ 	
-	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &presentCur);  //ÇöÀç Ä¿¼­ÀÇ À§Ä¡ Á¤º¸¸¦ ÀúÀåÇÏ´Â ÇÔ¼ö	
+	CONSOLE_SCREEN_BUFFER_INFO presentCur; // ì½˜ì†” ì¶œë ¥ì°½ì˜ ì •ë³´ë¥¼ ë‹´ê¸° ìœ„í•´ì„œ ì •ì˜í•œ êµ¬ì¡°ì²´ 	
+	GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &presentCur);  //í˜„ì¬ ì»¤ì„œì˜ ìœ„ì¹˜ ì •ë³´ë¥¼ ì €ì¥í•˜ëŠ” í•¨ìˆ˜	
 	int pre_x = presentCur.dwCursorPosition.X + 1;
 	int pre_y = presentCur.dwCursorPosition.Y + 1;
 
 	int y = 1, c = 0;
-	// ÁÖ½ÄÁ¤º¸ ¹Ş°í ÀúÀå
+	// ì£¼ì‹ì •ë³´ ë°›ê³  ì €ì¥
 	gotoxy(50, y);
-	printf(">> ½Ç½Ã°£ ÁÖ½ÄÁ¤º¸ <<");
+	printf(">> ì‹¤ì‹œê°„ ì£¼ì‹ì •ë³´ <<");
 	y += 2;
 	gotoxy(50, y);	
-	printf("[ ÁÖ½ÄÁ¤º¸ º¯°æ ]");
+	printf("[ ì£¼ì‹ì •ë³´ ë³€ê²½ ]");
 	gotoxy(50, ++y);
 	printf("=================================================================");
 	gotoxy(50, ++y);
-	printf("| Á¾¸ñ¹øÈ£ |        ±â¾÷¸í        |  ÇöÀç°¡°İ  |  ±¸¸Å°¡´É¼ö·®  |");
+	printf("| ì¢…ëª©ë²ˆí˜¸ |        ê¸°ì—…ëª…        |  í˜„ì¬ê°€ê²©  |  êµ¬ë§¤ê°€ëŠ¥ìˆ˜ëŸ‰  |");
 	gotoxy(50, ++y);
 	printf("=================================================================");
 	for (int i = 0; i < MAX_STOCK_RES_LENGTH; i++) {
@@ -175,27 +177,30 @@ res_allStock(ResponseData* res_data) {
 	gotoxy(50, ++y);
 	printf("=================================================================");
 
-	//¿ø·¡ ÁÂÇ¥·Î ¿Å±â±â!!
+	//ì›ë˜ ì¢Œí‘œë¡œ ì˜®ê¸°ê¸°!!
 	gotoxy(pre_x, pre_y);
 	return 0;
 }
-// 2.1 ÁÖ½Ä ¸Å¼ö ¸®½¼
+
+// 2.1 ì£¼ì‹ ë§¤ìˆ˜ ë¦¬ìŠ¨
 res_buyStock(ResponseData* res_data) {
 	printf("\n%s\n", res_data->msg);
 	printf("\n==========================================\n\n");
-	// º¸À¯ ÁÖ½Ä ¹× ÀÜ°í Ãâ·Â
+	// ë³´ìœ  ì£¼ì‹ ë° ì”ê³  ì¶œë ¥
 
 	return 0;
 }
-// 2.2 ÁÖ½Ä ¸Åµµ ¸®½¼
+
+// 2.2 ì£¼ì‹ ë§¤ë„ ë¦¬ìŠ¨
 res_sellStock(ResponseData* res_data) {
 	printf("\n%s\n", res_data->msg);
 	printf("\n=========================================\n\n");
-	// º¸À¯ ÁÖ½Ä ¹× ÀÜ°í Ãâ·Â
+	// ë³´ìœ  ì£¼ì‹ ë° ì”ê³  ì¶œë ¥
 
 	return 0;
 }
-//// 2.3 balance Á¶È¸ ¸®½¼
+
+//// 2.3 balance ì¡°íšŒ ë¦¬ìŠ¨
 //res_getBalance(ResponseData* res_data) {
 //	printf("%d\n", res_data->);
 //	return 0;
